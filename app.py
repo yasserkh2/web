@@ -9,12 +9,137 @@ st.set_page_config(
     page_title="Chatbot Evaluation Platform",
     page_icon="🤖",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Additional dark mode CSS for better visibility and PLATO-style UI
 st.markdown("""
 <style>
+    /* Use the full browser width for the entire app */
+    [data-testid="stAppViewContainer"] {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    [data-testid="stAppViewContainer"] > .main {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Remove Streamlit's default central column width */
+    .block-container {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Make the app fill the full viewport height */
+    [data-testid="stAppViewContainer"] > .main {
+        min-height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .block-container {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Make columns stretch to fill available height */
+    [data-testid="stHorizontalBlock"] {
+        flex: 1 !important;
+        align-items: stretch !important;
+    }
+
+    [data-testid="stVerticalBlock"],
+    [data-testid="column"] {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+    }
+
+    /* Call interface specific - fill height */
+    .call-interface-container {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        min-height: calc(100vh - 2rem) !important;
+    }
+
+    .call-column {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        background: rgba(30, 33, 48, 0.6) !important;
+        border-radius: 12px !important;
+        padding: 1rem !important;
+        border: 1px solid rgba(74, 158, 255, 0.15) !important;
+    }
+
+    .call-column-content {
+        flex: 1 !important;
+        overflow-y: auto !important;
+    }
+
+    /* Hide Streamlit header/deploy bar */
+    header[data-testid="stHeader"] {
+        display: none !important;
+    }
+    
+    /* Hide main menu button */
+    #MainMenu {
+        display: none !important;
+    }
+    
+    /* Hide footer */
+    footer {
+        display: none !important;
+    }
+    
+    /* COMPLETELY HIDE ALL SIDEBAR ELEMENTS */
+    [data-testid="stSidebar"],
+    [data-testid="stSidebarNav"],
+    [data-testid="stSidebarContent"],
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"],
+    section[data-testid="stSidebar"],
+    .css-1d391kg,
+    .css-163ttbj,
+    .css-1lcbmhc {
+        display: none !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    /* Ensure app takes full viewport */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Remove any leftover spacer/anchor elements */
+    [data-testid="stAppIframeResizerAnchor"] {
+        display: none !important;
+        height: 0 !important;
+    }
+    
+    /* Hide any floating Vapi widgets */
+    .vapi-widget, [class*="vapi"], #vapi-widget {
+        display: none !important;
+    }
+    
     /* Ensure text visibility in dark mode */
     .stMarkdown p, .stMarkdown li, .stMarkdown ul, .stMarkdown ol {
         color: #fafafa;
@@ -30,62 +155,6 @@ st.markdown("""
     
     .stChatMessage p {
         color: #fafafa;
-    }
-    
-    /* PLATO-style Sidebar */
-    .plato-sidebar {
-        background: linear-gradient(180deg, #0e1117 0%, #1a1d2e 100%);
-        padding: 1.5rem 1rem;
-    }
-    
-    .plato-logo {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .plato-logo-triangle {
-        width: 0;
-        height: 0;
-        border-left: 20px solid transparent;
-        border-right: 20px solid transparent;
-        border-bottom: 35px solid #4a9eff;
-        position: relative;
-    }
-    
-    .plato-logo-text {
-        display: flex;
-        flex-direction: column;
-        color: #fafafa;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-    
-    .plato-nav-icons {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-    
-    .plato-nav-icon {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        background: rgba(74, 158, 255, 0.1);
-        color: #4a9eff;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .plato-nav-icon:hover {
-        background: rgba(74, 158, 255, 0.2);
-        transform: scale(1.1);
     }
     
     /* PLATO-style Cards */
@@ -288,26 +357,6 @@ st.markdown("""
         font-size: 1.2rem;
         color: #b0b0b0;
         margin-bottom: 2rem;
-    }
-    
-    /* Footer */
-    .plato-footer {
-        margin-top: 4rem;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        gap: 2rem;
-    }
-    
-    .plato-footer-link {
-        color: #b0b0b0;
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: color 0.2s ease;
-    }
-    
-    .plato-footer-link:hover {
-        color: #4a9eff;
     }
     
     /* Feedback Popup Modal */
@@ -558,7 +607,7 @@ if 'call_messages' not in st.session_state:
     }
 
 def render_call_interface(bot_name: str):
-    """Render the call interface with 3-column layout: Transcript | Call Card | Feedback"""
+    """Render the call interface with 3-column layout: Feedback | Call Card | Transcript - fills entire viewport"""
     bot_data = st.session_state.bots.get(bot_name, {})
     call_status = st.session_state.call_status.get(bot_name, 'idle')
     
@@ -574,42 +623,106 @@ def render_call_interface(bot_name: str):
         'ended': '📴 Call Ended'
     }.get(call_status, 'Ready')
     
-    # 3-column layout
+    # Inject CSS for full-height call interface
+    st.markdown("""
+    <style>
+        /* Full height call interface */
+        .call-interface-wrapper {
+            display: flex;
+            gap: 1rem;
+            min-height: calc(100vh - 2rem);
+            padding: 0.5rem;
+        }
+        .call-panel {
+            background: rgba(30, 33, 48, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .call-panel-left {
+            flex: 1;
+        }
+        .call-panel-middle {
+            flex: 1.5;
+        }
+        .call-panel-right {
+            flex: 1;
+        }
+        .call-panel h3 {
+            color: #fafafa;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+        }
+        .call-panel-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .transcript-message {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .transcript-user {
+            border-left: 3px solid #4a9eff;
+        }
+        .transcript-bot {
+            border-left: 3px solid #50c878;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # 3-column layout: Feedback | Call Card | Transcript
     left_col, middle_col, right_col = st.columns([1, 1.5, 1])
     
-    # LEFT COLUMN - Real-time Transcript
+    # LEFT COLUMN - Feedback Box
     with left_col:
-        st.markdown("### 📝 Transcript")
-        st.markdown("---")
-        
-        # Show transcript messages
-        messages = st.session_state.call_messages.get(bot_name, [])
-        if messages:
-            for msg in messages:
-                role = "👤 You" if msg['role'] == 'user' else "🤖 Bot"
-                st.markdown(f"**{role}:** {msg['content']}")
-                st.markdown("")
-        else:
-            st.info("Transcript will appear here during the call...")
-    
-    # MIDDLE COLUMN - Call Card
-    with middle_col:
-        st.markdown("### 📞 Call")
-        st.markdown("---")
-        
-        # Avatar and info centered
-        st.markdown(f"""
-        <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #1e2130 0%, #262730 100%); border-radius: 16px; border: 1px solid rgba(74, 158, 255, 0.2);">
-            <div style="font-size: 4rem; margin-bottom: 0.5rem;">{avatar_emoji}</div>
-            <h3 style="color: #fafafa; margin: 0.5rem 0;">{display_name}</h3>
-            <p style="color: #b0b0b0; margin-bottom: 0.5rem;">{person_name}</p>
-            <p style="color: #4a9eff; font-weight: bold;">{status_text}</p>
+        st.markdown("""
+        <div class="call-panel call-panel-left">
+            <h3>💬 Feedback</h3>
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown("")
+        feedback_text = st.text_area(
+            "Write your feedback here",
+            value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
+            height=400,
+            placeholder="Share your thoughts about this call...",
+            key=f"feedback_textarea_{bot_name}"
+        )
         
-        # Control buttons
+        st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
+        
+        if st.button("💾 Save Feedback", key="save_feedback", use_container_width=True):
+            if feedback_text.strip():
+                st.session_state.session_feedback[bot_name] = {
+                    'comment': feedback_text,
+                    'timestamp': datetime.now().isoformat()
+                }
+                st.success("✅ Feedback saved!")
+            else:
+                st.warning("Please write some feedback first.")
+    
+    # MIDDLE COLUMN - Call Card
+    with middle_col:
+        st.markdown("""
+        <div class="call-panel call-panel-middle">
+            <h3>📞 Call</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown(f"""
+        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #1e2130 0%, #262730 100%); border-radius: 16px; border: 1px solid rgba(74, 158, 255, 0.2); margin-bottom: 1rem;">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">{avatar_emoji}</div>
+            <h2 style="color: #fafafa; margin: 0.5rem 0;">{display_name}</h2>
+            <p style="color: #b0b0b0; margin-bottom: 0.5rem; font-size: 1.1rem;">{person_name}</p>
+            <p style="color: #4a9eff; font-weight: bold; font-size: 1.2rem;">{status_text}</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
         btn_col1, btn_col2, btn_col3 = st.columns(3)
         
         with btn_col1:
@@ -619,13 +732,12 @@ def render_call_interface(bot_name: str):
                 st.rerun()
         
         with btn_col2:
-            # Main call button
             if call_status == 'idle' or call_status == 'ended':
                 if st.button("📞 Start", key="call_start", type="primary", use_container_width=True):
                     st.session_state.call_status[bot_name] = 'active'
                     st.session_state.active_calls[bot_name] = f"call_{datetime.now().timestamp()}"
                     st.rerun()
-            else:  # active or ringing
+            else:
                 if st.button("📴 End", key="call_end", type="primary", use_container_width=True):
                     st.session_state.call_status[bot_name] = 'ended'
                     st.session_state.active_calls.pop(bot_name, None)
@@ -636,34 +748,41 @@ def render_call_interface(bot_name: str):
                 st.session_state.call_status[bot_name] = 'idle'
                 st.session_state.call_messages[bot_name] = []
                 st.rerun()
+        
+        # Add spacer to push content up and fill space
+        st.markdown("<div style='flex: 1;'></div>", unsafe_allow_html=True)
     
-    # RIGHT COLUMN - Feedback Box
+    # RIGHT COLUMN - Real-time Transcript
     with right_col:
-        st.markdown("### 💬 Feedback")
-        st.markdown("---")
+        st.markdown("""
+        <div class="call-panel call-panel-right">
+            <h3>📝 Transcript</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # Simple feedback textarea
-        feedback_text = st.text_area(
-            "Write your feedback here",
-            value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
-            height=200,
-            placeholder="Share your thoughts about this call...",
-            key=f"feedback_textarea_{bot_name}"
-        )
+        messages = st.session_state.call_messages.get(bot_name, [])
         
-        # Save feedback to session state
-        st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
+        # Create a scrollable transcript container
+        transcript_html = '<div style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">'
+        if messages:
+            for msg in messages:
+                role_class = "transcript-user" if msg['role'] == 'user' else "transcript-bot"
+                role_label = "👤 You" if msg['role'] == 'user' else "🤖 Bot"
+                transcript_html += f'''
+                <div class="transcript-message {role_class}">
+                    <strong style="color: {"#4a9eff" if msg["role"] == "user" else "#50c878"};">{role_label}</strong>
+                    <p style="color: #fafafa; margin: 0.5rem 0 0 0;">{msg["content"]}</p>
+                </div>
+                '''
+        else:
+            transcript_html += '''
+            <div style="text-align: center; padding: 2rem; color: #b0b0b0;">
+                <p>📞 Transcript will appear here during the call...</p>
+            </div>
+            '''
+        transcript_html += '</div>'
         
-        # Submit button
-        if st.button("💾 Save Feedback", key="save_feedback", use_container_width=True):
-            if feedback_text.strip():
-                st.session_state.session_feedback[bot_name] = {
-                    'comment': feedback_text,
-                    'timestamp': datetime.now().isoformat()
-                }
-                st.success("✅ Feedback saved!")
-            else:
-                st.warning("Please write some feedback first.")
+        st.markdown(transcript_html, unsafe_allow_html=True)
 
 def render_vapi_widget(bot_name: str, mode: str, assistant_id: str, api_key: str):
     """Render Vapi widget for chat or call mode"""
@@ -1032,58 +1151,6 @@ def display_call_transcript(bot_name: str):
                 st.caption(msg.get('timestamp', '')[:19] if 'timestamp' in msg else '')
                 st.markdown("---")
 
-def render_plato_home_page():
-    """Render PLATO-style home page with simulation cards"""
-    # Welcome section
-    
-    # Cards container
-    st.markdown('<div class="plato-cards-container">', unsafe_allow_html=True)
-    
-    # Create cards for each bot
-    cols = st.columns(len(st.session_state.bots))
-    for idx, (bot_name, bot_data) in enumerate(st.session_state.bots.items()):
-        with cols[idx]:
-            # Card HTML
-            card_html = f"""
-            <div class="plato-card">
-                <div class="plato-card-tag">{bot_data.get('type', 'Simulation')}</div>
-                <div class="plato-card-profile">
-                    <div class="plato-card-halo"></div>
-                    <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #4a9eff 0%, #3a8eef 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; border: 3px solid #4a9eff; position: relative; z-index: 2;">
-                        {bot_data.get('avatar_emoji', '🤖')}
-                    </div>
-                </div>
-                <h3 class="plato-card-title">{bot_data.get('display_name', bot_name)}</h3>
-                <p class="plato-card-name">{bot_data.get('person_name', '')}</p>
-                <p class="plato-card-description">{bot_data.get('description', '')}</p>
-            </div>
-            """
-            st.markdown(card_html, unsafe_allow_html=True)
-            
-            # Buttons
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("Start Call", key=f"start_{bot_name}", use_container_width=True, type="primary"):
-                    st.session_state.selected_bot = bot_name
-                    st.session_state.view_mode = 'bot_detail'
-                    st.session_state.bot_modes[bot_name] = 'call'
-                    st.rerun()
-            with col2:
-                if st.button("See Profile", key=f"profile_{bot_name}", use_container_width=True):
-                    st.session_state.selected_bot = bot_name
-                    st.session_state.view_mode = 'bot_detail'
-                    st.rerun()
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Footer
-    st.markdown("""
-    <div class="plato-footer">
-        <a href="#" class="plato-footer-link">Terms of Services</a>
-        <a href="#" class="plato-footer-link">Privacy Policy</a>
-    </div>
-    """, unsafe_allow_html=True)
-
 def display_chat(bot_name: str, mode: str = 'chat'):
     """Display chat messages for selected bot"""
     if mode == 'chat':
@@ -1157,61 +1224,45 @@ def display_chat(bot_name: str, mode: str = 'chat'):
                                 st.rerun()
 
 def render_plato_home_page():
-    """Render PLATO-style home page with simulation cards"""
-    # Welcome section
+    """Render PLATO-style home page with simulation cards - side by side horizontal layout"""
     
-    # Build all cards HTML in one container for horizontal scrolling
-    # Use components.html for proper HTML rendering
-    import streamlit.components.v1 as components
-    
-    cards_html = '''
+    # CSS for horizontal scrolling cards
+    st.markdown("""
     <style>
-        .cards-scroll-container {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            gap: 1.5rem;
-            padding: 1rem 0 1.5rem 0;
-            width: 100%;
-            align-items: stretch;
+        .home-welcome {
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
         }
-        .cards-scroll-container::-webkit-scrollbar {
-            height: 10px;
+        
+        .home-welcome h1 {
+            color: #fafafa;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
-        .cards-scroll-container::-webkit-scrollbar-track {
-            background: #1e2130;
-            border-radius: 5px;
+        
+        .home-welcome p {
+            color: #b0b0b0;
+            font-size: 1.1rem;
         }
-        .cards-scroll-container::-webkit-scrollbar-thumb {
-            background: #4a9eff;
-            border-radius: 5px;
-        }
-        .card-wrapper {
-            flex: 0 0 280px !important;
-            min-width: 280px !important;
-            max-width: 280px !important;
-            height: 420px;
-        }
-        .card {
-            width: 100%;
-            height: 100%;
+        
+        .home-card {
             background: linear-gradient(135deg, #1e2130 0%, #262730 100%);
             border-radius: 16px;
             padding: 1.25rem;
             border: 1px solid rgba(74, 158, 255, 0.2);
             transition: all 0.3s ease;
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            height: 380px;
         }
-        .card:hover {
+        
+        .home-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
             border-color: #4a9eff;
         }
-        .card-tag {
+        
+        .home-card-tag {
             display: inline-block;
             padding: 0.25rem 0.6rem;
             background: rgba(74, 158, 255, 0.2);
@@ -1222,12 +1273,8 @@ def render_plato_home_page():
             margin-bottom: 0.75rem;
             width: fit-content;
         }
-        .card-avatar-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 0.75rem;
-        }
-        .card-avatar {
+        
+        .home-card-avatar {
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -1238,90 +1285,80 @@ def render_plato_home_page():
             font-size: 2.5rem;
             border: 3px solid #4a9eff;
             box-shadow: 0 0 20px rgba(74, 158, 255, 0.4);
+            margin: 0 auto 0.75rem auto;
         }
-        .card-title {
+        
+        .home-card-title {
             color: #fafafa;
             font-size: 1.1rem;
             font-weight: bold;
-            margin: 0.5rem 0 0.25rem 0;
             text-align: center;
+            margin-bottom: 0.25rem;
             line-height: 1.3;
         }
-        .card-name {
+        
+        .home-card-name {
             color: #b0b0b0;
             font-size: 0.8rem;
             text-align: center;
             margin-bottom: 0.5rem;
         }
-        .card-description {
+        
+        .home-card-description {
             color: #d0d0d0;
             font-size: 0.75rem;
             text-align: center;
-            margin-bottom: 1rem;
             line-height: 1.4;
             flex-grow: 1;
             overflow: hidden;
         }
-        .card-buttons {
-            margin-top: auto;
-            width: 100%;
-            display: flex;
-            gap: 0.5rem;
-        }
-        .card-btn {
-            flex: 1;
-            padding: 0.5rem 0.75rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            text-align: center;
-        }
-        .card-btn-primary {
-            background: #4a9eff;
-            color: #fafafa;
-        }
-        .card-btn-primary:hover {
-            background: #3a8eef;
-            transform: scale(1.02);
-        }
-        .card-btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fafafa;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .card-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
     </style>
-    <div class="cards-scroll-container">
-    '''
+    """, unsafe_allow_html=True)
     
-    for bot_name, bot_data in st.session_state.bots.items():
+    # Welcome header
+    st.markdown("""
+    <div class="home-welcome">
+        <h1>🤖 Chatbot Evaluation Platform</h1>
+        <p>Select a simulation below to start a call or view the profile</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Create all cards side by side in one row using st.columns
+    bot_list = list(st.session_state.bots.items())
+    cols = st.columns(len(bot_list))
+    
+    for idx, (bot_name, bot_data) in enumerate(bot_list):
         avatar_emoji = bot_data.get('avatar_emoji', '🤖')
         display_name = bot_data.get('display_name', bot_name)
         person_name = bot_data.get('person_name', '')
         description = bot_data.get('description', '')
         bot_type = bot_data.get('type', bot_data.get('customer_segment', 'Simulation'))
-        # Escape quotes in bot_name for JavaScript
-        safe_bot_name = bot_name.replace("'", "\\'")
         
-        cards_html += f'''<div class="card-wrapper"><div class="card"><span class="card-tag">{bot_type}</span><div class="card-avatar-wrapper"><div class="card-avatar">{avatar_emoji}</div></div><h3 class="card-title">{display_name}</h3><p class="card-name">{person_name}</p><p class="card-description">{description}</p><div class="card-buttons"><button class="card-btn card-btn-primary" onclick="window.parent.postMessage({{type: 'streamlit:setQueryParam', bot: '{safe_bot_name}', action: 'call'}}, '*'); window.location.href='?bot={safe_bot_name}&action=call';">Start Call</button><button class="card-btn card-btn-secondary" onclick="window.location.href='?bot={safe_bot_name}&action=profile';">See Profile</button></div></div></div>'''
-    
-    cards_html += '</div>'
-    
-    # Use components.html for reliable HTML rendering
-    components.html(cards_html, height=460, scrolling=True)
-    
-    # Footer
-    st.markdown("""
-    <div class="plato-footer">
-        <a href="#" class="plato-footer-link">Terms of Services</a>
-        <a href="#" class="plato-footer-link">Privacy Policy</a>
-    </div>
-    """, unsafe_allow_html=True)
+        with cols[idx]:
+            # Card HTML
+            st.markdown(f"""
+            <div class="home-card">
+                <span class="home-card-tag">{bot_type}</span>
+                <div class="home-card-avatar">{avatar_emoji}</div>
+                <div class="home-card-title">{display_name}</div>
+                <div class="home-card-name">{person_name}</div>
+                <div class="home-card-description">{description}</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Streamlit buttons (work properly with Streamlit's state)
+            btn_col1, btn_col2 = st.columns(2)
+            with btn_col1:
+                if st.button("📞 Call", key=f"home_call_{bot_name}", use_container_width=True, type="primary"):
+                    st.session_state.selected_bot = bot_name
+                    st.session_state.view_mode = 'bot_detail'
+                    st.session_state.bot_modes[bot_name] = 'call'
+                    st.rerun()
+            with btn_col2:
+                if st.button("👤 Profile", key=f"home_profile_{bot_name}", use_container_width=True):
+                    st.session_state.selected_bot = bot_name
+                    st.session_state.view_mode = 'bot_detail'
+                    st.rerun()
 
 def main():
     # Handle query parameters for button clicks
