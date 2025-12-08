@@ -557,6 +557,78 @@ if 'call_messages' not in st.session_state:
         'Bot 6': [],
     }
 
+def render_call_interface(bot_name: str):
+    """Render the call interface UI using Streamlit components"""
+    bot_data = st.session_state.bots.get(bot_name, {})
+    call_status = st.session_state.call_status.get(bot_name, 'idle')
+    
+    display_name = bot_data.get('display_name', bot_name)
+    person_name = bot_data.get('person_name', '')
+    avatar_emoji = bot_data.get('avatar_emoji', '🤖')
+    description = bot_data.get('description', '')
+    
+    # Status text
+    status_text = {
+        'idle': '📞 Ready to Call',
+        'ringing': '📞 Connecting...',
+        'active': '✅ Call Active',
+        'ended': '📴 Call Ended'
+    }.get(call_status, 'Ready')
+    
+    # Header
+    st.markdown(f"### 📞 {display_name}")
+    if person_name:
+        st.caption(person_name)
+    
+    st.markdown("---")
+    
+    # Avatar and status - centered
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown(f"""
+        <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">{avatar_emoji}</div>
+            <h2 style="color: #fafafa; margin: 0.5rem 0;">{display_name}</h2>
+            <p style="color: #b0b0b0;">{person_name}</p>
+            <p style="color: #4a9eff; font-weight: bold; margin-top: 1rem;">{status_text}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Control buttons
+    col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
+    
+    with col2:
+        if st.button("🔄 Retry", key="call_retry", use_container_width=True):
+            st.session_state.call_status[bot_name] = 'idle'
+            st.rerun()
+    
+    with col3:
+        mute_label = "🔇 Unmute" if st.session_state.get(f'muted_{bot_name}', False) else "🎤 Mute"
+        if st.button(mute_label, key="call_mute", use_container_width=True):
+            st.session_state[f'muted_{bot_name}'] = not st.session_state.get(f'muted_{bot_name}', False)
+            st.rerun()
+    
+    with col4:
+        # Main call button
+        if call_status == 'idle' or call_status == 'ended':
+            if st.button("📞 Start Call", key="call_start", type="primary", use_container_width=True):
+                st.session_state.call_status[bot_name] = 'active'
+                st.session_state.active_calls[bot_name] = f"call_{datetime.now().timestamp()}"
+                st.rerun()
+        elif call_status == 'ringing':
+            if st.button("❌ Cancel", key="call_cancel", use_container_width=True):
+                st.session_state.call_status[bot_name] = 'idle'
+                st.session_state.active_calls.pop(bot_name, None)
+                st.rerun()
+        else:  # active
+            if st.button("📴 End Call", key="call_end", type="primary", use_container_width=True):
+                st.session_state.call_status[bot_name] = 'ended'
+                st.session_state.active_calls.pop(bot_name, None)
+                st.session_state.show_feedback_popup[bot_name] = True
+                st.rerun()
+
 def render_vapi_widget(bot_name: str, mode: str, assistant_id: str, api_key: str):
     """Render Vapi widget for chat or call mode"""
     if not assistant_id or not api_key:
@@ -1290,7 +1362,8 @@ def render_plato_sidebar():
             selected_bot_config = st.selectbox(
                 "Configure Bot",
                 options=list(st.session_state.bots.keys()),
-                index=list(st.session_state.bots.keys()).index(st.session_state.selected_bot)
+                index=list(st.session_state.bots.keys()).index(st.session_state.selected_bot),
+                key="sidebar_bot_config_select"
             )
             
             config = st.session_state.api_configs[selected_bot_config]
@@ -1351,7 +1424,7 @@ def render_plato_sidebar():
         
         # Clear chat/call button
         current_mode = st.session_state.bot_modes[st.session_state.selected_bot]
-        if st.button("🗑️ Clear History", use_container_width=True):
+        if st.button("🗑️ Clear History", use_container_width=True, key="sidebar_clear_history"):
             if current_mode == 'chat':
                 st.session_state.bots[st.session_state.selected_bot]['messages'] = []
             else:
@@ -1360,7 +1433,7 @@ def render_plato_sidebar():
         
         # Export chat/call history
         current_mode = st.session_state.bot_modes[st.session_state.selected_bot]
-        if st.button("💾 Export History", use_container_width=True):
+        if st.button("💾 Export History", use_container_width=True, key="sidebar_export_history"):
             if current_mode == 'chat':
                 messages = st.session_state.bots[st.session_state.selected_bot]['messages']
                 file_prefix = "chat"
@@ -1444,144 +1517,6 @@ def main():
     # PLATO-style Sidebar
     with st.sidebar:
         render_plato_sidebar()
-        
-        # Only show these settings in bot detail view
-        if st.session_state.view_mode == 'bot_detail':
-            # Bot configuration - Vapi Settings
-            with st.expander("⚙️ Bot Settings - Vapi", expanded=False):
-                selected_bot_config = st.selectbox(
-                    "Configure Bot",
-                    options=list(st.session_state.bots.keys()),
-                    index=list(st.session_state.bots.keys()).index(st.session_state.selected_bot)
-                )
-                
-                config = st.session_state.api_configs[selected_bot_config]
-                
-                # Enable/Disable Vapi
-                use_vapi = st.checkbox(
-                    "Enable Vapi",
-                    value=config.get('use_vapi', False),
-                    key=f"use_vapi_{selected_bot_config}",
-                    help="Enable Vapi frontend integration for this bot"
-                )
-                
-                if use_vapi:
-                    vapi_api_key = st.text_input(
-                        "Vapi API Key",
-                        value=config.get('vapi_api_key', ''),
-                        key=f"vapi_api_key_{selected_bot_config}",
-                        type="password",
-                        help="Your Vapi API key"
-                    )
-                    
-                    assistant_id = st.text_input(
-                        "Assistant ID",
-                        value=config.get('assistant_id', ''),
-                        key=f"assistant_id_{selected_bot_config}",
-                        help="Vapi Assistant ID for this bot"
-                    )
-                    
-                    phone_number_id = st.text_input(
-                        "Phone Number ID (Optional)",
-                        value=config.get('phone_number_id', ''),
-                        key=f"phone_number_id_{selected_bot_config}",
-                        help="Vapi Phone Number ID for call mode (optional)"
-                    )
-                    
-                    server_url = st.text_input(
-                        "Vapi Server URL",
-                        value=config.get('server_url', 'https://api.vapi.ai'),
-                        key=f"server_url_{selected_bot_config}",
-                        help="Vapi API server URL"
-                    )
-                    
-                    # Save config
-                    st.session_state.api_configs[selected_bot_config]['use_vapi'] = use_vapi
-                    st.session_state.api_configs[selected_bot_config]['vapi_api_key'] = vapi_api_key
-                    st.session_state.api_configs[selected_bot_config]['assistant_id'] = assistant_id
-                    st.session_state.api_configs[selected_bot_config]['phone_number_id'] = phone_number_id
-                    st.session_state.api_configs[selected_bot_config]['server_url'] = server_url
-                    
-                    if vapi_api_key and assistant_id:
-                        st.success("✅ Vapi configured!")
-                    else:
-                        st.warning("⚠️ Please provide API Key and Assistant ID")
-                else:
-                    st.session_state.api_configs[selected_bot_config]['use_vapi'] = False
-            
-            st.markdown("---")
-            
-            # Clear chat/call button
-            current_mode = st.session_state.bot_modes[st.session_state.selected_bot]
-            if st.button("🗑️ Clear History", use_container_width=True):
-                if current_mode == 'chat':
-                    st.session_state.bots[st.session_state.selected_bot]['messages'] = []
-                else:
-                    st.session_state.call_messages[st.session_state.selected_bot] = []
-                st.rerun()
-            
-            # Export chat/call history
-            current_mode = st.session_state.bot_modes[st.session_state.selected_bot]
-            if st.button("💾 Export History", use_container_width=True):
-                if current_mode == 'chat':
-                    messages = st.session_state.bots[st.session_state.selected_bot]['messages']
-                    file_prefix = "chat"
-                else:
-                    messages = st.session_state.call_messages[st.session_state.selected_bot]
-                    file_prefix = "call"
-                
-                feedback_data = st.session_state.feedback.get(st.session_state.selected_bot, {})
-                session_feedback_data = st.session_state.session_feedback.get(st.session_state.selected_bot)
-                like_dislike_data = st.session_state.like_dislike_feedback.get(st.session_state.selected_bot, {})
-                dislike_reasons_data = st.session_state.dislike_reasons.get(st.session_state.selected_bot, {})
-                export_data = {
-                    'bot_name': st.session_state.selected_bot,
-                    'mode': current_mode,
-                    'messages': messages,
-                    'message_feedback': feedback_data,
-                    'like_dislike_feedback': like_dislike_data,
-                    'dislike_reasons': dislike_reasons_data,
-                    'session_feedback': session_feedback_data,
-                    'exported_at': datetime.now().isoformat()
-                }
-                st.download_button(
-                    label="Download JSON",
-                    data=json.dumps(export_data, indent=2),
-                    file_name=f"{file_prefix}_{st.session_state.selected_bot}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                    mime="application/json"
-                )
-            
-            st.markdown("---")
-            
-            # View Feedback section
-            with st.expander("📊 View All Feedback", expanded=False):
-                # Session feedback
-                session_fb = st.session_state.session_feedback.get(st.session_state.selected_bot)
-                if session_fb:
-                    st.markdown("**🎯 Overall Session Feedback:**")
-                    st.caption(f"⭐ Rating: {session_fb['rating']}/5")
-                    if session_fb['comment']:
-                        st.write(f"💬 Comment: {session_fb['comment']}")
-                    st.caption(f"📅 {session_fb['timestamp']}")
-                    st.markdown("---")
-                
-                # Message-level feedback
-                bot_feedback = st.session_state.feedback.get(st.session_state.selected_bot, {})
-                if bot_feedback:
-                    st.markdown("**💬 Message Feedback:**")
-                    for msg_idx, feedback_data in bot_feedback.items():
-                        if msg_idx < len(st.session_state.bots[st.session_state.selected_bot]['messages']):
-                            msg = st.session_state.bots[st.session_state.selected_bot]['messages'][msg_idx]
-                            if msg['role'] == 'assistant':
-                                st.markdown(f"**Message {msg_idx//2 + 1}:**")
-                                st.caption(f"⭐ Rating: {feedback_data['rating']}/5")
-                                if feedback_data['comment']:
-                                    st.write(f"💬 Comment: {feedback_data['comment']}")
-                                st.caption(f"📅 {feedback_data['timestamp']}")
-                                st.markdown("---")
-                
-                if not session_fb and not bot_feedback:
-                    st.info("No feedback submitted yet.")
     
     # Main content area - Show home page or bot detail
     if st.session_state.view_mode == 'home':
@@ -1713,110 +1648,55 @@ def main():
             st.markdown("<br>", unsafe_allow_html=True)
             st.markdown("---")
         
-        st.title(f"{mode_icon} {st.session_state.selected_bot} - {mode_name}")
-        st.caption(st.session_state.bots[st.session_state.selected_bot]['description'])
-        st.markdown("---")
-        
         # Check if Vapi is configured
         config = st.session_state.api_configs[st.session_state.selected_bot]
         use_vapi = config.get('use_vapi', False) and config.get('assistant_id') and config.get('vapi_api_key')
         
-        if use_vapi:
-            # Render Vapi widget
-            if current_mode == 'call':
-                # Call mode - show call controls
-                call_status = st.session_state.call_status.get(st.session_state.selected_bot, 'idle')
-                
-                st.markdown("### 📞 Call Controls")
-                col1, col2 = st.columns([2, 1])
-                
-                with col1:
-                    if call_status == 'idle' or call_status == 'ended':
-                        if st.button("📞 Start Call", use_container_width=True, type="primary", key="start_call"):
-                            st.session_state.call_status[st.session_state.selected_bot] = 'ringing'
-                            st.session_state.active_calls[st.session_state.selected_bot] = f"call_{datetime.now().timestamp()}"
-                            st.rerun()
-                    elif call_status == 'ringing':
-                        st.info("📞 Calling...")
-                        if st.button("❌ Cancel Call", use_container_width=True, key="cancel_call"):
-                            st.session_state.call_status[st.session_state.selected_bot] = 'idle'
-                            st.session_state.active_calls.pop(st.session_state.selected_bot, None)
-                            st.rerun()
-                    elif call_status == 'active':
-                        st.success("✅ Call Active")
-                        if st.button("📴 End Call", use_container_width=True, type="primary", key="end_call"):
-                            st.session_state.call_status[st.session_state.selected_bot] = 'ended'
-                            st.session_state.active_calls.pop(st.session_state.selected_bot, None)
-                            # Show feedback popup
-                            st.session_state.show_feedback_popup[st.session_state.selected_bot] = True
-                            st.rerun()
-                
-                with col2:
-                    if st.session_state.selected_bot in st.session_state.active_calls:
-                        call_id = st.session_state.active_calls[st.session_state.selected_bot]
-                        st.caption(f"Call ID: {call_id[:15]}...")
+        if current_mode == 'call':
+            # Render the beautiful call interface
+            render_call_interface(st.session_state.selected_bot)
+            
+            # Add test messages button for demo
+            call_status = st.session_state.call_status.get(st.session_state.selected_bot, 'idle')
+            if call_status == 'active':
+                st.markdown("---")
+                if st.button("🧪 Add Test Messages", use_container_width=True, help="Add sample messages to test like/dislike functionality", key="add_test_msgs"):
+                    if not st.session_state.call_messages[st.session_state.selected_bot]:
+                        test_messages = [
+                            {'role': 'user', 'content': 'Hello, I need help with my account', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'assistant', 'content': 'Hello! I\'d be happy to help you with your account. What specific issue are you experiencing?', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'user', 'content': 'I forgot my password and can\'t log in', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'assistant', 'content': 'No problem! I can help you reset your password. Can you please provide your email address or username?', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'user', 'content': 'My email is john.doe@example.com', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'assistant', 'content': 'Perfect! I\'ve sent a password reset link to john.doe@example.com. Please check your email and click on the link to create a new password.', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'user', 'content': 'Thank you so much!', 'timestamp': datetime.now().isoformat()},
+                            {'role': 'assistant', 'content': 'You\'re welcome! If you need any further assistance, feel free to ask. Have a great day!', 'timestamp': datetime.now().isoformat()},
+                        ]
+                        st.session_state.call_messages[st.session_state.selected_bot] = test_messages
+                        st.success("Test messages added! You can now test like/dislike.")
+                        st.rerun()
+                    else:
+                        st.info("Messages already exist. Clear history first to add test messages.")
                 
                 st.markdown("---")
+                display_call_transcript(st.session_state.selected_bot)
+        
+        elif current_mode == 'chat':
+            # Chat mode - show title and chat interface
+            st.title(f"💬 {st.session_state.selected_bot} - Chat")
+            st.caption(st.session_state.bots[st.session_state.selected_bot]['description'])
+            st.markdown("---")
             
-            st.info("🎤 **Vapi Active** - Use the Vapi widget below to interact with the bot")
-            render_vapi_widget(
-                st.session_state.selected_bot,
-                current_mode,
-                config.get('assistant_id', ''),
-                config.get('vapi_api_key', '')
-            )
-        else:
-            # Display messages based on mode (fallback to Streamlit chat)
-            if current_mode == 'call':
-                # Call mode - show call controls for fallback
-                call_status = st.session_state.call_status.get(st.session_state.selected_bot, 'idle')
-                
-                st.markdown("### 📞 Call Controls")
-                col1, col2, col3 = st.columns([2, 1, 1])
-                
-                with col1:
-                    if call_status == 'idle' or call_status == 'ended':
-                        if st.button("📞 Start Call", use_container_width=True, type="primary", key="start_call_fallback"):
-                            st.session_state.call_status[st.session_state.selected_bot] = 'active'
-                            st.session_state.active_calls[st.session_state.selected_bot] = f"call_{datetime.now().timestamp()}"
-                            st.rerun()
-                    elif call_status == 'active':
-                        st.success("✅ Call Active")
-                        if st.button("📴 End Call", use_container_width=True, type="primary", key="end_call_fallback"):
-                            st.session_state.call_status[st.session_state.selected_bot] = 'ended'
-                            st.session_state.active_calls.pop(st.session_state.selected_bot, None)
-                            # Show feedback popup
-                            st.session_state.show_feedback_popup[st.session_state.selected_bot] = True
-                            st.rerun()
-                
-                with col2:
-                    if st.session_state.selected_bot in st.session_state.active_calls:
-                        call_id = st.session_state.active_calls[st.session_state.selected_bot]
-                        st.caption(f"Call ID: {call_id[:15]}...")
-                
-                with col3:
-                    # Add test messages button for testing like/dislike
-                    if st.button("🧪 Add Test Messages", use_container_width=True, help="Add sample messages to test like/dislike functionality"):
-                        if not st.session_state.call_messages[st.session_state.selected_bot]:
-                            test_messages = [
-                                {'role': 'user', 'content': 'Hello, I need help with my account', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'assistant', 'content': 'Hello! I\'d be happy to help you with your account. What specific issue are you experiencing?', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'user', 'content': 'I forgot my password and can\'t log in', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'assistant', 'content': 'No problem! I can help you reset your password. Can you please provide your email address or username?', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'user', 'content': 'My email is john.doe@example.com', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'assistant', 'content': 'Perfect! I\'ve sent a password reset link to john.doe@example.com. Please check your email and click on the link to create a new password.', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'user', 'content': 'Thank you so much!', 'timestamp': datetime.now().isoformat()},
-                                {'role': 'assistant', 'content': 'You\'re welcome! If you need any further assistance, feel free to ask. Have a great day!', 'timestamp': datetime.now().isoformat()},
-                            ]
-                            st.session_state.call_messages[st.session_state.selected_bot] = test_messages
-                            st.success("Test messages added! You can now test like/dislike.")
-                            st.rerun()
-                        else:
-                            st.info("Messages already exist. Clear history first to add test messages.")
-                
-                st.markdown("---")
-            
-            display_chat(st.session_state.selected_bot, current_mode)
+            if use_vapi:
+                st.info("🎤 **Vapi Active** - Use the Vapi widget below to interact with the bot")
+                render_vapi_widget(
+                    st.session_state.selected_bot,
+                    current_mode,
+                    config.get('assistant_id', ''),
+                    config.get('vapi_api_key', '')
+                )
+            else:
+                display_chat(st.session_state.selected_bot, current_mode)
     
     with col2:
         st.subheader("📊 Stats")
