@@ -50,40 +50,9 @@ st.markdown("""
         flex-direction: column !important;
     }
 
-    /* Make columns stretch to fill available height */
+    /* Make columns align properly */
     [data-testid="stHorizontalBlock"] {
-        flex: 1 !important;
-        align-items: stretch !important;
-    }
-
-    [data-testid="stVerticalBlock"],
-    [data-testid="column"] {
-        display: flex !important;
-        flex-direction: column !important;
-        flex: 1 !important;
-    }
-
-    /* Call interface specific - fill height */
-    .call-interface-container {
-        display: flex !important;
-        flex-direction: column !important;
-        flex: 1 !important;
-        min-height: calc(100vh - 2rem) !important;
-    }
-
-    .call-column {
-        display: flex !important;
-        flex-direction: column !important;
-        flex: 1 !important;
-        background: rgba(30, 33, 48, 0.6) !important;
-        border-radius: 12px !important;
-        padding: 1rem !important;
-        border: 1px solid rgba(74, 158, 255, 0.15) !important;
-    }
-
-    .call-column-content {
-        flex: 1 !important;
-        overflow-y: auto !important;
+        align-items: flex-start !important;
     }
 
     /* Hide Streamlit header/deploy bar */
@@ -101,23 +70,38 @@ st.markdown("""
         display: none !important;
     }
     
-    /* COMPLETELY HIDE ALL SIDEBAR ELEMENTS */
-    [data-testid="stSidebar"],
-    [data-testid="stSidebarNav"],
-    [data-testid="stSidebarContent"],
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1e2130 0%, #262730 100%) !important;
+        border-right: 1px solid rgba(74, 158, 255, 0.2) !important;
+        width: 150px !important;
+        min-width: 150px !important;
+    }
+    
+    [data-testid="stSidebarContent"] {
+        padding: 1rem 0.5rem !important;
+    }
+    
+    /* Hide collapse button */
     [data-testid="stSidebarCollapseButton"],
-    [data-testid="collapsedControl"],
-    section[data-testid="stSidebar"],
-    .css-1d391kg,
-    .css-163ttbj,
-    .css-1lcbmhc {
+    [data-testid="collapsedControl"] {
         display: none !important;
-        width: 0 !important;
-        min-width: 0 !important;
-        max-width: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        visibility: hidden !important;
+    }
+    
+    /* Style sidebar buttons */
+    [data-testid="stSidebar"] button {
+        border-radius: 10px !important;
+        font-size: 0.9rem !important;
+        margin: 0.25rem 0 !important;
+    }
+    
+    [data-testid="stSidebar"] button:hover {
+        background: rgba(74, 158, 255, 0.2) !important;
+    }
+    
+    [data-testid="stSidebar"] button[disabled] {
+        background: rgba(74, 158, 255, 0.3) !important;
+        opacity: 1 !important;
     }
     
     /* Ensure app takes full viewport */
@@ -607,7 +591,7 @@ if 'call_messages' not in st.session_state:
     }
 
 def render_call_interface(bot_name: str):
-    """Render the call interface with 3-column layout: Feedback | Call Card | Transcript - fills entire viewport"""
+    """Render a compact call interface with 3 columns"""
     bot_data = st.session_state.bots.get(bot_name, {})
     call_status = st.session_state.call_status.get(bot_name, 'idle')
     
@@ -615,174 +599,76 @@ def render_call_interface(bot_name: str):
     person_name = bot_data.get('person_name', '')
     avatar_emoji = bot_data.get('avatar_emoji', '🤖')
     
-    # Status text
-    status_text = {
-        'idle': '📞 Ready to Call',
-        'ringing': '📞 Connecting...',
-        'active': '✅ Call Active',
-        'ended': '📴 Call Ended'
-    }.get(call_status, 'Ready')
+    status_text = {'idle': 'Ready', 'ringing': 'Connecting...', 'active': 'Active', 'ended': 'Ended'}.get(call_status, 'Ready')
+    status_color = {'idle': '#888', 'ringing': '#ffa500', 'active': '#50c878', 'ended': '#ff6b6b'}.get(call_status, '#888')
     
-    # Inject CSS for full-height call interface
-    st.markdown("""
-    <style>
-        /* Full height call interface */
-        .call-interface-wrapper {
-            display: flex;
-            gap: 1rem;
-            min-height: calc(100vh - 2rem);
-            padding: 0.5rem;
-        }
-        .call-panel {
-            background: rgba(30, 33, 48, 0.8);
-            border-radius: 12px;
-            border: 1px solid rgba(74, 158, 255, 0.2);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-        .call-panel-left {
-            flex: 1;
-        }
-        .call-panel-middle {
-            flex: 1.5;
-        }
-        .call-panel-right {
-            flex: 1;
-        }
-        .call-panel h3 {
-            color: #fafafa;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(74, 158, 255, 0.3);
-        }
-        .call-panel-content {
-            flex: 1;
-            overflow-y: auto;
-        }
-        .transcript-message {
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .transcript-user {
-            border-left: 3px solid #4a9eff;
-        }
-        .transcript-bot {
-            border-left: 3px solid #50c878;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+    # 3 columns for compact layout
+    col1, col2, col3 = st.columns(3)
     
-    # 3-column layout: Feedback | Call Card | Transcript
-    left_col, middle_col, right_col = st.columns([1, 1.5, 1])
+    # Feedback column
+    with col1:
+        with st.container(border=True):
+            st.subheader("💬 Feedback", divider="blue")
+            feedback_text = st.text_area(
+                "Feedback",
+                value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
+                height=100,
+                placeholder="Write your feedback...",
+                key=f"feedback_textarea_{bot_name}",
+                label_visibility="collapsed"
+            )
+            st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
+            if st.button("💾 Save", key="save_feedback", use_container_width=True, type="primary"):
+                if feedback_text.strip():
+                    st.session_state.session_feedback[bot_name] = {
+                        'comment': feedback_text, 'timestamp': datetime.now().isoformat()
+                    }
+                    st.success("✅ Saved!")
     
-    # LEFT COLUMN - Feedback Box
-    with left_col:
-        st.markdown("""
-        <div class="call-panel call-panel-left">
-            <h3>💬 Feedback</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        feedback_text = st.text_area(
-            "Write your feedback here",
-            value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
-            height=400,
-            placeholder="Share your thoughts about this call...",
-            key=f"feedback_textarea_{bot_name}"
-        )
-        
-        st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
-        
-        if st.button("💾 Save Feedback", key="save_feedback", use_container_width=True):
-            if feedback_text.strip():
-                st.session_state.session_feedback[bot_name] = {
-                    'comment': feedback_text,
-                    'timestamp': datetime.now().isoformat()
-                }
-                st.success("✅ Feedback saved!")
-            else:
-                st.warning("Please write some feedback first.")
-    
-    # MIDDLE COLUMN - Call Card
-    with middle_col:
-        st.markdown("""
-        <div class="call-panel call-panel-middle">
-            <h3>📞 Call</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown(f"""
-        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #1e2130 0%, #262730 100%); border-radius: 16px; border: 1px solid rgba(74, 158, 255, 0.2); margin-bottom: 1rem;">
-            <div style="font-size: 5rem; margin-bottom: 1rem;">{avatar_emoji}</div>
-            <h2 style="color: #fafafa; margin: 0.5rem 0;">{display_name}</h2>
-            <p style="color: #b0b0b0; margin-bottom: 0.5rem; font-size: 1.1rem;">{person_name}</p>
-            <p style="color: #4a9eff; font-weight: bold; font-size: 1.2rem;">{status_text}</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        btn_col1, btn_col2, btn_col3 = st.columns(3)
-        
-        with btn_col1:
-            mute_label = "🔇 Unmute" if st.session_state.get(f'muted_{bot_name}', False) else "🎤 Mute"
-            if st.button(mute_label, key="call_mute", use_container_width=True):
-                st.session_state[f'muted_{bot_name}'] = not st.session_state.get(f'muted_{bot_name}', False)
-                st.rerun()
-        
-        with btn_col2:
-            if call_status == 'idle' or call_status == 'ended':
-                if st.button("📞 Start", key="call_start", type="primary", use_container_width=True):
-                    st.session_state.call_status[bot_name] = 'active'
-                    st.session_state.active_calls[bot_name] = f"call_{datetime.now().timestamp()}"
-                    st.rerun()
-            else:
-                if st.button("📴 End", key="call_end", type="primary", use_container_width=True):
-                    st.session_state.call_status[bot_name] = 'ended'
-                    st.session_state.active_calls.pop(bot_name, None)
-                    st.rerun()
-        
-        with btn_col3:
-            if st.button("🔄 Retry", key="call_retry", use_container_width=True):
-                st.session_state.call_status[bot_name] = 'idle'
-                st.session_state.call_messages[bot_name] = []
-                st.rerun()
-        
-        # Add spacer to push content up and fill space
-        st.markdown("<div style='flex: 1;'></div>", unsafe_allow_html=True)
-    
-    # RIGHT COLUMN - Real-time Transcript
-    with right_col:
-        st.markdown("""
-        <div class="call-panel call-panel-right">
-            <h3>📝 Transcript</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        messages = st.session_state.call_messages.get(bot_name, [])
-        
-        # Create a scrollable transcript container
-        transcript_html = '<div style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">'
-        if messages:
-            for msg in messages:
-                role_class = "transcript-user" if msg['role'] == 'user' else "transcript-bot"
-                role_label = "👤 You" if msg['role'] == 'user' else "🤖 Bot"
-                transcript_html += f'''
-                <div class="transcript-message {role_class}">
-                    <strong style="color: {"#4a9eff" if msg["role"] == "user" else "#50c878"};">{role_label}</strong>
-                    <p style="color: #fafafa; margin: 0.5rem 0 0 0;">{msg["content"]}</p>
-                </div>
-                '''
-        else:
-            transcript_html += '''
-            <div style="text-align: center; padding: 2rem; color: #b0b0b0;">
-                <p>📞 Transcript will appear here during the call...</p>
+    # Call column
+    with col2:
+        with st.container(border=True):
+            st.subheader("📞 Call", divider="blue")
+            st.markdown(f"""
+            <div style="text-align: center; padding: 0.5rem;">
+                <div style="font-size: 2rem;">{avatar_emoji}</div>
+                <p style="color: #fafafa; margin: 0.3rem 0; font-size: 0.9rem; font-weight: bold;">{display_name}</p>
+                <span style="color: {status_color}; font-size: 0.75rem;">● {status_text}</span>
             </div>
-            '''
-        transcript_html += '</div>'
-        
-        st.markdown(transcript_html, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+            
+            b1, b2, b3 = st.columns(3)
+            with b1:
+                mute_icon = "🔇" if st.session_state.get(f'muted_{bot_name}', False) else "🎤"
+                if st.button(mute_icon, key="call_mute", use_container_width=True):
+                    st.session_state[f'muted_{bot_name}'] = not st.session_state.get(f'muted_{bot_name}', False)
+                    st.rerun()
+            with b2:
+                if call_status in ['idle', 'ended']:
+                    if st.button("📞", key="call_start", type="primary", use_container_width=True):
+                        st.session_state.call_status[bot_name] = 'active'
+                        st.rerun()
+                else:
+                    if st.button("📴", key="call_end", type="primary", use_container_width=True):
+                        st.session_state.call_status[bot_name] = 'ended'
+                        st.rerun()
+            with b3:
+                if st.button("🔄", key="call_retry", use_container_width=True):
+                    st.session_state.call_status[bot_name] = 'idle'
+                    st.session_state.call_messages[bot_name] = []
+                    st.rerun()
+    
+    # Transcript column
+    with col3:
+        with st.container(border=True):
+            st.subheader("📝 Transcript", divider="blue")
+            messages = st.session_state.call_messages.get(bot_name, [])
+            if messages:
+                for msg in messages[-5:]:  # Show last 5 messages
+                    role = "You" if msg['role'] == 'user' else "Bot"
+                    st.caption(f"**{role}:** {msg['content'][:50]}...")
+            else:
+                st.caption("💬 Transcript appears here...")
 
 def render_vapi_widget(bot_name: str, mode: str, assistant_id: str, api_key: str):
     """Render Vapi widget for chat or call mode"""
@@ -1361,6 +1247,74 @@ def render_plato_home_page():
                     st.rerun()
 
 def main():
+    # Check if we're in call mode to show sidebar
+    is_call_mode = (
+        st.session_state.view_mode == 'bot_detail' and 
+        st.session_state.selected_bot and 
+        st.session_state.bot_modes.get(st.session_state.selected_bot) == 'call'
+    )
+    
+    # Only show sidebar on call page
+    if is_call_mode:
+        with st.sidebar:
+            # Custom CSS for icon buttons
+            st.markdown("""
+            <style>
+                .sidebar-icon {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.8rem;
+                    margin: 0.5rem auto;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    background: transparent;
+                    text-decoration: none;
+                }
+                .sidebar-icon:hover {
+                    background: rgba(74, 158, 255, 0.2);
+                }
+                .sidebar-icon.active {
+                    background: rgba(74, 158, 255, 0.3);
+                }
+                .sidebar-spacer {
+                    flex: 1;
+                    min-height: 150px;
+                }
+            </style>
+            """, unsafe_allow_html=True)
+            
+            # Home button
+            st.markdown("")
+            if st.button("🏠 Home", key="sidebar_home", use_container_width=True):
+                st.session_state.view_mode = 'home'
+                st.session_state.selected_bot = None
+                st.rerun()
+            
+            # Phone/Call button (current page - highlighted)
+            st.button("📞 Call", key="sidebar_call", use_container_width=True, disabled=True, type="primary")
+            
+            # Transcript button
+            if st.button("📝 Notes", key="sidebar_transcript", use_container_width=True):
+                pass
+            
+            # Settings button
+            if st.button("⚙️ Settings", key="sidebar_settings", use_container_width=True):
+                pass
+            
+            # Spacer
+            st.markdown("---")
+            st.markdown("<div style='min-height: 100px;'></div>", unsafe_allow_html=True)
+            
+            # Exit button at bottom
+            if st.button("🚪 Exit", key="sidebar_exit", use_container_width=True):
+                st.session_state.view_mode = 'home'
+                st.session_state.selected_bot = None
+                st.rerun()
+    
     # Handle query parameters for button clicks
     query_params = st.query_params
     if 'bot' in query_params and 'action' in query_params:
