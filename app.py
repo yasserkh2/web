@@ -635,28 +635,90 @@ if 'live_transcript' not in st.session_state:
 
 
 def render_call_interface(bot_name: str):
-    """Render call interface - embeds vapi_call.html from HTTP server"""
+    """Render call interface with sidebar nav and 3 columns: Feedback | Call | Transcript"""
     bot_data = st.session_state.bots.get(bot_name, {})
     display_name = bot_data.get('display_name', bot_name)
     avatar_emoji = bot_data.get('avatar_emoji', '🤖')
+    
+    # Sidebar navigation (always visible on left)
+    with st.sidebar:
+        st.markdown("### 🎯 Navigation")
+        if st.button("🏠 Home", use_container_width=True, type="primary"):
+            st.session_state.view_mode = 'home'
+            st.rerun()
+        
+        st.markdown("---")
+        st.markdown(f"### 📞 Current Call")
+        st.markdown(f"**{avatar_emoji} {display_name}**")
     
     # Check if VAPI is configured
     has_vapi = VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID and VAPI_PUBLIC_KEY != 'your_vapi_public_key_here'
     
     if has_vapi:
-        # Embed the vapi_call.html page via iframe from auto-started HTTP server
-        st.components.v1.iframe(
-            src="http://localhost:8080/vapi_call.html",
-            height=700,
-            scrolling=True
-        )
+        # 3 columns layout: Feedback | Call | Transcript
+        col_feedback, col_call, col_transcript = st.columns([1, 1.5, 1])
         
-        # Home button below the iframe
-        col1, col2, col3 = st.columns([1, 1, 1])
-        with col2:
-            if st.button("🏠 Back to Home", use_container_width=True, key="back_home_call"):
-                st.session_state.view_mode = 'home'
-                st.rerun()
+        # Feedback column (left)
+        with col_feedback:
+            with st.container(border=True):
+                st.subheader("💬 Feedback", divider="blue")
+                feedback_text = st.text_area(
+                    "Feedback",
+                    value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
+                    height=300,
+                    placeholder="Write your feedback about the call...",
+                    key=f"feedback_textarea_{bot_name}",
+                    label_visibility="collapsed"
+                )
+                st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
+                
+                if st.button("💾 Save Feedback", key="save_feedback", use_container_width=True, type="primary"):
+                    if feedback_text.strip():
+                        st.session_state.session_feedback[bot_name] = {
+                            'comment': feedback_text, 
+                            'timestamp': datetime.now().isoformat()
+                        }
+                        st.success("✅ Feedback saved!")
+        
+        # Call column (center) - embed clean call widget
+        with col_call:
+            with st.container(border=True):
+                st.subheader("📞 Voice Call", divider="green")
+                # Embed the clean call widget (no transcript, transparent bg)
+                st.components.v1.iframe(
+                    src="http://localhost:8080/vapi_call_widget.html",
+                    height=420,
+                    scrolling=False
+                )
+        
+        # Transcript column (right)
+        with col_transcript:
+            with st.container(border=True):
+                st.subheader("📝 Transcript", divider="orange")
+                
+                # Get transcript from session state
+                transcript = st.session_state.live_transcript.get(bot_name, [])
+                
+                if transcript:
+                    transcript_container = st.container(height=400)
+                    with transcript_container:
+                        for entry in transcript:
+                            role = entry.get('role', 'unknown')
+                            content = entry.get('content', '')
+                            if role == 'user':
+                                st.markdown(f"**👤 You:** {content}")
+                            else:
+                                st.markdown(f"**🤖 Assistant:** {content}")
+                else:
+                    st.info("💬 Transcript will appear here during the call")
+                
+                st.markdown("---")
+                
+                if st.button("🗑️ Clear Transcript", key="clear_transcript", use_container_width=True):
+                    st.session_state.live_transcript[bot_name] = []
+                    st.rerun()
+                
+                st.caption("💡 Transcript is saved in the call interface")
     else:
         # VAPI not configured - show setup instructions
         col1, col2, col3 = st.columns([1, 2, 1])
@@ -676,10 +738,6 @@ def render_call_interface(bot_name: str):
             VAPI_ASSISTANT_ID=your_assistant_id
             ```
             """)
-            
-            if st.button("🏠 Back to Home", use_container_width=True):
-                st.session_state.view_mode = 'home'
-                st.rerun()
 
 def render_vapi_widget(bot_name: str, mode: str, assistant_id: str, api_key: str):
     """Render Vapi widget for chat or call mode"""
