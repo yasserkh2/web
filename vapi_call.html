@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPI Voice Call</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1d29 0%, #232838 100%);
+            min-height: 100vh;
+            color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            min-height: 100vh;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #1e2130 0%, #262730 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+        
+        /* Call Section */
+        .call-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a9eff 0%, #3a8eef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            border: 4px solid #4a9eff;
+            box-shadow: 0 0 40px rgba(74, 158, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .avatar.speaking {
+            animation: speaking-pulse 0.5s ease-in-out infinite;
+            border-color: #50c878;
+            box-shadow: 0 0 50px rgba(80, 200, 120, 0.8);
+        }
+        
+        .avatar.listening {
+            animation: listening-pulse 1s ease-in-out infinite;
+            border-color: #ffa500;
+            box-shadow: 0 0 50px rgba(255, 165, 0, 0.6);
+        }
+        
+        @keyframes speaking-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes listening-pulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(255, 165, 0, 0.4); }
+            50% { box-shadow: 0 0 60px rgba(255, 165, 0, 0.8); }
+        }
+        
+        .bot-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4a9eff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status {
+            font-size: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-idle { background: rgba(136, 136, 136, 0.3); color: #aaa; }
+        .status-connecting { background: rgba(255, 165, 0, 0.3); color: #ffa500; }
+        .status-active { background: rgba(80, 200, 120, 0.3); color: #50c878; }
+        .status-ended { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
+        
+        .status::before {
+            content: '●';
+            font-size: 0.8rem;
+        }
+        
+        .call-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            color: #fafafa;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .call-timer.visible {
+            display: block;
+        }
+        
+        /* Volume Indicator */
+        .volume-indicator {
+            display: none;
+            justify-content: center;
+            gap: 4px;
+            height: 40px;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+        }
+        
+        .volume-indicator.visible {
+            display: flex;
+        }
+        
+        .volume-bar {
+            width: 6px;
+            background: linear-gradient(to top, #4a9eff, #50c878);
+            border-radius: 3px;
+            transition: height 0.1s ease;
+        }
+        
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-call {
+            background: linear-gradient(135deg, #50c878 0%, #3cb371 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(80, 200, 120, 0.5);
+        }
+        
+        .btn-hangup {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(255, 107, 107, 0.5);
+            display: none;
+        }
+        
+        .btn-mute {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fafafa;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-mute.muted {
+            background: rgba(255, 107, 107, 0.3);
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
+        /* Transcript Section */
+        .transcript-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .transcript-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(74, 158, 255, 0.2);
+        }
+        
+        .transcript-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #4a9eff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .transcript-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            min-height: 400px;
+            max-height: 500px;
+        }
+        
+        .transcript-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .transcript-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+        
+        .transcript-container::-webkit-scrollbar-thumb {
+            background: #4a9eff;
+            border-radius: 3px;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-user {
+            background: rgba(74, 158, 255, 0.15);
+            border-left: 3px solid #4a9eff;
+            margin-left: 20px;
+        }
+        
+        .message-assistant {
+            background: rgba(80, 200, 120, 0.15);
+            border-left: 3px solid #50c878;
+            margin-right: 20px;
+        }
+        
+        .message-role {
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .message-user .message-role { color: #4a9eff; }
+        .message-assistant .message-role { color: #50c878; }
+        
+        .message-text {
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+        
+        .message-interim {
+            opacity: 0.6;
+            font-style: italic;
+        }
+        
+        .empty-transcript {
+            text-align: center;
+            color: #666;
+            padding: 3rem;
+        }
+        
+        .empty-transcript .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Error Message */
+        .error-message {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 1rem;
+            color: #ff6b6b;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .error-message.visible {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Back Link */
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #4a9eff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .back-link:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <a href="http://localhost:8501" class="back-link">← Back to Platform</a>
+    
+    <div class="container">
+        <!-- Call Section -->
+        <div class="card call-section">
+            <div class="avatar" id="avatar">🤖</div>
+            <div class="bot-name">Voice Assistant</div>
+            <div class="status status-idle" id="status">Ready to Call</div>
+            
+            <div class="call-timer" id="timer">00:00</div>
+            
+            <div class="volume-indicator" id="volume">
+                <div class="volume-bar" style="height: 8px;"></div>
+                <div class="volume-bar" style="height: 15px;"></div>
+                <div class="volume-bar" style="height: 25px;"></div>
+                <div class="volume-bar" style="height: 15px;"></div>
+                <div class="volume-bar" style="height: 8px;"></div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-mute" id="muteBtn" disabled onclick="toggleMute()">🎤</button>
+                <button class="btn btn-call" id="callBtn" onclick="startCall()">📞</button>
+                <button class="btn btn-hangup" id="hangupBtn" onclick="endCall()">📴</button>
+            </div>
+            
+            <div class="error-message" id="error"></div>
+        </div>
+        
+        <!-- Transcript Section -->
+        <div class="card transcript-section">
+            <div class="transcript-header">
+                <div class="transcript-title">📝 Live Transcript</div>
+                <button class="btn" style="width: 40px; height: 40px; font-size: 1rem;" onclick="clearTranscript()" title="Clear transcript">🗑️</button>
+            </div>
+            
+            <div class="transcript-container" id="transcript">
+                <div class="empty-transcript">
+                    <div class="icon">💬</div>
+                    <div>Start a call to see the live transcript</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // VAPI Configuration - UPDATE THESE WITH YOUR CREDENTIALS
+        const PUBLIC_KEY = '96e66c5a-94a1-4071-8b1e-a9b5e4592c25';
+        const ASSISTANT_ID = 'b0bf28dc-3eb4-43e3-94f8-58ff2d4cf470';
+        
+        // State
+        let vapi = null;
+        let callActive = false;
+        let isMuted = false;
+        let callStartTime = null;
+        let timerInterval = null;
+        let transcriptMessages = [];
+        
+        // DOM Elements
+        const avatar = document.getElementById('avatar');
+        const status = document.getElementById('status');
+        const timer = document.getElementById('timer');
+        const volume = document.getElementById('volume');
+        const callBtn = document.getElementById('callBtn');
+        const hangupBtn = document.getElementById('hangupBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const transcript = document.getElementById('transcript');
+        const errorDiv = document.getElementById('error');
+        
+        // Import VAPI SDK
+        try {
+            const VapiModule = await import('https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/+esm');
+            const Vapi = VapiModule.default.default;
+            
+            // Initialize VAPI
+            vapi = new Vapi(PUBLIC_KEY);
+            console.log('VAPI initialized successfully');
+            
+            // Event Listeners
+            vapi.on('call-start', () => {
+                console.log('Call started');
+                callActive = true;
+                updateUI('active');
+                startTimer();
+                hideError();
+            });
+            
+            vapi.on('call-end', () => {
+                console.log('Call ended');
+                callActive = false;
+                updateUI('ended');
+                stopTimer();
+            });
+            
+            vapi.on('speech-start', () => {
+                console.log('Assistant speaking');
+                avatar.classList.add('speaking');
+                avatar.classList.remove('listening');
+            });
+            
+            vapi.on('speech-end', () => {
+                console.log('Assistant stopped speaking');
+                avatar.classList.remove('speaking');
+            });
+            
+            vapi.on('message', (message) => {
+                console.log('Message:', message);
+                handleMessage(message);
+            });
+            
+            vapi.on('volume-level', (level) => {
+                updateVolumeIndicator(level);
+                if (level > 0.1) {
+                    avatar.classList.add('listening');
+                    avatar.classList.remove('speaking');
+                }
+            });
+            
+            vapi.on('error', (error) => {
+                console.error('VAPI Error:', error);
+                showError(error.message || 'An error occurred');
+                callActive = false;
+                updateUI('idle');
+                stopTimer();
+            });
+            
+        } catch (err) {
+            console.error('Failed to initialize VAPI:', err);
+            showError('Failed to load VAPI SDK. Please refresh the page.');
+        }
+        
+        // Functions
+        window.startCall = async function() {
+            if (!vapi) {
+                showError('VAPI not initialized');
+                return;
+            }
+            
+            try {
+                updateUI('connecting');
+                transcriptMessages = [];
+                updateTranscriptDisplay();
+                hideError();
+                
+                // Request microphone permission
+                try {
+                    await navigator.mediaDevices.getUserMedia({ audio: true });
+                    console.log('Microphone permission granted');
+                } catch (micError) {
+                    console.error('Microphone error:', micError);
+                    showError('Microphone access denied. Please allow microphone access in browser settings.');
+                    updateUI('idle');
+                    return;
+                }
+                
+                await vapi.start(ASSISTANT_ID);
+                
+            } catch (error) {
+                console.error('Failed to start call:', error);
+                showError('Failed to start call: ' + (error.message || error));
+                updateUI('idle');
+            }
+        };
+        
+        window.endCall = function() {
+            if (vapi && callActive) {
+                vapi.stop();
+            }
+        };
+        
+        window.toggleMute = function() {
+            if (!vapi || !callActive) return;
+            
+            isMuted = !isMuted;
+            vapi.setMuted(isMuted);
+            
+            muteBtn.textContent = isMuted ? '🔇' : '🎤';
+            muteBtn.classList.toggle('muted', isMuted);
+        };
+        
+        window.clearTranscript = function() {
+            transcriptMessages = [];
+            updateTranscriptDisplay();
+        };
+        
+        function handleMessage(message) {
+            if (message.type === 'transcript') {
+                const role = message.role;
+                const text = message.transcript;
+                const isFinal = message.transcriptType === 'final';
+                
+                if (isFinal && text) {
+                    transcriptMessages.push({
+                        role: role,
+                        content: text,
+                        timestamp: new Date().toISOString()
+                    });
+                    updateTranscriptDisplay();
+                } else if (!isFinal && text) {
+                    updateTranscriptDisplay(text, role);
+                }
+            } else if (message.type === 'conversation-update') {
+                if (message.conversation) {
+                    transcriptMessages = message.conversation
+                        .filter(msg => msg.content)
+                        .map(msg => ({
+                            role: msg.role,
+                            content: msg.content,
+                            timestamp: new Date().toISOString()
+                        }));
+                    updateTranscriptDisplay();
+                }
+            }
+        }
+        
+        function updateTranscriptDisplay(interimText = null, interimRole = null) {
+            if (transcriptMessages.length === 0 && !interimText) {
+                transcript.innerHTML = `
+                    <div class="empty-transcript">
+                        <div class="icon">💬</div>
+                        <div>Listening...</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            transcriptMessages.forEach(msg => {
+                const roleClass = msg.role === 'user' ? 'message-user' : 'message-assistant';
+                const roleLabel = msg.role === 'user' ? '👤 You' : '🤖 Assistant';
+                html += `
+                    <div class="message ${roleClass}">
+                        <div class="message-role">${roleLabel}</div>
+                        <div class="message-text">${msg.content}</div>
+                    </div>
+                `;
+            });
+            
+            if (interimText) {
+                const roleClass = interimRole === 'user' ? 'message-user' : 'message-assistant';
+                const roleLabel = interimRole === 'user' ? '👤 You (speaking...)' : '🤖 Assistant';
+                html += `
+                    <div class="message ${roleClass} message-interim">
+                        <div class="message-role">${roleLabel}</div>
+                        <div class="message-text">${interimText}</div>
+                    </div>
+                `;
+            }
+            
+            transcript.innerHTML = html;
+            transcript.scrollTop = transcript.scrollHeight;
+        }
+        
+        function updateUI(state) {
+            status.className = 'status status-' + state;
+            
+            switch(state) {
+                case 'idle':
+                    status.textContent = 'Ready to Call';
+                    callBtn.style.display = 'flex';
+                    hangupBtn.style.display = 'none';
+                    muteBtn.disabled = true;
+                    timer.classList.remove('visible');
+                    volume.classList.remove('visible');
+                    avatar.classList.remove('speaking', 'listening');
+                    break;
+                case 'connecting':
+                    status.textContent = 'Connecting...';
+                    callBtn.style.display = 'none';
+                    hangupBtn.style.display = 'flex';
+                    muteBtn.disabled = true;
+                    break;
+                case 'active':
+                    status.textContent = 'Call Active';
+                    callBtn.style.display = 'none';
+                    hangupBtn.style.display = 'flex';
+                    muteBtn.disabled = false;
+                    timer.classList.add('visible');
+                    volume.classList.add('visible');
+                    break;
+                case 'ended':
+                    status.textContent = 'Call Ended';
+                    callBtn.style.display = 'flex';
+                    hangupBtn.style.display = 'none';
+                    muteBtn.disabled = true;
+                    timer.classList.add('visible');
+                    volume.classList.remove('visible');
+                    avatar.classList.remove('speaking', 'listening');
+                    break;
+            }
+        }
+        
+        function updateVolumeIndicator(level) {
+            const bars = volume.querySelectorAll('.volume-bar');
+            const heights = [8, 15, 25, 15, 8];
+            bars.forEach((bar, i) => {
+                const baseHeight = heights[i];
+                const newHeight = baseHeight + (level * 30 * (i === 2 ? 1.5 : 1));
+                bar.style.height = newHeight + 'px';
+            });
+        }
+        
+        function startTimer() {
+            callStartTime = new Date();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((new Date() - callStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const seconds = (elapsed % 60).toString().padStart(2, '0');
+                timer.textContent = minutes + ':' + seconds;
+            }, 1000);
+        }
+        
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+        
+        function showError(message) {
+            errorDiv.textContent = '⚠️ ' + message;
+            errorDiv.classList.add('visible');
+        }
+        
+        function hideError() {
+            errorDiv.classList.remove('visible');
+        }
+    </script>
+</body>
+</html>

@@ -1,8 +1,18 @@
 import streamlit as st
 import json
 import requests
+import os
 from datetime import datetime
 from typing import Dict, List, Optional
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# VAPI Configuration from environment
+VAPI_API_KEY = os.getenv('VAPI_API_KEY', '')
+VAPI_PUBLIC_KEY = os.getenv('VAPI_PUBLIC_KEY', '')
+VAPI_ASSISTANT_ID = os.getenv('VAPI_ASSISTANT_ID', '')
 
 # Page configuration
 st.set_page_config(
@@ -44,15 +54,21 @@ st.markdown("""
         flex-direction: column !important;
     }
 
+    /* Allow block-container to grow */
     .block-container {
         flex: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
     }
 
-    /* Make columns align properly */
+    /* Make columns align properly and prevent wrapping */
     [data-testid="stHorizontalBlock"] {
         align-items: flex-start !important;
+        flex-wrap: nowrap !important;
+        gap: 1rem !important;
+    }
+    
+    /* Ensure columns don't shrink too much */
+    [data-testid="stHorizontalBlock"] > [data-testid="stVerticalBlock"] {
+        min-width: 0 !important;
     }
 
     /* Hide Streamlit header/deploy bar */
@@ -79,7 +95,7 @@ st.markdown("""
     }
     
     [data-testid="stSidebarContent"] {
-        padding: 1rem 0.5rem !important;
+        padding: 0rem 0.5rem 0.5rem 0.5rem !important;
     }
     
     /* Hide collapse button */
@@ -92,7 +108,7 @@ st.markdown("""
     [data-testid="stSidebar"] button {
         border-radius: 10px !important;
         font-size: 0.9rem !important;
-        margin: 0.25rem 0 !important;
+        margin: 0.1rem 0 !important;
     }
     
     [data-testid="stSidebar"] button:hover {
@@ -424,6 +440,7 @@ st.markdown("""
         background-color: #ff4a4a;
         color: #fafafa;
     }
+    
 </style>
 <script>
 function triggerCallButtonDirect(botName) {
@@ -590,6 +607,76 @@ if 'call_messages' not in st.session_state:
         'Bot 6': [],
     }
 
+if 'vapi_call_id' not in st.session_state:
+    st.session_state.vapi_call_id = {}  # {bot_name: call_id}
+
+if 'live_transcript' not in st.session_state:
+    st.session_state.live_transcript = {}  # {bot_name: [transcript_entries]}
+
+def render_vapi_call_widget(bot_name: str):
+    """Render the VAPI call interface with link to direct page"""
+    bot_data = st.session_state.bots.get(bot_name, {})
+    display_name = bot_data.get('display_name', bot_name)
+    avatar_emoji = bot_data.get('avatar_emoji', '🤖')
+    
+    # Get VAPI credentials
+    public_key = VAPI_PUBLIC_KEY
+    assistant_id = VAPI_ASSISTANT_ID
+    
+    if not public_key or not assistant_id or public_key == 'your_vapi_public_key_here':
+        st.error("⚠️ VAPI credentials not configured. Please update your .env file with valid VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID")
+        return
+    
+    # Show call interface
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown(f"""
+        <div style="text-align: center; padding: 2rem;">
+            <div style="
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #4a9eff 0%, #3a8eef 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3.5rem;
+                margin: 0 auto 1.5rem;
+                border: 4px solid #4a9eff;
+                box-shadow: 0 0 40px rgba(74, 158, 255, 0.5);
+            ">{avatar_emoji}</div>
+            <h2 style="color: #fafafa; margin-bottom: 0.5rem; font-size: 1.8rem;">{display_name}</h2>
+            <p style="color: #b0b0b0; margin-bottom: 1rem;">Voice Assistant</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Use Streamlit's link_button for proper rendering
+        st.link_button(
+            "📞 Start Voice Call",
+            "http://localhost:8080/vapi_call.html",
+            type="primary",
+            use_container_width=True
+        )
+        
+        st.caption("Opens in a new tab for full microphone access")
+    
+    # Instructions
+    with st.expander("💡 How to use", expanded=True):
+        st.markdown("""
+        1. Click **"Start Voice Call"** above
+        2. A new tab will open with the voice call interface
+        3. Click the **"Talk with AI"** button
+        4. **Allow microphone access** when prompted by browser
+        5. Start speaking - the AI will respond!
+        
+        ---
+        
+        **⚠️ If microphone is blocked:**
+        
+        Click the 🔒 icon in address bar → Site settings → Allow Microphone
+        """)
+
+
 def render_call_interface(bot_name: str):
     """Render a compact call interface with 3 columns"""
     bot_data = st.session_state.bots.get(bot_name, {})
@@ -602,73 +689,121 @@ def render_call_interface(bot_name: str):
     status_text = {'idle': 'Ready', 'ringing': 'Connecting...', 'active': 'Active', 'ended': 'Ended'}.get(call_status, 'Ready')
     status_color = {'idle': '#888', 'ringing': '#ffa500', 'active': '#50c878', 'ended': '#ff6b6b'}.get(call_status, '#888')
     
-    # 3 columns for compact layout
-    col1, col2, col3 = st.columns(3)
+    # Check if VAPI is configured
+    has_vapi = VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID and VAPI_PUBLIC_KEY != 'your_vapi_public_key_here'
     
-    # Feedback column
-    with col1:
-        with st.container(border=True):
-            st.subheader("💬 Feedback", divider="blue")
-            feedback_text = st.text_area(
-                "Feedback",
-                value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
-                height=100,
-                placeholder="Write your feedback...",
-                key=f"feedback_textarea_{bot_name}",
-                label_visibility="collapsed"
-            )
-            st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
-            if st.button("💾 Save", key="save_feedback", use_container_width=True, type="primary"):
-                if feedback_text.strip():
-                    st.session_state.session_feedback[bot_name] = {
-                        'comment': feedback_text, 'timestamp': datetime.now().isoformat()
-                    }
-                    st.success("✅ Saved!")
-    
-    # Call column
-    with col2:
-        with st.container(border=True):
-            st.subheader("📞 Call", divider="blue")
-            st.markdown(f"""
-            <div style="text-align: center; padding: 0.5rem;">
-                <div style="font-size: 2rem;">{avatar_emoji}</div>
-                <p style="color: #fafafa; margin: 0.3rem 0; font-size: 0.9rem; font-weight: bold;">{display_name}</p>
-                <span style="color: {status_color}; font-size: 0.75rem;">● {status_text}</span>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            b1, b2, b3 = st.columns(3)
-            with b1:
-                mute_icon = "🔇" if st.session_state.get(f'muted_{bot_name}', False) else "🎤"
-                if st.button(mute_icon, key="call_mute", use_container_width=True):
-                    st.session_state[f'muted_{bot_name}'] = not st.session_state.get(f'muted_{bot_name}', False)
+    if has_vapi:
+        # Use VAPI integrated call interface
+        col_main, col_feedback = st.columns([2, 1])
+        
+        with col_main:
+            render_vapi_call_widget(bot_name)
+        
+        with col_feedback:
+            with st.container(border=True):
+                st.subheader("💬 Feedback", divider="blue")
+                feedback_text = st.text_area(
+                    "Feedback",
+                    value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
+                    height=150,
+                    placeholder="Write your feedback about the call...",
+                    key=f"feedback_textarea_{bot_name}",
+                    label_visibility="collapsed"
+                )
+                st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
+                if st.button("💾 Save Feedback", key="save_feedback", use_container_width=True, type="primary"):
+                    if feedback_text.strip():
+                        st.session_state.session_feedback[bot_name] = {
+                            'comment': feedback_text, 'timestamp': datetime.now().isoformat()
+                        }
+                        st.success("✅ Feedback saved!")
+                
+                st.markdown("---")
+                
+                # Home button
+                if st.button("🏠 Back to Home", key="back_home", use_container_width=True):
+                    st.session_state.view_mode = 'home'
                     st.rerun()
-            with b2:
-                if call_status in ['idle', 'ended']:
-                    if st.button("📞", key="call_start", type="primary", use_container_width=True):
-                        st.session_state.call_status[bot_name] = 'active'
+                
+                # Sync transcript from localStorage
+                st.markdown("---")
+                st.caption("💡 The transcript is saved automatically when the call ends.")
+    else:
+        # Fallback to original interface (no VAPI)
+        # 4 columns layout: Feedback, Call, Transcript, then Home button on right
+        col1, col2, col3, col_home = st.columns([1, 1, 1, 0.3])
+        
+        # Feedback column
+        with col1:
+            with st.container(border=True):
+                st.subheader("💬 Feedback", divider="blue")
+                feedback_text = st.text_area(
+                    "Feedback",
+                    value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
+                    height=100,
+                    placeholder="Write your feedback...",
+                    key=f"feedback_textarea_{bot_name}",
+                    label_visibility="collapsed"
+                )
+                st.session_state[f'call_feedback_text_{bot_name}'] = feedback_text
+                if st.button("💾 Save", key="save_feedback", use_container_width=True, type="primary"):
+                    if feedback_text.strip():
+                        st.session_state.session_feedback[bot_name] = {
+                            'comment': feedback_text, 'timestamp': datetime.now().isoformat()
+                        }
+                        st.success("✅ Saved!")
+        
+        # Call column
+        with col2:
+            with st.container(border=True):
+                st.subheader("📞 Call", divider="blue")
+                st.markdown(f"""
+                <div style="text-align: center; padding: 0.5rem;">
+                    <div style="font-size: 2rem;">{avatar_emoji}</div>
+                    <p style="color: #fafafa; margin: 0.3rem 0; font-size: 0.9rem; font-weight: bold;">{display_name}</p>
+                    <span style="color: {status_color}; font-size: 0.75rem;">● {status_text}</span>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                st.warning("⚠️ VAPI not configured. Please add credentials to .env file.")
+                
+                b1, b2, b3 = st.columns(3)
+                with b1:
+                    mute_icon = "🔇" if st.session_state.get(f'muted_{bot_name}', False) else "🎤"
+                    if st.button(mute_icon, key="call_mute", use_container_width=True):
+                        st.session_state[f'muted_{bot_name}'] = not st.session_state.get(f'muted_{bot_name}', False)
                         st.rerun()
+                with b2:
+                    if call_status in ['idle', 'ended']:
+                        if st.button("📞", key="call_start", type="primary", use_container_width=True, disabled=True):
+                            pass
+                    else:
+                        if st.button("📴", key="call_end", type="primary", use_container_width=True):
+                            st.session_state.call_status[bot_name] = 'ended'
+                            st.rerun()
+                with b3:
+                    if st.button("🔄", key="call_retry", use_container_width=True):
+                        st.session_state.call_status[bot_name] = 'idle'
+                        st.session_state.call_messages[bot_name] = []
+                        st.rerun()
+        
+        # Transcript column
+        with col3:
+            with st.container(border=True):
+                st.subheader("📝 Transcript", divider="blue")
+                messages = st.session_state.call_messages.get(bot_name, [])
+                if messages:
+                    for msg in messages[-5:]:  # Show last 5 messages
+                        role = "You" if msg['role'] == 'user' else "Bot"
+                        st.caption(f"**{role}:** {msg['content'][:50]}...")
                 else:
-                    if st.button("📴", key="call_end", type="primary", use_container_width=True):
-                        st.session_state.call_status[bot_name] = 'ended'
-                        st.rerun()
-            with b3:
-                if st.button("🔄", key="call_retry", use_container_width=True):
-                    st.session_state.call_status[bot_name] = 'idle'
-                    st.session_state.call_messages[bot_name] = []
-                    st.rerun()
-    
-    # Transcript column
-    with col3:
-        with st.container(border=True):
-            st.subheader("📝 Transcript", divider="blue")
-            messages = st.session_state.call_messages.get(bot_name, [])
-            if messages:
-                for msg in messages[-5:]:  # Show last 5 messages
-                    role = "You" if msg['role'] == 'user' else "Bot"
-                    st.caption(f"**{role}:** {msg['content'][:50]}...")
-            else:
-                st.caption("💬 Transcript appears here...")
+                    st.caption("💬 Configure VAPI to enable calls...")
+        
+        # Home button in the right empty section
+        with col_home:
+            if st.button("🏠", key="home_btn", use_container_width=True):
+                st.session_state.view_mode = 'home'
+                st.rerun()
 
 def render_vapi_widget(bot_name: str, mode: str, assistant_id: str, api_key: str):
     """Render Vapi widget for chat or call mode"""
@@ -1288,29 +1423,7 @@ def main():
             """, unsafe_allow_html=True)
             
             # Home button
-            st.markdown("")
             if st.button("🏠 Home", key="sidebar_home", use_container_width=True):
-                st.session_state.view_mode = 'home'
-                st.session_state.selected_bot = None
-                st.rerun()
-            
-            # Phone/Call button (current page - highlighted)
-            st.button("📞 Call", key="sidebar_call", use_container_width=True, disabled=True, type="primary")
-            
-            # Transcript button
-            if st.button("📝 Notes", key="sidebar_transcript", use_container_width=True):
-                pass
-            
-            # Settings button
-            if st.button("⚙️ Settings", key="sidebar_settings", use_container_width=True):
-                pass
-            
-            # Spacer
-            st.markdown("---")
-            st.markdown("<div style='min-height: 100px;'></div>", unsafe_allow_html=True)
-            
-            # Exit button at bottom
-            if st.button("🚪 Exit", key="sidebar_exit", use_container_width=True):
                 st.session_state.view_mode = 'home'
                 st.session_state.selected_bot = None
                 st.rerun()
@@ -1546,4 +1659,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
