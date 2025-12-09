@@ -1,144 +1,158 @@
 # Chatbot Evaluation Platform
 
-A Streamlit-based frontend for testing and evaluating 6 different chatbots, similar to Dify's interface.
+A Streamlit-based frontend for testing and evaluating chatbots with integrated VAPI voice calling.
 
 ## Features
 
-- 🤖 **6 Chatbot Interfaces**: Test up to 6 different chatbots simultaneously
-- 💬 **Chat & 📞 Call Modes**: Switch between text chat and voice call modes for each bot
-- 🎤 **Vapi Integration**: Frontend integration with Vapi for voice AI conversations
-- ⚙️ **Bot Configuration**: Configure Vapi API keys and Assistant IDs for each bot
-- 📊 **Statistics**: View message counts and chat statistics
+- 🤖 **Multiple Chatbot Interfaces**: Test different chatbots (Healthcare simulations)
+- 💬 **Chat Mode**: Text-based conversations
+- 📞 **Voice Call Mode**: Real-time voice calls with VAPI integration
+- 📝 **Live Transcript**: See real-time transcription during voice calls
 - 💾 **Export Chat**: Download chat history as JSON
-- 📝 **Feedback System**: Rate individual messages and overall sessions
-- 🎨 **Modern UI**: Clean and intuitive interface
+- 📝 **Feedback System**: Rate messages and sessions
+- 🎨 **Modern Dark UI**: Clean and intuitive interface
 
-## Installation
+## Quick Start
 
-1. Create and activate virtual environment:
+### 1. Setup Environment
 
-   **Windows (PowerShell):**
-   ```powershell
-   .\venv\Scripts\Activate.ps1
-   ```
+```powershell
+# Windows PowerShell
+.\venv\Scripts\Activate.ps1
 
-   **Windows (Command Prompt):**
-   ```cmd
-   venv\Scripts\activate.bat
-   ```
-
-   **Linux/Mac:**
-   ```bash
-   source venv/bin/activate
-   ```
-
-2. Install dependencies:
-```bash
+# Or create new venv
+python -m venv venv
+.\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-## Usage
+### 2. Configure VAPI Credentials
 
-1. Run the Streamlit app:
+Create a `.env` file in the project root:
+
+```env
+VAPI_PUBLIC_KEY=your_vapi_public_key_here
+VAPI_ASSISTANT_ID=your_vapi_assistant_id_here
+VAPI_API_KEY=your_vapi_api_key_here
+```
+
+Get your credentials from [Vapi.ai Dashboard](https://dashboard.vapi.ai):
+- **Public Key**: Found in Account Settings
+- **Assistant ID**: Found when you create/view an Assistant
+- **API Key**: Found in Account Settings (for backend calls)
+
+### 3. Run the App
+
 ```bash
 streamlit run app.py
 ```
 
-2. The app will open in your browser at `http://localhost:8501`
+That's it! The app will:
+- Start on `http://localhost:8501`
+- Auto-start an HTTP server on port 8080 for voice calls
+- Everything works with just **one command**
 
-3. Select a bot from the sidebar to start chatting
+## Voice Call Feature
 
-4. Configure Vapi in the "Bot Settings - Vapi" section:
-   - Enable Vapi for the bot
-   - Enter your Vapi API Key
-   - Enter the Assistant ID
-   - (Optional) Enter Phone Number ID for call mode
+The voice call feature uses VAPI's Web SDK for real-time voice conversations:
 
-5. Switch between Chat and Call modes using the radio buttons in the sidebar
+### How It Works
 
-## Vapi Integration
+1. Click **📞 Call** on any chatbot card
+2. The voice call interface loads (embedded from `vapi_call.html`)
+3. Click the **green call button** 📞 to start
+4. **Allow microphone access** when prompted
+5. Start speaking - the AI will respond in real-time!
+6. View the **live transcript** on the right side
+7. Click the **red button** 📴 to end the call
 
-This platform uses **Vapi's frontend JavaScript SDK** for voice AI conversations. Vapi handles both chat and call modes directly in the browser.
+### Technical Details
 
-### Setting Up Vapi
-
-1. **Get Vapi Credentials**:
-   - Sign up at [Vapi.ai](https://vapi.ai)
-   - Create an Assistant in your Vapi dashboard
-   - Get your API Key and Assistant ID
-
-2. **Configure in App**:
-   - Go to "Bot Settings - Vapi" in the sidebar
-   - Enable Vapi for the bot
-   - Enter your Vapi API Key
-   - Enter the Assistant ID
-   - Save the configuration
-
-3. **Use Vapi Widget**:
-   - Once configured, the Vapi widget will appear in the main area
-   - For Chat mode: Use the Vapi chat widget
-   - For Call mode: Use the Vapi phone call widget
-   - All interactions are handled by Vapi's frontend SDK
-
-### Vapi Features
-
-- **Chat Mode**: Text-based conversations via Vapi chat widget
-- **Call Mode**: Voice conversations via Vapi phone call widget
-- **Real-time**: All interactions happen in real-time through Vapi's infrastructure
-- **No Backend Required**: Vapi handles all API calls and audio processing
-
-## Backend Integration (Fallback)
-
-If Vapi is not configured, the app falls back to Streamlit's native chat interface. To connect to your own backend, modify the `send_message()` function in `app.py`:
-
-```python
-def send_message(bot_name: str, user_message: str):
-    """Send message to chatbot"""
-    # Add user message to history
-    st.session_state.bots[bot_name]['messages'].append({
-        'role': 'user',
-        'content': user_message,
-        'timestamp': datetime.now().isoformat()
-    })
-    
-    # Get API config for this bot
-    api_config = st.session_state.api_configs[bot_name]
-    
-    # Make API call to your backend
-    import requests
-    response = requests.post(
-        api_config['url'],
-        json={'message': user_message},
-        headers={
-            'Authorization': f"Bearer {api_config['api_key']}",
-            **api_config['headers']
-        }
-    )
-    
-    bot_response = response.json()['response']  # Adjust based on your API
-    
-    # Add bot response to history
-    st.session_state.bots[bot_name]['messages'].append({
-        'role': 'assistant',
-        'content': bot_response,
-        'timestamp': datetime.now().isoformat()
-    })
-```
+- Voice calls use VAPI's WebRTC-based real-time communication
+- The `vapi_call.html` file contains the full voice interface
+- An HTTP server auto-starts on port 8080 to serve the voice page
+- This bypasses iframe microphone restrictions in Streamlit
 
 ## Project Structure
 
 ```
 .
-├── app.py              # Main Streamlit application
-├── requirements.txt    # Python dependencies
-├── README.md          # This file
-├── .gitignore         # Git ignore file
-└── venv/              # Virtual environment (created after setup)
+├── app.py                    # Main Streamlit application
+├── vapi_call.html           # Voice call interface (served on port 8080)
+├── requirements.txt         # Python dependencies
+├── .env                     # VAPI credentials (create this)
+├── .streamlit/
+│   └── config.toml          # Streamlit theme configuration
+├── static/                  # Static files folder
+└── README.md               # This file
 ```
 
-## Customization
+## Configuration Files
 
-- **Bot Names**: Edit the `bots` dictionary in `app.py` to change bot names and descriptions
-- **Styling**: Modify the CSS in the `st.markdown()` section for custom styling
-- **API Integration**: Update `send_message()` function to connect to your backend
+### `.env` (Required for voice calls)
+```env
+VAPI_PUBLIC_KEY=96e66c5a-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+VAPI_ASSISTANT_ID=b0bf28dc-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+VAPI_API_KEY=your_private_api_key
+```
 
+### `.streamlit/config.toml` (Theme)
+```toml
+[server]
+enableStaticServing = true
+
+[theme]
+primaryColor = "#4a9eff"
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#1e2130"
+textColor = "#fafafa"
+font = "sans serif"
+```
+
+## Troubleshooting
+
+### Voice Call Not Working
+
+1. **Check microphone permissions**: Click the 🔒 icon in the browser address bar → Allow Microphone
+
+2. **Check VAPI credentials**: Ensure `.env` file has correct keys
+
+3. **Port 8080 in use**: The app auto-starts HTTP server on 8080. If blocked:
+   ```powershell
+   # Find and kill process on port 8080
+   netstat -ano | findstr :8080
+   taskkill /PID <PID> /F
+   ```
+
+4. **Browser compatibility**: Works best in Chrome/Edge. Firefox may require additional permissions.
+
+### Call Connects But No Audio
+
+- Ensure VAPI Assistant is properly configured with a voice provider
+- Check VAPI dashboard for any errors in call logs
+- Verify microphone is not muted in system settings
+
+## Dependencies
+
+```
+streamlit
+python-dotenv
+requests
+```
+
+## VAPI Integration Notes
+
+- **Public Key**: Used in frontend (vapi_call.html) to initialize VAPI SDK
+- **Assistant ID**: Identifies which AI assistant handles the conversation
+- **API Key**: Used for backend operations (optional for basic usage)
+
+The voice interface (`vapi_call.html`) uses VAPI's ES Module SDK:
+```javascript
+import Vapi from 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/+esm';
+const vapi = new Vapi(PUBLIC_KEY);
+await vapi.start(ASSISTANT_ID);
+```
+
+## License
+
+MIT License
