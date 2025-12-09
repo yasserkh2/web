@@ -656,7 +656,7 @@ def render_call_interface(bot_name: str):
     
     if has_vapi:
         # 3 columns layout: Feedback | Call | Transcript
-        col_feedback, col_call, col_transcript = st.columns([1, 1.5, 1])
+        col_feedback, col_call, col_transcript = st.columns([1, 1.2, 1.2])
         
         # Feedback column (left)
         with col_feedback:
@@ -665,7 +665,7 @@ def render_call_interface(bot_name: str):
                 feedback_text = st.text_area(
                     "Feedback",
                     value=st.session_state.get(f'call_feedback_text_{bot_name}', ''),
-                    height=300,
+                    height=350,
                     placeholder="Write your feedback about the call...",
                     key=f"feedback_textarea_{bot_name}",
                     label_visibility="collapsed"
@@ -680,45 +680,27 @@ def render_call_interface(bot_name: str):
                         }
                         st.success("✅ Feedback saved!")
         
-        # Call column (center) - embed clean call widget
+        # Call column (center) - clean call widget
         with col_call:
             with st.container(border=True):
                 st.subheader("📞 Voice Call", divider="green")
-                # Embed the clean call widget (no transcript, transparent bg)
+                # Embed call widget from port 8080
                 st.components.v1.iframe(
                     src="http://localhost:8080/vapi_call_widget.html",
                     height=420,
                     scrolling=False
                 )
         
-        # Transcript column (right)
+        # Transcript column (right) - reads localStorage from same origin
         with col_transcript:
             with st.container(border=True):
                 st.subheader("📝 Transcript", divider="orange")
-                
-                # Get transcript from session state
-                transcript = st.session_state.live_transcript.get(bot_name, [])
-                
-                if transcript:
-                    transcript_container = st.container(height=400)
-                    with transcript_container:
-                        for entry in transcript:
-                            role = entry.get('role', 'unknown')
-                            content = entry.get('content', '')
-                            if role == 'user':
-                                st.markdown(f"**👤 You:** {content}")
-                            else:
-                                st.markdown(f"**🤖 Assistant:** {content}")
-                else:
-                    st.info("💬 Transcript will appear here during the call")
-                
-                st.markdown("---")
-                
-                if st.button("🗑️ Clear Transcript", key="clear_transcript", use_container_width=True):
-                    st.session_state.live_transcript[bot_name] = []
-                    st.rerun()
-                
-                st.caption("💡 Transcript is saved in the call interface")
+                # Embed transcript reader from port 8080 (same origin as call widget)
+                st.components.v1.iframe(
+                    src="http://localhost:8080/vapi_transcript.html",
+                    height=420,
+                    scrolling=False
+                )
     else:
         # VAPI not configured - show setup instructions
         col1, col2, col3 = st.columns([1, 2, 1])

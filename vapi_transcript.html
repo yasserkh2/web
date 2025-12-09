@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Transcript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            color: #fafafa;
+            padding: 10px;
+        }
+        
+        .transcript-container {
+            height: calc(100vh - 20px);
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .transcript-container::-webkit-scrollbar { width: 6px; }
+        .transcript-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 3px; }
+        .transcript-container::-webkit-scrollbar-thumb { background: #4a9eff; border-radius: 3px; }
+        
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-user {
+            background: rgba(74, 158, 255, 0.15);
+            border-left: 3px solid #4a9eff;
+            margin-left: 15px;
+        }
+        
+        .message-assistant {
+            background: rgba(80, 200, 120, 0.15);
+            border-left: 3px solid #50c878;
+            margin-right: 15px;
+        }
+        
+        .role {
+            font-weight: bold;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .role-user { color: #4a9eff; }
+        .role-assistant { color: #50c878; }
+        
+        .content {
+            color: #e0e0e0;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+        
+        .empty {
+            text-align: center;
+            color: #666;
+            padding: 60px 20px;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .empty-text {
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="transcript-container" id="transcript">
+        <div class="empty">
+            <div class="empty-icon">💬</div>
+            <div class="empty-text">Start a call to see the live transcript</div>
+        </div>
+    </div>
+
+    <script>
+        function updateTranscript() {
+            const container = document.getElementById('transcript');
+            const stored = localStorage.getItem('vapi_transcript');
+            const messages = stored ? JSON.parse(stored) : [];
+            
+            if (messages.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">💬</div>
+                        <div class="empty-text">Start a call to see the live transcript</div>
+                    </div>
+                `;
+            } else {
+                let html = '';
+                messages.forEach(msg => {
+                    const roleClass = msg.role === 'user' ? 'user' : 'assistant';
+                    const roleLabel = msg.role === 'user' ? '👤 You' : '🤖 Assistant';
+                    html += `
+                        <div class="message message-${roleClass}">
+                            <div class="role role-${roleClass}">${roleLabel}</div>
+                            <div class="content">${msg.content}</div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+        
+        // Update every 300ms for smooth live updates
+        updateTranscript();
+        setInterval(updateTranscript, 300);
+    </script>
+</body>
+</html>
+

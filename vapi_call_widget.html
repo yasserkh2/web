@@ -223,17 +223,24 @@
         const muteBtn = document.getElementById('muteBtn');
         const errorDiv = document.getElementById('error');
         
-        // Send transcript to parent (Streamlit)
-        function sendTranscriptToParent(role, content, isFinal) {
-            if (window.parent) {
-                window.parent.postMessage({
-                    type: 'vapi-transcript',
+        // Store transcript in localStorage for Streamlit to read
+        let transcriptMessages = [];
+        
+        function saveTranscript(role, content, isFinal) {
+            if (isFinal && content) {
+                transcriptMessages.push({
                     role: role,
                     content: content,
-                    isFinal: isFinal,
                     timestamp: new Date().toISOString()
-                }, '*');
+                });
+                // Save to localStorage
+                localStorage.setItem('vapi_transcript', JSON.stringify(transcriptMessages));
             }
+        }
+        
+        function clearStoredTranscript() {
+            transcriptMessages = [];
+            localStorage.setItem('vapi_transcript', JSON.stringify([]));
         }
         
         // Import VAPI SDK
@@ -269,7 +276,7 @@
             vapi.on('message', (message) => {
                 if (message.type === 'transcript') {
                     const isFinal = message.transcriptType === 'final';
-                    sendTranscriptToParent(message.role, message.transcript, isFinal);
+                    saveTranscript(message.role, message.transcript, isFinal);
                 }
             });
             
@@ -301,6 +308,7 @@
             try {
                 updateUI('connecting');
                 hideError();
+                clearStoredTranscript();  // Clear transcript for new call
                 
                 await navigator.mediaDevices.getUserMedia({ audio: true });
                 await vapi.start(ASSISTANT_ID);
