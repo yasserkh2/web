@@ -488,38 +488,64 @@ if 'bots' not in st.session_state:
     st.session_state.bots = {
         'Bot 1': {
             'name': 'Bot 1', 
-            'display_name': 'Alzheimer Patient',
+            'display_name': 'The Traditionalist',
             'customer_segment': 'Healthcare Providers',
+            'avatar_emoji': '👨‍⚕️',
+            'vapi_enabled': True,  # Only this bot has VAPI integration
+            'description': 'Relies on established, well-documented, and time-tested treatments. Guiding principle: "if it isn\'t broken, don\'t fix it."',
+            'core_motivation': 'Stability, predictability, and minimizing risk. Trusts what they know and have used successfully for years.',
+            'behavior': [
+                'Skeptical of new drugs, especially those without extensive, long-term real-world data.',
+                'Values landmark clinical trials and drugs that have become the "gold standard" of care.',
+                'Heavily influenced by established Key Opinion Leaders (KOLs) and treatment guidelines from major medical societies.',
+                'Resistant to change unless there is overwhelming evidence of a new drug\'s superiority or a previous standard\'s failure.'
+            ],
+            'sales_approach': [
+                'Provide long-term safety and efficacy data.',
+                'Present direct comparisons to the current gold-standard treatments.',
+                'Leverage testimonials and studies from highly respected, established KOLs.',
+                'Focus on reliability and consistency, not just novelty.'
+            ],
             'messages': []
         },
         'Bot 2': {
             'name': 'Bot 2', 
             'display_name': 'Sales Excellence Coach',
             'customer_segment': 'Sales Team',
+            'avatar_emoji': '💼',
+            'vapi_enabled': False,
             'messages': []
         },
         'Bot 3': {
             'name': 'Bot 3', 
             'display_name': 'Ibuprofen Knowledge Tester',
             'customer_segment': 'Medical Professionals',
+            'avatar_emoji': '💊',
+            'vapi_enabled': False,
             'messages': []
         },
         'Bot 4': {
             'name': 'Bot 4', 
             'display_name': 'Breast Cancer Oncologist',
             'customer_segment': 'Oncologists',
+            'avatar_emoji': '🩺',
+            'vapi_enabled': False,
             'messages': []
         },
         'Bot 5': {
             'name': 'Bot 5', 
             'display_name': 'Herceptin Specialist',
             'customer_segment': 'Specialists',
+            'avatar_emoji': '🔬',
+            'vapi_enabled': False,
             'messages': []
         },
         'Bot 6': {
             'name': 'Bot 6', 
             'display_name': 'Cardiology Expert',
             'customer_segment': 'Cardiologists',
+            'avatar_emoji': '❤️',
+            'vapi_enabled': False,
             'messages': []
         },
     }
@@ -651,10 +677,11 @@ def render_call_interface(bot_name: str):
         st.markdown(f"### 📞 Current Call")
         st.markdown(f"**{avatar_emoji} {display_name}**")
     
-    # Check if VAPI is configured
-    has_vapi = VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID and VAPI_PUBLIC_KEY != 'your_vapi_public_key_here'
+    # Check if VAPI is configured AND this bot has VAPI enabled
+    vapi_configured = VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID and VAPI_PUBLIC_KEY != 'your_vapi_public_key_here'
+    bot_has_vapi = bot_data.get('vapi_enabled', False)
     
-    if has_vapi:
+    if vapi_configured and bot_has_vapi:
         # 3 columns layout: Feedback | Call | Transcript
         col_feedback, col_call, col_transcript = st.columns([1, 1.2, 1.2])
         
@@ -702,7 +729,7 @@ def render_call_interface(bot_name: str):
                     scrolling=False
                 )
     else:
-        # VAPI not configured - show setup instructions
+        # VAPI not available - show appropriate message
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             st.markdown(f"""
@@ -712,14 +739,73 @@ def render_call_interface(bot_name: str):
             </div>
             """, unsafe_allow_html=True)
             
-            st.error("⚠️ VAPI not configured")
-            st.markdown("""
-            **To enable voice calls, add these to your `.env` file:**
-            ```
-            VAPI_PUBLIC_KEY=your_public_key
-            VAPI_ASSISTANT_ID=your_assistant_id
-            ```
-            """)
+            if not bot_has_vapi:
+                # This bot doesn't have VAPI integration
+                st.info("🔇 Voice calls are not available for this bot")
+                st.markdown("""
+                This bot does not have voice call integration enabled.
+                
+                **Available bots with voice calls:**
+                - 👨‍⚕️ The Traditionalist
+                """)
+            elif not vapi_configured:
+                # VAPI credentials not set up
+                st.error("⚠️ VAPI not configured")
+                st.markdown("""
+                **To enable voice calls, add these to your `.env` file:**
+                ```
+                VAPI_PUBLIC_KEY=your_public_key
+                VAPI_ASSISTANT_ID=your_assistant_id
+                ```
+                """)
+
+
+def render_profile_view(bot_name: str):
+    """Render simple profile view for a bot - just the character description"""
+    bot_data = st.session_state.bots.get(bot_name, {})
+    display_name = bot_data.get('display_name', bot_name)
+    avatar_emoji = bot_data.get('avatar_emoji', '🤖')
+    description = bot_data.get('description', '')
+    core_motivation = bot_data.get('core_motivation', '')
+    behavior = bot_data.get('behavior', [])
+    sales_approach = bot_data.get('sales_approach', [])
+    
+    # Back button
+    if st.button("← Back to Home"):
+        st.session_state.view_mode = 'home'
+        st.rerun()
+    
+    st.markdown("---")
+    
+    # Simple title
+    st.markdown(f"# {avatar_emoji} {display_name}")
+    
+    # Description
+    if description:
+        st.markdown(f"_{description}_")
+    
+    st.markdown("")
+    
+    # Core Motivation
+    if core_motivation:
+        st.markdown(f"**Core Motivation:** {core_motivation}")
+    
+    st.markdown("")
+    
+    # Behavior
+    if behavior:
+        st.markdown("**Behavior:**")
+        for b in behavior:
+            st.markdown(f"- {b}")
+    
+    st.markdown("")
+    
+    # Sales Approach
+    if sales_approach:
+        st.markdown("**Effective Sales Approach:**")
+        for s in sales_approach:
+            st.markdown(f"- {s}")
+
 
 def render_vapi_widget(bot_name: str, mode: str, assistant_id: str, api_key: str):
     """Render Vapi widget for chat or call mode"""
@@ -1295,6 +1381,7 @@ def render_plato_home_page():
                 if st.button("👤 Profile", key=f"home_profile_{bot_name}", use_container_width=True):
                     st.session_state.selected_bot = bot_name
                     st.session_state.view_mode = 'bot_detail'
+                    st.session_state.bot_modes[bot_name] = 'profile'
                     st.rerun()
 
 def main():
@@ -1380,6 +1467,11 @@ def main():
         # Render the beautiful call interface
         render_call_interface(st.session_state.selected_bot)
         # Call interface has its own feedback box, so we return early
+        return
+    
+    elif current_mode == 'profile':
+        # Render detailed profile view
+        render_profile_view(st.session_state.selected_bot)
         return
     
     elif current_mode == 'chat':
