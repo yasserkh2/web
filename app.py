@@ -5,9 +5,17 @@ import os
 import threading
 import http.server
 import socketserver
+import uuid
 from datetime import datetime
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
+
+# Supabase import (optional - graceful fallback if not installed)
+try:
+    from supabase import create_client, Client
+    SUPABASE_AVAILABLE = True
+except ImportError:
+    SUPABASE_AVAILABLE = False
 
 # Load environment variables
 load_dotenv()
@@ -32,6 +40,128 @@ if 'http_server_started' not in st.session_state:
 VAPI_API_KEY = os.getenv('VAPI_API_KEY', '')
 VAPI_PUBLIC_KEY = os.getenv('VAPI_PUBLIC_KEY', '')
 VAPI_ASSISTANT_ID = os.getenv('VAPI_ASSISTANT_ID', '')
+
+# Supabase Configuration
+SUPABASE_URL = os.getenv('SUPABASE_URL', '')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY', '')
+
+# Initialize Supabase client
+supabase: Optional[Client] = None
+if SUPABASE_AVAILABLE and SUPABASE_URL and SUPABASE_KEY and SUPABASE_URL != 'your_supabase_project_url':
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        st.error(f"Failed to connect to Supabase: {e}")
+        supabase = None
+
+
+# ========== SUPABASE DATABASE FUNCTIONS ==========
+
+def get_session_id() -> str:
+    """Get or create a unique session ID for this browser session"""
+    if 'session_uuid' not in st.session_state:
+        st.session_state.session_uuid = str(uuid.uuid4())
+    return st.session_state.session_uuid
+
+
+def save_feedback_to_db(bot_name: str, comment: str, rating: int = None, 
+                        evaluator: str = None, call_duration: int = None,
+                        transcript: list = None) -> bool:
+    """Save feedback to Supabase database"""
+    if not supabase:
+        return False
+    
+    try:
+        data = {
+            "bot_name": bot_name,
+            "comment": comment,
+            "rating": rating,
+            "evaluator": evaluator,
+            "session_id": get_session_id(),
+            "call_duration": call_duration,
+            "transcript": json.dumps(transcript) if transcript else None,
+            "created_at": datetime.now().isoformat()
+        }
+        
+        result = supabase.table("feedback").insert(data).execute()
+        return len(result.data) > 0
+    except Exception as e:
+        st.error(f"Failed to save feedback: {e}")
+        return False
+
+
+def save_call_session_to_db(bot_name: str, transcript: list, duration: int = None,
+                            like_dislike_data: dict = None) -> bool:
+    """Save call session data to Supabase database"""
+    if not supabase:
+        return False
+    
+    try:
+        data = {
+            "bot_name": bot_name,
+            "session_id": get_session_id(),
+            "transcript": json.dumps(transcript) if transcript else None,
+            "duration_seconds": duration,
+            "like_dislike_feedback": json.dumps(like_dislike_data) if like_dislike_data else None,
+            "created_at": datetime.now().isoformat()
+        }
+        
+        result = supabase.table("call_sessions").insert(data).execute()
+        return len(result.data) > 0
+    except Exception as e:
+        st.error(f"Failed to save call session: {e}")
+        return False
+
+
+def get_feedback_history(bot_name: str = None, limit: int = 100) -> list:
+    """Retrieve feedback history from Supabase"""
+    if not supabase:
+        return []
+    
+    try:
+        query = supabase.table("feedback").select("*")
+        
+        if bot_name:
+            query = query.eq("bot_name", bot_name)
+        
+        result = query.order("created_at", desc=True).limit(limit).execute()
+        return result.data
+    except Exception as e:
+        st.error(f"Failed to retrieve feedback: {e}")
+        return []
+
+
+def get_feedback_stats() -> dict:
+    """Get feedback statistics from Supabase"""
+    if not supabase:
+        return {}
+    
+    try:
+        result = supabase.table("feedback").select("bot_name, rating").execute()
+        
+        stats = {}
+        for row in result.data:
+            bot = row["bot_name"]
+            if bot not in stats:
+                stats[bot] = {"count": 0, "ratings": []}
+            stats[bot]["count"] += 1
+            if row.get("rating"):
+                stats[bot]["ratings"].append(row["rating"])
+        
+        # Calculate averages
+        for bot in stats:
+            ratings = stats[bot]["ratings"]
+            stats[bot]["avg_rating"] = sum(ratings) / len(ratings) if ratings else None
+        
+        return stats
+    except Exception as e:
+        st.error(f"Failed to get stats: {e}")
+        return {}
+
+
+def is_db_connected() -> bool:
+    """Check if database is connected"""
+    return supabase is not None
 
 # Page configuration
 st.set_page_config(
@@ -705,7 +835,12 @@ def render_call_interface(bot_name: str):
                             'comment': feedback_text, 
                             'timestamp': datetime.now().isoformat()
                         }
-                        st.success("✅ Feedback saved!")
+                        # Save to Supabase if connected
+                        if is_db_connected():
+                            save_feedback_to_db(bot_name, feedback_text)
+                            st.success("✅ Feedback saved to database!")
+                        else:
+                            st.success("✅ Feedback saved locally!")
         
         # Call column (center) - clean call widget
         with col_call:
@@ -977,6 +1112,17 @@ def save_session_feedback(bot_name: str, rating: int, comment: str):
         'timestamp': datetime.now().isoformat(),
         'message_count': len(st.session_state.bots[bot_name]['messages'])
     }
+    
+    # Save to Supabase if connected
+    if is_db_connected():
+        # Get transcript from call messages if available
+        transcript = st.session_state.call_messages.get(bot_name, [])
+        save_feedback_to_db(
+            bot_name=bot_name,
+            comment=comment,
+            rating=rating,
+            transcript=transcript
+        )
 
 def reset_session_for_bot(bot_name: str):
     """Reset session for a bot - clear messages, feedback, and return to home state"""
