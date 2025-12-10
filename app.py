@@ -30,8 +30,12 @@ def start_http_server():
     except OSError:
         pass  # Port already in use (server already running)
 
-# Start server in background thread (check if not already started)
-if 'http_server_started' not in st.session_state:
+# Static files URL (Vercel in production, localhost in development)
+IS_CLOUD = os.getenv('STREAMLIT_CLOUD', 'false').lower() == 'true'
+VAPI_STATIC_URL = os.getenv('VAPI_STATIC_URL', 'http://localhost:8080')
+
+# Start server in background thread (only for local development, not in cloud)
+if not IS_CLOUD and 'http_server_started' not in st.session_state:
     st.session_state.http_server_started = True
     server_thread = threading.Thread(target=start_http_server, daemon=True)
     server_thread.start()
@@ -846,9 +850,9 @@ def render_call_interface(bot_name: str):
         with col_call:
             with st.container(border=True):
                 st.subheader("📞 Voice Call", divider="green")
-                # Embed call widget from port 8080
+                # Embed call widget (Vercel in production, localhost in dev)
                 st.components.v1.iframe(
-                    src="http://localhost:8080/vapi_call_widget.html",
+                    src=f"{VAPI_STATIC_URL}/vapi_call_widget.html",
                     height=420,
                     scrolling=False
                 )
@@ -857,9 +861,9 @@ def render_call_interface(bot_name: str):
         with col_transcript:
             with st.container(border=True):
                 st.subheader("📝 Transcript", divider="orange")
-                # Embed transcript reader from port 8080 (same origin as call widget)
+                # Embed transcript reader (same origin as call widget)
                 st.components.v1.iframe(
-                    src="http://localhost:8080/vapi_transcript.html",
+                    src=f"{VAPI_STATIC_URL}/vapi_transcript.html",
                     height=420,
                     scrolling=False
                 )

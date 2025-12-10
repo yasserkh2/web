@@ -1,8 +1,5 @@
-# Virtual Environment
-venv/
-env/
-ENV/
-.venv
+# Environment variables (contains secrets)
+.env
 
 # Python
 __pycache__/
@@ -10,13 +7,17 @@ __pycache__/
 *$py.class
 *.so
 .Python
+venv/
+ENV/
+env/
+.venv/
 
 # Streamlit
-.streamlit/
+.streamlit/secrets.toml
 
 # IDE
-.vscode/
 .idea/
+.vscode/
 *.swp
 *.swo
 
@@ -24,10 +25,8 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Logs
+# Vercel
+.vercel/
+
+# Local development
 *.log
-
-# Environment variables
-.env
-.env.local
-
