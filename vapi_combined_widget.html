@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAPI Call Widget</title>
+    <title>Voice Call with Transcript</title>
     <style>
         * {
             margin: 0;
@@ -15,47 +15,52 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: transparent;
             color: #fafafa;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            height: 100%;
+            gap: 15px;
+            padding: 10px;
+        }
+        
+        /* Call Widget Section */
+        .call-section {
+            flex: 0 0 200px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 1rem;
-        }
-        
-        .call-widget {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 300px;
+            padding: 15px;
         }
         
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, #4a9eff 0%, #3a8eef 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
             border: 3px solid #4a9eff;
-            box-shadow: 0 0 30px rgba(74, 158, 255, 0.4);
+            box-shadow: 0 0 25px rgba(74, 158, 255, 0.4);
             transition: all 0.3s ease;
         }
         
         .avatar.speaking {
             animation: speaking-pulse 0.5s ease-in-out infinite;
             border-color: #50c878;
-            box-shadow: 0 0 40px rgba(80, 200, 120, 0.7);
+            box-shadow: 0 0 35px rgba(80, 200, 120, 0.7);
         }
         
         .avatar.listening {
             animation: listening-pulse 1s ease-in-out infinite;
             border-color: #ffa500;
-            box-shadow: 0 0 40px rgba(255, 165, 0, 0.5);
+            box-shadow: 0 0 35px rgba(255, 165, 0, 0.5);
         }
         
         @keyframes speaking-pulse {
@@ -64,22 +69,22 @@
         }
         
         @keyframes listening-pulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(255, 165, 0, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(255, 165, 0, 0.7); }
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 165, 0, 0.3); }
+            50% { box-shadow: 0 0 45px rgba(255, 165, 0, 0.7); }
         }
         
         .bot-name {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
             color: #4a9eff;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
         
         .status {
-            font-size: 0.85rem;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            margin-bottom: 0.8rem;
         }
         
         .status-idle { background: rgba(136, 136, 136, 0.3); color: #aaa; }
@@ -88,47 +93,29 @@
         .status-ended { background: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
         
         .call-timer {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: bold;
             font-family: 'Courier New', monospace;
             color: #fafafa;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             display: none;
         }
         
         .call-timer.visible { display: block; }
         
-        .volume-indicator {
-            display: none;
-            justify-content: center;
-            gap: 3px;
-            height: 30px;
-            align-items: flex-end;
-            margin-bottom: 1rem;
-        }
-        
-        .volume-indicator.visible { display: flex; }
-        
-        .volume-bar {
-            width: 4px;
-            background: linear-gradient(to top, #4a9eff, #50c878);
-            border-radius: 2px;
-            transition: height 0.1s ease;
-        }
-        
         .controls {
             display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
         }
         
         .btn {
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -141,13 +128,13 @@
         .btn-call {
             background: linear-gradient(135deg, #50c878 0%, #3cb371 100%);
             color: white;
-            box-shadow: 0 4px 20px rgba(80, 200, 120, 0.4);
+            box-shadow: 0 3px 15px rgba(80, 200, 120, 0.4);
         }
         
         .btn-hangup {
             background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
             color: white;
-            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 3px 15px rgba(255, 107, 107, 0.4);
             display: none;
         }
         
@@ -166,41 +153,127 @@
         .error-message {
             background: rgba(255, 107, 107, 0.2);
             border: 1px solid #ff6b6b;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
             color: #ff6b6b;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             display: none;
-            max-width: 250px;
+            max-width: 180px;
         }
         
         .error-message.visible { display: block; }
+        
+        /* Transcript Section */
+        .transcript-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 15px;
+        }
+        
+        .transcript-header {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #888;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .transcript-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .transcript-container::-webkit-scrollbar { width: 5px; }
+        .transcript-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 3px; }
+        .transcript-container::-webkit-scrollbar-thumb { background: #4a9eff; border-radius: 3px; }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-user {
+            background: rgba(74, 158, 255, 0.15);
+            border-left: 3px solid #4a9eff;
+            margin-left: 10px;
+        }
+        
+        .message-assistant {
+            background: rgba(80, 200, 120, 0.15);
+            border-left: 3px solid #50c878;
+            margin-right: 10px;
+        }
+        
+        .role {
+            font-weight: bold;
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+        }
+        
+        .role-user { color: #4a9eff; }
+        .role-assistant { color: #50c878; }
+        
+        .content {
+            color: #e0e0e0;
+            line-height: 1.4;
+            font-size: 0.85rem;
+        }
+        
+        .empty {
+            text-align: center;
+            color: #555;
+            padding: 40px 15px;
+        }
+        
+        .empty-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 <body>
-    <div class="call-widget">
-        <div class="avatar" id="avatar">🤖</div>
-        <div class="bot-name">Voice Assistant</div>
-        <div class="status status-idle" id="status">● Ready to Call</div>
-        
-        <div class="call-timer" id="timer">00:00</div>
-        
-        <div class="volume-indicator" id="volume">
-            <div class="volume-bar" style="height: 6px;"></div>
-            <div class="volume-bar" style="height: 12px;"></div>
-            <div class="volume-bar" style="height: 20px;"></div>
-            <div class="volume-bar" style="height: 12px;"></div>
-            <div class="volume-bar" style="height: 6px;"></div>
+    <div class="container">
+        <!-- Call Widget -->
+        <div class="call-section">
+            <div class="avatar" id="avatar">🤖</div>
+            <div class="bot-name">Voice Assistant</div>
+            <div class="status status-idle" id="status">● Ready</div>
+            <div class="call-timer" id="timer">00:00</div>
+            <div class="controls">
+                <button class="btn btn-mute" id="muteBtn" disabled onclick="toggleMute()">🎤</button>
+                <button class="btn btn-call" id="callBtn" onclick="startCall()">📞</button>
+                <button class="btn btn-hangup" id="hangupBtn" onclick="endCall()">📴</button>
+            </div>
+            <div class="error-message" id="error"></div>
         </div>
         
-        <div class="controls">
-            <button class="btn btn-mute" id="muteBtn" disabled onclick="toggleMute()">🎤</button>
-            <button class="btn btn-call" id="callBtn" onclick="startCall()">📞</button>
-            <button class="btn btn-hangup" id="hangupBtn" onclick="endCall()">📴</button>
+        <!-- Transcript -->
+        <div class="transcript-section">
+            <div class="transcript-header">📝 Live Transcript</div>
+            <div class="transcript-container" id="transcript">
+                <div class="empty">
+                    <div class="empty-icon">💬</div>
+                    <div class="empty-text">Start a call to see the transcript</div>
+                </div>
+            </div>
         </div>
-        
-        <div class="error-message" id="error"></div>
     </div>
 
     <script type="module">
@@ -214,40 +287,44 @@
         let callStartTime = null;
         let timerInterval = null;
         
+        // DOM Elements
         const avatar = document.getElementById('avatar');
         const status = document.getElementById('status');
         const timer = document.getElementById('timer');
-        const volume = document.getElementById('volume');
         const callBtn = document.getElementById('callBtn');
         const hangupBtn = document.getElementById('hangupBtn');
         const muteBtn = document.getElementById('muteBtn');
         const errorDiv = document.getElementById('error');
+        const transcriptContainer = document.getElementById('transcript');
         
-        // Store and broadcast transcript via postMessage
-        let transcriptMessages = [];
-        
-        function broadcastTranscript() {
-            // Send to all frames via parent window
-            window.parent.postMessage({
-                type: 'vapi_transcript_update',
-                messages: transcriptMessages
-            }, '*');
-        }
-        
-        function saveTranscript(role, content, isFinal) {
-            if (isFinal && content) {
-                transcriptMessages.push({
-                    role: role,
-                    content: content,
-                    timestamp: new Date().toISOString()
-                });
-                broadcastTranscript();
+        // Transcript rendering
+        function addMessage(role, content) {
+            // Clear empty state on first message
+            const emptyState = transcriptContainer.querySelector('.empty');
+            if (emptyState) {
+                transcriptContainer.innerHTML = '';
             }
+            
+            const roleClass = role === 'user' ? 'user' : 'assistant';
+            const roleLabel = role === 'user' ? '👤 You' : '🤖 Assistant';
+            
+            const div = document.createElement('div');
+            div.className = `message message-${roleClass}`;
+            div.innerHTML = `
+                <div class="role role-${roleClass}">${roleLabel}</div>
+                <div class="content">${content}</div>
+            `;
+            transcriptContainer.appendChild(div);
+            transcriptContainer.scrollTop = transcriptContainer.scrollHeight;
         }
         
-        function clearStoredTranscript() {
-            transcriptMessages = [];
-            broadcastTranscript();
+        function clearTranscript() {
+            transcriptContainer.innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">💬</div>
+                    <div class="empty-text">Start a call to see the transcript</div>
+                </div>
+            `;
         }
         
         // Import VAPI SDK
@@ -280,15 +357,14 @@
                 avatar.classList.remove('speaking');
             });
             
+            // Capture transcript messages and display them directly
             vapi.on('message', (message) => {
-                if (message.type === 'transcript') {
-                    const isFinal = message.transcriptType === 'final';
-                    saveTranscript(message.role, message.transcript, isFinal);
+                if (message.type === 'transcript' && message.transcriptType === 'final' && message.transcript) {
+                    addMessage(message.role, message.transcript);
                 }
             });
             
             vapi.on('volume-level', (level) => {
-                updateVolumeIndicator(level);
                 if (level > 0.1) {
                     avatar.classList.add('listening');
                     avatar.classList.remove('speaking');
@@ -315,7 +391,7 @@
             try {
                 updateUI('connecting');
                 hideError();
-                clearStoredTranscript();  // Clear transcript for new call
+                clearTranscript();
                 
                 await navigator.mediaDevices.getUserMedia({ audio: true });
                 await vapi.start(ASSISTANT_ID);
@@ -346,12 +422,11 @@
             
             switch(state) {
                 case 'idle':
-                    status.textContent = '● Ready to Call';
+                    status.textContent = '● Ready';
                     callBtn.style.display = 'flex';
                     hangupBtn.style.display = 'none';
                     muteBtn.disabled = true;
                     timer.classList.remove('visible');
-                    volume.classList.remove('visible');
                     avatar.classList.remove('speaking', 'listening');
                     break;
                 case 'connecting':
@@ -361,31 +436,21 @@
                     muteBtn.disabled = true;
                     break;
                 case 'active':
-                    status.textContent = '● Call Active';
+                    status.textContent = '● Active';
                     callBtn.style.display = 'none';
                     hangupBtn.style.display = 'flex';
                     muteBtn.disabled = false;
                     timer.classList.add('visible');
-                    volume.classList.add('visible');
                     break;
                 case 'ended':
-                    status.textContent = '● Call Ended';
+                    status.textContent = '● Ended';
                     callBtn.style.display = 'flex';
                     hangupBtn.style.display = 'none';
                     muteBtn.disabled = true;
                     timer.classList.add('visible');
-                    volume.classList.remove('visible');
                     avatar.classList.remove('speaking', 'listening');
                     break;
             }
-        }
-        
-        function updateVolumeIndicator(level) {
-            const bars = volume.querySelectorAll('.volume-bar');
-            const heights = [6, 12, 20, 12, 6];
-            bars.forEach((bar, i) => {
-                bar.style.height = (heights[i] + level * 25) + 'px';
-            });
         }
         
         function startTimer() {
@@ -416,4 +481,3 @@
     </script>
 </body>
 </html>
-

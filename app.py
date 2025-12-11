@@ -934,8 +934,8 @@ def render_call_interface(bot_name: str):
     bot_has_vapi = bot_data.get('vapi_enabled', False)
     
     if vapi_configured and bot_has_vapi:
-        # 3 columns layout: Feedback | Call | Transcript
-        col_feedback, col_call, col_transcript = st.columns([1, 1.2, 1.2])
+        # 2 columns layout: Feedback | Combined Call+Transcript Widget
+        col_feedback, col_call = st.columns([1, 2.5])
         
         # Feedback column (left)
         with col_feedback:
@@ -964,24 +964,13 @@ def render_call_interface(bot_name: str):
                         else:
                             st.success("✅ Feedback saved locally!")
         
-        # Call column (center) - clean call widget
+        # Combined Call + Transcript widget (right)
         with col_call:
             with st.container(border=True):
-                st.subheader("📞 Voice Call", divider="green")
-                # Embed call widget (Vercel in production, localhost in dev)
+                st.subheader("📞 Voice Call & Transcript", divider="green")
+                # Single combined widget - no cross-iframe communication needed
                 st.components.v1.iframe(
-                    src=f"{VAPI_STATIC_URL}/vapi_call_widget.html",
-                    height=420,
-                    scrolling=False
-                )
-        
-        # Transcript column (right) - reads localStorage from same origin
-        with col_transcript:
-            with st.container(border=True):
-                st.subheader("📝 Transcript", divider="orange")
-                # Embed transcript reader (same origin as call widget)
-                st.components.v1.iframe(
-                    src=f"{VAPI_STATIC_URL}/vapi_transcript.html",
+                    src=f"{VAPI_STATIC_URL}/vapi_combined_widget.html",
                     height=420,
                     scrolling=False
                 )

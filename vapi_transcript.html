@@ -95,38 +95,62 @@
     </div>
 
     <script>
-        function updateTranscript() {
-            const container = document.getElementById('transcript');
-            const stored = localStorage.getItem('vapi_transcript');
-            const messages = stored ? JSON.parse(stored) : [];
+        let renderedCount = 0;
+        const container = document.getElementById('transcript');
+        
+        function createMessageElement(msg) {
+            const roleClass = msg.role === 'user' ? 'user' : 'assistant';
+            const roleLabel = msg.role === 'user' ? '👤 You' : '🤖 Assistant';
             
-            if (messages.length === 0) {
-                container.innerHTML = `
-                    <div class="empty">
-                        <div class="empty-icon">💬</div>
-                        <div class="empty-text">Start a call to see the live transcript</div>
-                    </div>
-                `;
-            } else {
-                let html = '';
-                messages.forEach(msg => {
-                    const roleClass = msg.role === 'user' ? 'user' : 'assistant';
-                    const roleLabel = msg.role === 'user' ? '👤 You' : '🤖 Assistant';
-                    html += `
-                        <div class="message message-${roleClass}">
-                            <div class="role role-${roleClass}">${roleLabel}</div>
-                            <div class="content">${msg.content}</div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-                container.scrollTop = container.scrollHeight;
-            }
+            const div = document.createElement('div');
+            div.className = `message message-${roleClass}`;
+            div.innerHTML = `
+                <div class="role role-${roleClass}">${roleLabel}</div>
+                <div class="content">${msg.content}</div>
+            `;
+            return div;
         }
         
-        // Update every 300ms for smooth live updates
-        updateTranscript();
-        setInterval(updateTranscript, 300);
+        function showEmptyState() {
+            container.innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">💬</div>
+                    <div class="empty-text">Start a call to see the live transcript</div>
+                </div>
+            `;
+            renderedCount = 0;
+        }
+        
+        function renderMessages(messages) {
+            // Handle empty/clear
+            if (messages.length === 0) {
+                if (renderedCount !== 0) {
+                    showEmptyState();
+                }
+                return;
+            }
+            
+            // Clear empty state if needed
+            if (renderedCount === 0 && messages.length > 0) {
+                container.innerHTML = '';
+            }
+            
+            // Only append NEW messages (incremental)
+            for (let i = renderedCount; i < messages.length; i++) {
+                container.appendChild(createMessageElement(messages[i]));
+            }
+            renderedCount = messages.length;
+            
+            // Auto-scroll
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // Listen for messages from call widget via parent
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'vapi_transcript_update') {
+                renderMessages(event.data.messages || []);
+            }
+        });
     </script>
 </body>
 </html>

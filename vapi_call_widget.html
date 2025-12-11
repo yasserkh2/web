@@ -223,7 +223,7 @@
         const muteBtn = document.getElementById('muteBtn');
         const errorDiv = document.getElementById('error');
         
-        // Store transcript in localStorage for Streamlit to read
+        // Store transcript in localStorage (triggers storage event in other iframes)
         let transcriptMessages = [];
         
         function saveTranscript(role, content, isFinal) {
@@ -233,7 +233,7 @@
                     content: content,
                     timestamp: new Date().toISOString()
                 });
-                // Save to localStorage
+                // Write to localStorage - this triggers 'storage' event in transcript iframe
                 localStorage.setItem('vapi_transcript', JSON.stringify(transcriptMessages));
             }
         }
