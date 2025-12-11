@@ -1,6 +1,8 @@
 import streamlit as st
 import json
 import requests
+import traceback
+import sys
 from datetime import datetime
 from typing import Dict, List, Optional
 
@@ -1554,5 +1556,18 @@ def main():
         st.caption("💡 Use the Vapi widget above to interact with the bot")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        st.error("⚠️ An error occurred in the application")
+        st.error(f"**Error Type:** {type(e).__name__}")
+        st.error(f"**Error Message:** {str(e)}")
+        
+        # Show full traceback in expandable section
+        with st.expander("🔍 Show Full Error Details (for debugging)"):
+            st.code(traceback.format_exc(), language="python")
+        
+        # Also print to console/logs
+        print(f"ERROR: {type(e).__name__}: {str(e)}", file=sys.stderr)
+        traceback.print_exc()
 
