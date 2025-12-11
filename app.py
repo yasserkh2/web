@@ -43,7 +43,16 @@ if not IS_CLOUD and 'http_server_started' not in st.session_state:
 # VAPI Configuration from environment
 VAPI_API_KEY = os.getenv('VAPI_API_KEY', '')
 VAPI_PUBLIC_KEY = os.getenv('VAPI_PUBLIC_KEY', '')
-VAPI_ASSISTANT_ID = os.getenv('VAPI_ASSISTANT_ID', '')
+
+# VAPI Assistant IDs for each bot (using display names as keys)
+VAPI_ASSISTANT_IDS = {
+    'The Traditionalist': os.getenv('VAPI_ASSISTANT_ID_1', os.getenv('VAPI_ASSISTANT_ID', '')),
+    'The Innovator': os.getenv('VAPI_ASSISTANT_ID_2', ''),
+    'The Patient-Centered Physician': os.getenv('VAPI_ASSISTANT_ID_3', ''),
+    'The Financially Driven Prescriber': os.getenv('VAPI_ASSISTANT_ID_4', ''),
+    'The Evidence Purist': os.getenv('VAPI_ASSISTANT_ID_5', ''),
+    'The Cost-Conscious Prescriber': os.getenv('VAPI_ASSISTANT_ID_6', ''),
+}
 
 # Supabase Configuration
 SUPABASE_URL = os.getenv('SUPABASE_URL', '')
@@ -620,12 +629,12 @@ if 'view_mode' not in st.session_state:
 
 if 'bots' not in st.session_state:
     st.session_state.bots = {
-        'Bot 1': {
-            'name': 'Bot 1', 
+        'The Traditionalist': {
+            'name': 'The Traditionalist', 
             'display_name': 'The Traditionalist',
             'customer_segment': 'Healthcare Providers',
             'avatar_emoji': '👨‍⚕️',
-            'vapi_enabled': True,  # Only this bot has VAPI integration
+            'vapi_enabled': True,
             'description': 'Relies on established, well-documented, and time-tested treatments. Guiding principle: "if it isn\'t broken, don\'t fix it."',
             'core_motivation': 'Stability, predictability, and minimizing risk. Trusts what they know and have used successfully for years.',
             'behavior': [
@@ -642,89 +651,89 @@ if 'bots' not in st.session_state:
             ],
             'messages': []
         },
-        'Bot 2': {
-            'name': 'Bot 2', 
-            'display_name': 'Sales Excellence Coach',
-            'customer_segment': 'Sales Team',
-            'avatar_emoji': '💼',
-            'vapi_enabled': False,
+        'The Innovator': {
+            'name': 'The Innovator', 
+            'display_name': 'The Innovator',
+            'customer_segment': 'Healthcare Providers',
+            'avatar_emoji': '🚀',
+            'vapi_enabled': True,
             'messages': []
         },
-        'Bot 3': {
-            'name': 'Bot 3', 
-            'display_name': 'Ibuprofen Knowledge Tester',
-            'customer_segment': 'Medical Professionals',
-            'avatar_emoji': '💊',
-            'vapi_enabled': False,
+        'The Patient-Centered Physician': {
+            'name': 'The Patient-Centered Physician', 
+            'display_name': 'The Patient-Centered Physician',
+            'customer_segment': 'Healthcare Providers',
+            'avatar_emoji': '💚',
+            'vapi_enabled': True,
             'messages': []
         },
-        'Bot 4': {
-            'name': 'Bot 4', 
-            'display_name': 'Breast Cancer Oncologist',
-            'customer_segment': 'Oncologists',
-            'avatar_emoji': '🩺',
-            'vapi_enabled': False,
+        'The Financially Driven Prescriber': {
+            'name': 'The Financially Driven Prescriber', 
+            'display_name': 'The Financially Driven Prescriber',
+            'customer_segment': 'Healthcare Institutions',
+            'avatar_emoji': '💰',
+            'vapi_enabled': True,
             'messages': []
         },
-        'Bot 5': {
-            'name': 'Bot 5', 
-            'display_name': 'Herceptin Specialist',
-            'customer_segment': 'Specialists',
-            'avatar_emoji': '🔬',
-            'vapi_enabled': False,
+        'The Evidence Purist': {
+            'name': 'The Evidence Purist', 
+            'display_name': 'The Evidence Purist',
+            'customer_segment': 'Healthcare Providers',
+            'avatar_emoji': '📊',
+            'vapi_enabled': True,
             'messages': []
         },
-        'Bot 6': {
-            'name': 'Bot 6', 
-            'display_name': 'Cardiology Expert',
-            'customer_segment': 'Cardiologists',
-            'avatar_emoji': '❤️',
-            'vapi_enabled': False,
+        'The Cost-Conscious Prescriber': {
+            'name': 'The Cost-Conscious Prescriber', 
+            'display_name': 'The Cost-Conscious Prescriber',
+            'customer_segment': 'Healthcare Providers',
+            'avatar_emoji': '💵',
+            'vapi_enabled': True,
             'messages': []
         },
     }
 
 if 'selected_bot' not in st.session_state:
-    st.session_state.selected_bot = 'Bot 1'
+    st.session_state.selected_bot = 'The Traditionalist'
 
 if 'api_configs' not in st.session_state:
     st.session_state.api_configs = {
-        'Bot 1': {
+        'The Traditionalist': {
             'vapi_api_key': '', 
             'assistant_id': '', 
             'phone_number_id': '',
             'server_url': 'https://api.vapi.ai',
             'use_vapi': False
         },
-        'Bot 2': {
+        'The Innovator': {
             'vapi_api_key': '', 
             'assistant_id': '', 
             'phone_number_id': '',
             'server_url': 'https://api.vapi.ai',
             'use_vapi': False
         },
-        'Bot 3': {
+        'The Patient-Centered Physician': {
             'vapi_api_key': '', 
             'assistant_id': '', 
             'phone_number_id': '',
             'server_url': 'https://api.vapi.ai',
             'use_vapi': False
         },
-        'Bot 4': {
+        'The Financially Driven Prescriber': {
             'vapi_api_key': '', 
             'assistant_id': '', 
             'phone_number_id': '',
             'server_url': 'https://api.vapi.ai',
             'use_vapi': False
         },
-        'Bot 5': {
+        'The Evidence Purist': {
             'vapi_api_key': '', 
             'assistant_id': '', 
             'phone_number_id': '',
             'server_url': 'https://api.vapi.ai',
             'use_vapi': False
         },
-        'Bot 6': {
+        'The Cost-Conscious Prescriber': {
             'vapi_api_key': '', 
             'assistant_id': '', 
             'phone_number_id': '',
@@ -768,22 +777,22 @@ if 'session_feedback_form_open' not in st.session_state:
 
 if 'bot_modes' not in st.session_state:
     st.session_state.bot_modes = {
-        'Bot 1': 'chat',  # 'chat' or 'call'
-        'Bot 2': 'chat',
-        'Bot 3': 'chat',
-        'Bot 4': 'chat',
-        'Bot 5': 'chat',
-        'Bot 6': 'chat',
+        'The Traditionalist': 'chat',  # 'chat' or 'call'
+        'The Innovator': 'chat',
+        'The Patient-Centered Physician': 'chat',
+        'The Financially Driven Prescriber': 'chat',
+        'The Evidence Purist': 'chat',
+        'The Cost-Conscious Prescriber': 'chat',
     }
 
 if 'call_messages' not in st.session_state:
     st.session_state.call_messages = {
-        'Bot 1': [],
-        'Bot 2': [],
-        'Bot 3': [],
-        'Bot 4': [],
-        'Bot 5': [],
-        'Bot 6': [],
+        'The Traditionalist': [],
+        'The Innovator': [],
+        'The Patient-Centered Physician': [],
+        'The Financially Driven Prescriber': [],
+        'The Evidence Purist': [],
+        'The Cost-Conscious Prescriber': [],
     }
 
 if 'vapi_call_id' not in st.session_state:
@@ -800,19 +809,20 @@ def render_call_interface(bot_name: str):
     display_name = bot_data.get('display_name', bot_name)
     avatar_emoji = bot_data.get('avatar_emoji', '🤖')
     
-    # Sidebar navigation (always visible on left)
-    with st.sidebar:
-        st.markdown("### 🎯 Navigation")
-        if st.button("🏠 Home", use_container_width=True, type="primary"):
+    # Top navigation bar with Home button and bot name
+    col_home, col_title = st.columns([1, 11])
+    with col_home:
+        if st.button("🏠", key="home_btn", help="Back to Home"):
             st.session_state.view_mode = 'home'
             st.rerun()
-        
-        st.markdown("---")
-        st.markdown(f"### 📞 Current Call")
-        st.markdown(f"**{avatar_emoji} {display_name}**")
+    with col_title:
+        st.markdown(f"### {avatar_emoji} {display_name}")
+    
+    st.markdown("---")
     
     # Check if VAPI is configured AND this bot has VAPI enabled
-    vapi_configured = VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID and VAPI_PUBLIC_KEY != 'your_vapi_public_key_here'
+    bot_assistant_id = VAPI_ASSISTANT_IDS.get(bot_name, '')
+    vapi_configured = VAPI_PUBLIC_KEY and bot_assistant_id and VAPI_PUBLIC_KEY != 'your_vapi_public_key_here'
     bot_has_vapi = bot_data.get('vapi_enabled', False)
     
     if vapi_configured and bot_has_vapi:
@@ -839,9 +849,9 @@ def render_call_interface(bot_name: str):
                             'comment': feedback_text, 
                             'timestamp': datetime.now().isoformat()
                         }
-                        # Save to Supabase if connected
+                        # Save to Supabase if connected - use display_name for database
                         if is_db_connected():
-                            save_feedback_to_db(bot_name, feedback_text)
+                            save_feedback_to_db(display_name, feedback_text)
                             st.success("✅ Feedback saved to database!")
                         else:
                             st.success("✅ Feedback saved locally!")
@@ -883,18 +893,20 @@ def render_call_interface(bot_name: str):
                 st.info("🔇 Voice calls are not available for this bot")
                 st.markdown("""
                 This bot does not have voice call integration enabled.
-                
-                **Available bots with voice calls:**
-                - 👨‍⚕️ The Traditionalist
                 """)
             elif not vapi_configured:
                 # VAPI credentials not set up
-                st.error("⚠️ VAPI not configured")
-                st.markdown("""
-                **To enable voice calls, add these to your `.env` file:**
+                st.error("⚠️ VAPI not configured for this bot")
+                st.markdown(f"""
+                **To enable voice calls for {display_name}, add these to your `.env` file:**
                 ```
                 VAPI_PUBLIC_KEY=your_public_key
-                VAPI_ASSISTANT_ID=your_assistant_id
+                VAPI_ASSISTANT_ID_1=assistant_id  # The Traditionalist
+                VAPI_ASSISTANT_ID_2=assistant_id  # The Innovator
+                VAPI_ASSISTANT_ID_3=assistant_id  # The Patient-Centered Physician
+                VAPI_ASSISTANT_ID_4=assistant_id  # The Financially Driven Prescriber
+                VAPI_ASSISTANT_ID_5=assistant_id  # The Evidence Purist
+                VAPI_ASSISTANT_ID_6=assistant_id  # The Cost-Conscious Prescriber
                 ```
                 """)
 
@@ -1121,8 +1133,10 @@ def save_session_feedback(bot_name: str, rating: int, comment: str):
     if is_db_connected():
         # Get transcript from call messages if available
         transcript = st.session_state.call_messages.get(bot_name, [])
+        # Use display_name for database storage
+        display_name = st.session_state.bots[bot_name].get('display_name', bot_name)
         save_feedback_to_db(
-            bot_name=bot_name,
+            bot_name=display_name,
             comment=comment,
             rating=rating,
             transcript=transcript
@@ -1542,44 +1556,7 @@ def main():
         st.session_state.bot_modes.get(st.session_state.selected_bot) == 'call'
     )
     
-    # Only show sidebar on call page
-    if is_call_mode:
-        with st.sidebar:
-            # Custom CSS for icon buttons
-            st.markdown("""
-            <style>
-                .sidebar-icon {
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 12px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 1.8rem;
-                    margin: 0.5rem auto;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                    background: transparent;
-                    text-decoration: none;
-                }
-                .sidebar-icon:hover {
-                    background: rgba(74, 158, 255, 0.2);
-                }
-                .sidebar-icon.active {
-                    background: rgba(74, 158, 255, 0.3);
-                }
-                .sidebar-spacer {
-                    flex: 1;
-                    min-height: 150px;
-                }
-            </style>
-            """, unsafe_allow_html=True)
-            
-            # Home button
-            if st.button("🏠 Home", key="sidebar_home", use_container_width=True):
-                st.session_state.view_mode = 'home'
-                st.session_state.selected_bot = None
-                st.rerun()
+    # Sidebar is handled by render_call_interface when in call mode
     
     # Handle query parameters for button clicks
     query_params = st.query_params

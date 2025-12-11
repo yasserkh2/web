@@ -38,7 +38,14 @@ Create a `.env` file in the project root:
 ```env
 # VAPI Configuration
 VAPI_PUBLIC_KEY=your_vapi_public_key
-VAPI_ASSISTANT_ID=your_vapi_assistant_id
+
+# VAPI Assistant IDs (one for each bot)
+VAPI_ASSISTANT_ID_1=your_assistant_id_for_bot_1  # The Traditionalist
+VAPI_ASSISTANT_ID_2=your_assistant_id_for_bot_2  # The Innovator
+VAPI_ASSISTANT_ID_3=your_assistant_id_for_bot_3  # The Patient-Centered Physician
+VAPI_ASSISTANT_ID_4=your_assistant_id_for_bot_4  # The Financially Driven Prescriber
+VAPI_ASSISTANT_ID_5=your_assistant_id_for_bot_5  # The Evidence Purist
+VAPI_ASSISTANT_ID_6=your_assistant_id_for_bot_6  # The Cost-Conscious Prescriber
 
 # Supabase Configuration
 SUPABASE_URL=https://your-project.supabase.co
@@ -64,14 +71,16 @@ The app will:
 
 ## Bots
 
-| Bot | Name | VAPI Enabled | Description |
-|-----|------|--------------|-------------|
-| Bot 1 | **The Traditionalist** | ✅ Yes | Physician who relies on established treatments |
-| Bot 2 | Sales Excellence Coach | ❌ No | Coming soon |
-| Bot 3 | Ibuprofen Knowledge Tester | ❌ No | Coming soon |
-| Bot 4 | Breast Cancer Oncologist | ❌ No | Coming soon |
-| Bot 5 | Herceptin Specialist | ❌ No | Coming soon |
-| Bot 6 | Cardiology Expert | ❌ No | Coming soon |
+| Name | Env Variable | Description |
+|------|--------------|-------------|
+| **The Traditionalist** | `VAPI_ASSISTANT_ID_1` | Relies on established, time-tested treatments |
+| **The Innovator** | `VAPI_ASSISTANT_ID_2` | Early adopter of new treatments and technologies |
+| **The Patient-Centered Physician** | `VAPI_ASSISTANT_ID_3` | Focuses on patient preferences and outcomes |
+| **The Financially Driven Prescriber** | `VAPI_ASSISTANT_ID_4` | Institution-focused, considers financial factors |
+| **The Evidence Purist** | `VAPI_ASSISTANT_ID_5` | Strictly follows clinical evidence and data |
+| **The Cost-Conscious Prescriber** | `VAPI_ASSISTANT_ID_6` | Balances efficacy with cost-effectiveness |
+
+All bots support VAPI voice calls when their respective assistant ID is configured.
 
 ---
 
@@ -176,7 +185,12 @@ See `DEPLOYMENT_PLAN.md` for detailed steps.
 
 ```env
 VAPI_PUBLIC_KEY=your_public_key
-VAPI_ASSISTANT_ID=your_assistant_id
+VAPI_ASSISTANT_ID_1=assistant_id_for_bot_1
+VAPI_ASSISTANT_ID_2=assistant_id_for_bot_2
+VAPI_ASSISTANT_ID_3=assistant_id_for_bot_3
+VAPI_ASSISTANT_ID_4=assistant_id_for_bot_4
+VAPI_ASSISTANT_ID_5=assistant_id_for_bot_5
+VAPI_ASSISTANT_ID_6=assistant_id_for_bot_6
 SUPABASE_URL=https://xxx.supabase.co
 SUPABASE_KEY=eyJ...
 ```
@@ -185,7 +199,12 @@ SUPABASE_KEY=eyJ...
 
 ```toml
 VAPI_PUBLIC_KEY = "your_public_key"
-VAPI_ASSISTANT_ID = "your_assistant_id"
+VAPI_ASSISTANT_ID_1 = "assistant_id_for_bot_1"
+VAPI_ASSISTANT_ID_2 = "assistant_id_for_bot_2"
+VAPI_ASSISTANT_ID_3 = "assistant_id_for_bot_3"
+VAPI_ASSISTANT_ID_4 = "assistant_id_for_bot_4"
+VAPI_ASSISTANT_ID_5 = "assistant_id_for_bot_5"
+VAPI_ASSISTANT_ID_6 = "assistant_id_for_bot_6"
 SUPABASE_URL = "https://xxx.supabase.co"
 SUPABASE_KEY = "eyJ..."
 VAPI_STATIC_URL = "https://your-project.vercel.app"
