@@ -181,7 +181,7 @@ st.set_page_config(
     page_title="Chatbot Evaluation Platform",
     page_icon="🤖",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # Additional dark mode CSS for better visibility and PLATO-style UI
@@ -248,22 +248,32 @@ st.markdown("""
         display: none !important;
     }
     
-    /* Sidebar styling */
+    /* Sidebar styling - fixed, no collapse */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #1e2130 0%, #262730 100%) !important;
         border-right: 1px solid rgba(74, 158, 255, 0.2) !important;
-        width: 150px !important;
-        min-width: 150px !important;
+        width: 220px !important;
+        min-width: 220px !important;
+        transform: none !important;
+        position: relative !important;
     }
     
     [data-testid="stSidebarContent"] {
-        padding: 0rem 0.5rem 0.5rem 0.5rem !important;
+        padding: 1rem 0.8rem !important;
     }
     
-    /* Hide collapse button */
+    /* Hide collapse button - sidebar is always visible */
     [data-testid="stSidebarCollapseButton"],
-    [data-testid="collapsedControl"] {
+    [data-testid="collapsedControl"],
+    button[kind="header"] {
         display: none !important;
+    }
+    
+    /* Prevent sidebar from collapsing */
+    [data-testid="stSidebar"][aria-expanded="false"] {
+        width: 220px !important;
+        min-width: 220px !important;
+        margin-left: 0 !important;
     }
     
     /* Style sidebar buttons */
@@ -657,6 +667,20 @@ if 'bots' not in st.session_state:
             'customer_segment': 'Healthcare Providers',
             'avatar_emoji': '🚀',
             'vapi_enabled': True,
+            'description': 'Eager to adopt cutting-edge therapies that offer novel mechanisms of action or significant improvements over the existing standard of care. Wants to be at the forefront of medical advancement.',
+            'core_motivation': 'Providing patients with the latest and best possible treatments. Driven by scientific curiosity and the desire to be a leader in their field.',
+            'behavior': [
+                'Actively seeks information on new drugs and therapies.',
+                'Attends medical conferences, webinars, and reads the latest journal publications.',
+                'Open to meeting with sales representatives who can provide deep, scientific information.',
+                'Less price-sensitive if the clinical benefit is substantial and clear.'
+            ],
+            'sales_approach': [
+                'Lead with the novel Mechanism of Action (MOA) and pivotal clinical trial data.',
+                'Highlight what makes the drug a "game-changer" or a first-in-class therapy.',
+                'Connect them with Medical Science Liaisons (MSLs) for in-depth, peer-to-peer scientific discussion.',
+                'Provide data from Phase III trials and head-to-head superiority studies.'
+            ],
             'messages': []
         },
         'The Patient-Centered Physician': {
@@ -665,6 +689,20 @@ if 'bots' not in st.session_state:
             'customer_segment': 'Healthcare Providers',
             'avatar_emoji': '💚',
             'vapi_enabled': True,
+            'description': 'Focuses on the holistic well-being and experience of their patients. Considers factors beyond pure clinical efficacy, such as quality of life, convenience, and affordability.',
+            'core_motivation': 'Improving the patient\'s overall journey and minimizing treatment burden.',
+            'behavior': [
+                'Prioritizes drugs with favorable side-effect profiles, even if it means a slight trade-off in efficacy.',
+                'Considers dosing frequency, route of administration (e.g., oral vs. injection), and ease of use.',
+                'Asks detailed questions about patient assistance programs, co-pay cards, and other support services.',
+                'Highly values patient-reported outcomes (PROs) in clinical data.'
+            ],
+            'sales_approach': [
+                'Emphasize the "whole product" offering, including patient support services.',
+                'Discuss the side-effect profile and quality of life data in detail.',
+                'Use (anonymized) patient case studies to illustrate real-world benefits to lifestyle and adherence.',
+                'Clearly explain financial assistance and adherence programs.'
+            ],
             'messages': []
         },
         'The Financially Driven Prescriber': {
@@ -673,6 +711,20 @@ if 'bots' not in st.session_state:
             'customer_segment': 'Healthcare Institutions',
             'avatar_emoji': '💰',
             'vapi_enabled': True,
+            'description': 'Primarily motivated by economic factors, such as reimbursement, practice profitability, and overall cost-effectiveness. Common in large institutions, hospital systems, and specialties managing high-cost drugs.',
+            'core_motivation': 'Maximizing revenue, managing costs, and ensuring favorable reimbursement.',
+            'behavior': [
+                'Decision-making is heavily influenced by the institution\'s formulary, Group Purchasing Organization (GPO) contracts, and payer policies.',
+                'Focuses on acquisition cost, billing codes (J-codes/Q-codes), and potential profit margins.',
+                'In oncology, the "buy-and-bill" model for infused chemotherapy drugs can make certain products more financially attractive.',
+                'The primary decision-maker may be a practice manager or a formulary committee, not the individual physician.'
+            ],
+            'sales_approach': [
+                'Provide detailed pharmacoeconomic data and cost-effectiveness analyses.',
+                'Engage with practice managers, C-suite executives, and formulary directors.',
+                'Clearly present reimbursement information, co-payment program impact, and coding specifics.',
+                'Demonstrate how the product contributes positively to the practice or hospital\'s financial health.'
+            ],
             'messages': []
         },
         'The Evidence Purist': {
@@ -681,6 +733,20 @@ if 'bots' not in st.session_state:
             'customer_segment': 'Healthcare Providers',
             'avatar_emoji': '📊',
             'vapi_enabled': True,
+            'description': 'Demands the highest level of clinical evidence and is skeptical of promotional claims and data that has not been rigorously peer-reviewed.',
+            'core_motivation': 'Adherence to evidence-based medicine in its strictest form, trusting only the most statistically robust data.',
+            'behavior': [
+                'Ranks systematic reviews and meta-analyses (e.g., from Cochrane) as the highest form of evidence.',
+                'Skeptical of real-world data, post-hoc analyses, and single pivotal trials, preferring to wait for a broader evidence base.',
+                'Values head-to-head comparative trials over placebo-controlled studies.',
+                'Focuses on hard clinical endpoints over surrogate markers.'
+            ],
+            'sales_approach': [
+                'Provide comprehensive dossiers of all published data.',
+                'Lead with meta-analyses and systematic reviews from independent bodies.',
+                'Present data from head-to-head superiority trials against relevant comparators.',
+                'Connect them with senior medical affairs professionals who can discuss the full evidence base in detail.'
+            ],
             'messages': []
         },
         'The Cost-Conscious Prescriber': {
@@ -689,6 +755,20 @@ if 'bots' not in st.session_state:
             'customer_segment': 'Healthcare Providers',
             'avatar_emoji': '💵',
             'vapi_enabled': True,
+            'description': 'Operates within a system that prioritizes cost containment and budget predictability, such as a public health system or an organization with capitated contracts.',
+            'core_motivation': 'Managing population health costs and adhering to strict budgets.',
+            'behavior': [
+                'Heavily reliant on institutional or system-level formularies.',
+                'Prioritizes generics, biosimilars, and the lowest-cost therapeutic alternatives.',
+                'Decision-making is driven by total cost of care, not just the acquisition cost of a drug.',
+                'Works within capitated payment models where they bear the financial risk for patient care costs.'
+            ],
+            'sales_approach': [
+                'Lead with pharmacoeconomic data, cost-effectiveness analyses, and budget-impact models.',
+                'Demonstrate how the product can reduce downstream costs (e.g., lower hospitalization rates, fewer adverse events).',
+                'Focus on value and total cost of care for a patient population.',
+                'Engage with payers and formulary managers who make system-level decisions.'
+            ],
             'messages': []
         },
     }
@@ -809,16 +889,44 @@ def render_call_interface(bot_name: str):
     display_name = bot_data.get('display_name', bot_name)
     avatar_emoji = bot_data.get('avatar_emoji', '🤖')
     
-    # Top navigation bar with Home button and bot name
-    col_home, col_title = st.columns([1, 11])
-    with col_home:
-        if st.button("🏠", key="home_btn", help="Back to Home"):
+    # Sidebar with styled bot card and Home button
+    with st.sidebar:
+        # Styled bot card
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #1e2130 0%, #2d3348 100%);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 2px solid rgba(74, 158, 255, 0.4);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        ">
+            <div style="
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #4a9eff 0%, #3a7edf 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                margin: 0 auto 0.8rem auto;
+                border: 3px solid #4a9eff;
+                box-shadow: 0 0 15px rgba(74, 158, 255, 0.5);
+            ">{avatar_emoji}</div>
+            <div style="
+                color: #fafafa;
+                font-size: 0.9rem;
+                font-weight: 700;
+                line-height: 1.3;
+            ">{display_name}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        if st.button("🏠 Home", key="home_btn", use_container_width=True, type="primary"):
             st.session_state.view_mode = 'home'
             st.rerun()
-    with col_title:
-        st.markdown(f"### {avatar_emoji} {display_name}")
-    
-    st.markdown("---")
     
     # Check if VAPI is configured AND this bot has VAPI enabled
     bot_assistant_id = VAPI_ASSISTANT_IDS.get(bot_name, '')
@@ -921,12 +1029,44 @@ def render_profile_view(bot_name: str):
     behavior = bot_data.get('behavior', [])
     sales_approach = bot_data.get('sales_approach', [])
     
-    # Back button
-    if st.button("← Back to Home"):
-        st.session_state.view_mode = 'home'
-        st.rerun()
-    
-    st.markdown("---")
+    # Sidebar with styled bot card and Home button
+    with st.sidebar:
+        # Styled bot card
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #1e2130 0%, #2d3348 100%);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 2px solid rgba(74, 158, 255, 0.4);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        ">
+            <div style="
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #4a9eff 0%, #3a7edf 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                margin: 0 auto 0.8rem auto;
+                border: 3px solid #4a9eff;
+                box-shadow: 0 0 15px rgba(74, 158, 255, 0.5);
+            ">{avatar_emoji}</div>
+            <div style="
+                color: #fafafa;
+                font-size: 0.9rem;
+                font-weight: 700;
+                line-height: 1.3;
+            ">{display_name}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        if st.button("🏠 Home", key="profile_home_btn", use_container_width=True, type="primary"):
+            st.session_state.view_mode = 'home'
+            st.rerun()
     
     # Simple title
     st.markdown(f"# {avatar_emoji} {display_name}")
@@ -1584,15 +1724,28 @@ def main():
         return
     
     # Bot detail view - Main content area
-    current_mode = st.session_state.bot_modes[st.session_state.selected_bot]
+    selected_bot = st.session_state.selected_bot
+    
+    # Handle missing bot in bot_modes (can happen with old session data)
+    if selected_bot not in st.session_state.bot_modes:
+        st.session_state.bot_modes[selected_bot] = 'call'
+    if selected_bot not in st.session_state.api_configs:
+        st.session_state.api_configs[selected_bot] = {
+            'vapi_api_key': '', 'assistant_id': '', 'phone_number_id': '',
+            'server_url': 'https://api.vapi.ai', 'use_vapi': False
+        }
+    if selected_bot not in st.session_state.call_messages:
+        st.session_state.call_messages[selected_bot] = []
+    
+    current_mode = st.session_state.bot_modes[selected_bot]
     
     # Check if Vapi is configured
-    config = st.session_state.api_configs[st.session_state.selected_bot]
+    config = st.session_state.api_configs[selected_bot]
     use_vapi = config.get('use_vapi', False) and config.get('assistant_id') and config.get('vapi_api_key')
     
     if current_mode == 'call':
         # Render the beautiful call interface
-        render_call_interface(st.session_state.selected_bot)
+        render_call_interface(selected_bot)
         # Call interface has its own feedback box, so we return early
         return
     
