@@ -364,8 +364,14 @@
                 }
             });
             
+            // Throttle volume-level updates to reduce DOM operations
+            let lastVolumeUpdate = 0;
             vapi.on('volume-level', (level) => {
-                if (level > 0.1) {
+                const now = Date.now();
+                if (now - lastVolumeUpdate < 100) return; // Max 10 updates/sec
+                lastVolumeUpdate = now;
+                
+                if (level > 0.1 && !avatar.classList.contains('listening')) {
                     avatar.classList.add('listening');
                     avatar.classList.remove('speaking');
                 }
