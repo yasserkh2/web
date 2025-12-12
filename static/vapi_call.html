@@ -329,6 +329,104 @@
             75% { transform: translateX(5px); }
         }
         
+        /* Debug Log Panel */
+        .debug-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            max-height: 300px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #4a9eff;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .debug-panel.visible {
+            display: block;
+        }
+        
+        .debug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #4a9eff;
+            color: #000;
+            font-weight: bold;
+            border-radius: 9px 9px 0 0;
+        }
+        
+        .debug-header button {
+            background: none;
+            border: none;
+            color: #000;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .debug-logs {
+            padding: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+            color: #0f0;
+        }
+        
+        .debug-logs::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .debug-logs::-webkit-scrollbar-thumb {
+            background: #4a9eff;
+            border-radius: 3px;
+        }
+        
+        .log-entry {
+            margin-bottom: 6px;
+            padding: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .log-entry.error {
+            color: #ff6b6b;
+        }
+        
+        .log-entry.warn {
+            color: #ffa500;
+        }
+        
+        .log-entry.info {
+            color: #4a9eff;
+        }
+        
+        .log-time {
+            color: #888;
+            margin-right: 8px;
+        }
+        
+        .debug-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4a9eff;
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
+        }
+        
+        .debug-toggle:hover {
+            transform: scale(1.1);
+        }
+        
         /* Back Link */
         .back-link {
             position: fixed;
@@ -351,6 +449,22 @@
 </head>
 <body>
     <a href="http://localhost:8501" class="back-link">← Back to Platform</a>
+    
+    <!-- Debug Toggle Button -->
+    <button class="debug-toggle" onclick="toggleDebugPanel()" title="Toggle Debug Logs">🔧</button>
+    
+    <!-- Debug Log Panel -->
+    <div class="debug-panel" id="debugPanel">
+        <div class="debug-header">
+            <span>🔍 Debug Logs</span>
+            <div>
+                <button onclick="clearDebugLogs()" title="Clear logs">🗑️</button>
+                <button onclick="copyDebugLogs()" title="Copy logs">📋</button>
+                <button onclick="toggleDebugPanel()">✕</button>
+            </div>
+        </div>
+        <div class="debug-logs" id="debugLogs"></div>
+    </div>
     
     <div class="container">
         <!-- Call Section -->
@@ -406,6 +520,90 @@
         let callStartTime = null;
         let timerInterval = null;
         let transcriptMessages = [];
+        let debugLogs = [];
+        
+        // Debug Logging Functions
+        function debugLog(message, type = 'info', data = null) {
+            const timestamp = new Date().toISOString();
+            const logEntry = { timestamp, type, message, data };
+            debugLogs.push(logEntry);
+            
+            // Also log to browser console
+            const consoleMethod = type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'log';
+            console[consoleMethod](`[${timestamp}] ${message}`, data || '');
+            
+            // Update debug panel
+            updateDebugPanel();
+        }
+        
+        function updateDebugPanel() {
+            const logsContainer = document.getElementById('debugLogs');
+            if (!logsContainer) return;
+            
+            logsContainer.innerHTML = debugLogs.map(log => {
+                const time = log.timestamp.split('T')[1].split('.')[0];
+                let dataStr = '';
+                if (log.data) {
+                    try {
+                        dataStr = '<br>' + JSON.stringify(log.data, null, 2).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+                    } catch (e) {
+                        dataStr = '<br>' + String(log.data);
+                    }
+                }
+                return `<div class="log-entry ${log.type}">
+                    <span class="log-time">${time}</span>${log.message}${dataStr}
+                </div>`;
+            }).join('');
+            
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+        
+        window.toggleDebugPanel = function() {
+            const panel = document.getElementById('debugPanel');
+            panel.classList.toggle('visible');
+        };
+        
+        window.clearDebugLogs = function() {
+            debugLogs = [];
+            updateDebugPanel();
+        };
+        
+        window.copyDebugLogs = function() {
+            const logText = debugLogs.map(log => 
+                `[${log.timestamp}] [${log.type.toUpperCase()}] ${log.message}${log.data ? '\n' + JSON.stringify(log.data, null, 2) : ''}`
+            ).join('\n\n');
+            navigator.clipboard.writeText(logText).then(() => {
+                alert('Logs copied to clipboard!');
+            });
+        };
+        
+        // Helper to extract detailed error info
+        function extractErrorDetails(error) {
+            const details = {
+                message: error?.message || 'Unknown error',
+                name: error?.name || 'Error',
+                code: error?.code || null,
+                status: error?.status || error?.statusCode || null,
+                type: error?.type || null,
+                cause: error?.cause || null,
+            };
+            
+            // Try to get additional properties
+            if (error && typeof error === 'object') {
+                Object.keys(error).forEach(key => {
+                    if (!details[key] && error[key] !== undefined) {
+                        details[key] = error[key];
+                    }
+                });
+            }
+            
+            // If error is a string
+            if (typeof error === 'string') {
+                details.message = error;
+            }
+            
+            return details;
+        }
         
         // DOM Elements
         const avatar = document.getElementById('avatar');
@@ -420,16 +618,17 @@
         
         // Import VAPI SDK
         try {
+            debugLog('Loading VAPI SDK...', 'info');
             const VapiModule = await import('https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/+esm');
             const Vapi = VapiModule.default.default;
             
             // Initialize VAPI
             vapi = new Vapi(PUBLIC_KEY);
-            console.log('VAPI initialized successfully');
+            debugLog('VAPI initialized successfully', 'info', { publicKey: PUBLIC_KEY.substring(0, 8) + '...' });
             
             // Event Listeners
             vapi.on('call-start', () => {
-                console.log('Call started');
+                debugLog('Call started successfully', 'info');
                 callActive = true;
                 updateUI('active');
                 startTimer();
@@ -437,25 +636,28 @@
             });
             
             vapi.on('call-end', () => {
-                console.log('Call ended');
+                debugLog('Call ended', 'info');
                 callActive = false;
                 updateUI('ended');
                 stopTimer();
             });
             
             vapi.on('speech-start', () => {
-                console.log('Assistant speaking');
+                debugLog('Assistant started speaking', 'info');
                 avatar.classList.add('speaking');
                 avatar.classList.remove('listening');
             });
             
             vapi.on('speech-end', () => {
-                console.log('Assistant stopped speaking');
+                debugLog('Assistant stopped speaking', 'info');
                 avatar.classList.remove('speaking');
             });
             
             vapi.on('message', (message) => {
-                console.log('Message:', message);
+                // Only log non-transcript messages or final transcripts to reduce noise
+                if (message.type !== 'transcript' || message.transcriptType === 'final') {
+                    debugLog(`Message received: ${message.type}`, 'info', message);
+                }
                 handleMessage(message);
             });
             
@@ -468,47 +670,175 @@
             });
             
             vapi.on('error', (error) => {
-                console.error('VAPI Error:', error);
-                showError(error.message || 'An error occurred');
+                const errorDetails = extractErrorDetails(error);
+                debugLog('VAPI ERROR OCCURRED', 'error', errorDetails);
+                
+                // Build a detailed error message for the user
+                let userMessage = errorDetails.message;
+                if (errorDetails.code) {
+                    userMessage += ` (Code: ${errorDetails.code})`;
+                }
+                if (errorDetails.status) {
+                    userMessage += ` [Status: ${errorDetails.status}]`;
+                }
+                
+                showError(userMessage || 'An unknown error occurred - check debug logs');
                 callActive = false;
                 updateUI('idle');
                 stopTimer();
             });
             
         } catch (err) {
-            console.error('Failed to initialize VAPI:', err);
-            showError('Failed to load VAPI SDK. Please refresh the page.');
+            const errorDetails = extractErrorDetails(err);
+            debugLog('Failed to initialize VAPI SDK', 'error', errorDetails);
+            showError('Failed to load VAPI SDK: ' + (err.message || 'Unknown error'));
         }
         
         // Functions
         window.startCall = async function() {
             if (!vapi) {
+                debugLog('Attempted to start call but VAPI not initialized', 'error');
                 showError('VAPI not initialized');
                 return;
             }
             
             try {
+                // Step 1: Log environment info
+                debugLog('=== STARTING CALL ===', 'info');
+                debugLog('Environment check', 'info', {
+                    assistantId: ASSISTANT_ID,
+                    publicKey: PUBLIC_KEY.substring(0, 8) + '...',
+                    userAgent: navigator.userAgent.substring(0, 50) + '...',
+                    online: navigator.onLine,
+                    timestamp: new Date().toISOString()
+                });
+                
+                if (!navigator.onLine) {
+                    debugLog('No internet connection detected', 'error');
+                    showError('No internet connection. Please check your network.');
+                    return;
+                }
+                
                 updateUI('connecting');
                 transcriptMessages = [];
                 updateTranscriptDisplay();
                 hideError();
                 
-                // Request microphone permission
+                // Step 2: Request microphone permission
+                debugLog('Step 1/3: Requesting microphone permission...', 'info');
+                let stream;
                 try {
-                    await navigator.mediaDevices.getUserMedia({ audio: true });
-                    console.log('Microphone permission granted');
+                    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const tracks = stream.getAudioTracks();
+                    debugLog('Microphone permission granted', 'info', { 
+                        trackCount: tracks.length,
+                        tracks: tracks.map(t => ({ 
+                            label: t.label, 
+                            enabled: t.enabled,
+                            muted: t.muted,
+                            readyState: t.readyState
+                        }))
+                    });
                 } catch (micError) {
-                    console.error('Microphone error:', micError);
-                    showError('Microphone access denied. Please allow microphone access in browser settings.');
+                    const errorDetails = extractErrorDetails(micError);
+                    debugLog('Microphone access failed', 'error', {
+                        ...errorDetails,
+                        errorName: micError.name,
+                        constraint: micError.constraint
+                    });
+                    
+                    let micMessage = 'Microphone error: ';
+                    if (micError.name === 'NotAllowedError') {
+                        micMessage = 'Microphone access denied. Please allow microphone in browser settings.';
+                    } else if (micError.name === 'NotFoundError') {
+                        micMessage = 'No microphone found. Please connect a microphone.';
+                    } else if (micError.name === 'NotReadableError') {
+                        micMessage = 'Microphone is in use by another application.';
+                    } else {
+                        micMessage += micError.message || 'Unknown microphone error';
+                    }
+                    
+                    showError(micMessage);
                     updateUI('idle');
                     return;
                 }
                 
-                await vapi.start(ASSISTANT_ID);
+                // Step 3: Start VAPI call with timeout
+                debugLog('Step 2/3: Initiating VAPI connection...', 'info');
+                
+                const startTime = Date.now();
+                const CALL_TIMEOUT = 30000; // 30 second timeout
+                
+                try {
+                    // Create a promise that rejects after timeout
+                    const timeoutPromise = new Promise((_, reject) => {
+                        setTimeout(() => reject(new Error('Call connection timeout after 30 seconds')), CALL_TIMEOUT);
+                    });
+                    
+                    // Race between vapi.start() and timeout
+                    const result = await Promise.race([
+                        vapi.start(ASSISTANT_ID),
+                        timeoutPromise
+                    ]);
+                    
+                    const duration = Date.now() - startTime;
+                    debugLog('Step 3/3: VAPI call initiated successfully', 'info', {
+                        connectionTime: duration + 'ms',
+                        result: result ? JSON.stringify(result).substring(0, 200) : 'no result returned'
+                    });
+                    
+                } catch (vapiError) {
+                    const duration = Date.now() - startTime;
+                    const errorDetails = extractErrorDetails(vapiError);
+                    
+                    debugLog('VAPI start() failed', 'error', {
+                        ...errorDetails,
+                        duration: duration + 'ms',
+                        stack: vapiError.stack ? vapiError.stack.substring(0, 500) : null
+                    });
+                    
+                    // Categorize the error for better user messages
+                    let userMessage = 'Call failed: ';
+                    
+                    if (vapiError.message?.includes('timeout')) {
+                        userMessage = 'Connection timeout. Please check your internet and try again.';
+                    } else if (vapiError.message?.includes('401') || vapiError.message?.includes('unauthorized')) {
+                        userMessage = 'Authentication failed. Please check API credentials.';
+                    } else if (vapiError.message?.includes('403') || vapiError.message?.includes('forbidden')) {
+                        userMessage = 'Access denied. Please check your VAPI subscription/permissions.';
+                    } else if (vapiError.message?.includes('404')) {
+                        userMessage = 'Assistant not found. Please check the Assistant ID.';
+                    } else if (vapiError.message?.includes('429')) {
+                        userMessage = 'Rate limit exceeded. Please wait and try again.';
+                    } else if (vapiError.message?.includes('500') || vapiError.message?.includes('server')) {
+                        userMessage = 'VAPI server error. Please try again later.';
+                    } else if (vapiError.message?.includes('network') || vapiError.message?.includes('fetch')) {
+                        userMessage = 'Network error. Please check your internet connection.';
+                    } else if (errorDetails.message) {
+                        userMessage += errorDetails.message;
+                        if (errorDetails.code) userMessage += ` (Code: ${errorDetails.code})`;
+                        if (errorDetails.status) userMessage += ` [Status: ${errorDetails.status}]`;
+                    } else {
+                        userMessage += 'Unknown error - see debug logs for details';
+                    }
+                    
+                    showError(userMessage);
+                    updateUI('idle');
+                    
+                    // Stop the microphone stream on error
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                    }
+                }
                 
             } catch (error) {
-                console.error('Failed to start call:', error);
-                showError('Failed to start call: ' + (error.message || error));
+                const errorDetails = extractErrorDetails(error);
+                debugLog('Unexpected error in startCall', 'error', {
+                    ...errorDetails,
+                    stack: error.stack ? error.stack.substring(0, 500) : null
+                });
+                
+                showError('Unexpected error: ' + (errorDetails.message || 'Unknown error'));
                 updateUI('idle');
             }
         };
