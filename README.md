@@ -6,13 +6,15 @@ A Streamlit-based platform for evaluating AI voice agents with integrated VAPI v
 
 ## Features
 
-- 🤖 **Multiple Bot Profiles**: Evaluate different AI personas (The Traditionalist, etc.)
+- 🤖 **6 Bot Profiles**: Evaluate different AI personas (customer segments)
 - 📞 **Voice Call Mode**: Real-time voice calls with VAPI integration
 - 📝 **Live Transcript**: See real-time transcription during voice calls
 - 💬 **Feedback System**: Rate calls and provide written feedback
 - 💾 **Database Storage**: All feedback saved to Supabase (PostgreSQL)
 - 👤 **Profile View**: View detailed bot personality profiles
 - 🎨 **Modern Dark UI**: Clean and intuitive interface
+- 📊 **MLflow Prompt Registry**: Version control for prompts with compare & rollback
+- 🔄 **Prompt Versioning**: Track every prompt change with commit messages
 
 ---
 
@@ -69,18 +71,19 @@ The app will:
 
 ---
 
-## Bots
+## Bots (Customer Segments)
 
-| Name | Env Variable | Description |
-|------|--------------|-------------|
-| **The Traditionalist** | `VAPI_ASSISTANT_ID_1` | Relies on established, time-tested treatments |
-| **The Innovator** | `VAPI_ASSISTANT_ID_2` | Early adopter of new treatments and technologies |
-| **The Patient-Centered Physician** | `VAPI_ASSISTANT_ID_3` | Focuses on patient preferences and outcomes |
-| **The Financially Driven Prescriber** | `VAPI_ASSISTANT_ID_4` | Institution-focused, considers financial factors |
-| **The Evidence Purist** | `VAPI_ASSISTANT_ID_5` | Strictly follows clinical evidence and data |
-| **The Cost-Conscious Prescriber** | `VAPI_ASSISTANT_ID_6` | Balances efficacy with cost-effectiveness |
+| Name | Env Variable | Persona | Description |
+|------|--------------|---------|-------------|
+| **The Traditionalist** | `VAPI_ASSISTANT_ID_1` | Conservative | Relies on established, time-tested treatments |
+| **The Innovator** | `VAPI_ASSISTANT_ID_2` | Early Adopter | Early adopter of new treatments, follows KOLs |
+| **The Patient-Centered Physician** | `VAPI_ASSISTANT_ID_3` | QoL-Focused | Focuses on patient preferences and outcomes |
+| **The Financially Driven** | `VAPI_ASSISTANT_ID_4` | Revenue-Focused | Practice profitability, reimbursement-aware |
+| **The Evidence Purist** | `VAPI_ASSISTANT_ID_5` | Data-Driven | Strictly follows clinical evidence and RCT data |
+| **The Cost-Conscious Prescriber** | `VAPI_ASSISTANT_ID_6` | Value-Aware | Balances efficacy with cost-effectiveness |
 
 All bots support VAPI voice calls when their respective assistant ID is configured.
+Prompts are stored in `prompts/*.md` and tracked in MLflow Prompt Registry.
 
 ---
 
@@ -89,8 +92,37 @@ All bots support VAPI voice calls when their respective assistant ID is configur
 ```
 Evaluation_Cycle/
 ├── app.py                          # Main Streamlit application
+├── mlflow_tracker.py               # Simple MLflow prompt/feedback tracker
+├── prompts.py                      # Prompt engineering & MLflow integration
 ├── requirements.txt                # Python dependencies
 ├── .env                            # Environment variables (create this)
+│
+├── prompts/                        # Bot prompts (separate .md files)
+│   ├── config.json                 # Bot metadata & evaluation criteria
+│   ├── the_traditionalist.md       # Full prompt for The Traditionalist
+│   ├── the_innovator.md            # Full prompt for The Innovator
+│   ├── the_evidence_purist.md      # Full prompt for The Evidence Purist
+│   ├── the_patient_centered.md     # Full prompt for Patient-Centered
+│   ├── the_cost_conscious.md       # Full prompt for Cost-Conscious
+│   └── the_financially_driven.md   # Full prompt for Financially Driven
+│
+├── evaluation/                     # Evaluation module
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── main.py                     # CLI entry point
+│   ├── config.py                   # Bot & MLflow configuration
+│   ├── models.py                   # Data models
+│   ├── evaluators/                 # Evaluation strategies
+│   │   ├── base.py
+│   │   ├── llm_evaluator.py        # GPT-based evaluator
+│   │   └── manual_evaluator.py
+│   └── services/                   # Business logic
+│       ├── bot_service.py
+│       ├── excel_service.py
+│       ├── evaluation_service.py
+│       └── mlflow_service.py       # MLflow tracking integration
+│
+├── mlruns/                         # MLflow tracking data (auto-created)
 │
 ├── vapi_call_widget.html           # Voice call interface
 ├── vapi_transcript.html            # Live transcript display
@@ -133,6 +165,156 @@ Evaluation_Cycle/
 - HTTP server on port 8080 serves voice pages
 - localStorage enables cross-iframe communication
 - Supabase stores all feedback and transcripts
+
+---
+
+## MLflow Experiment Tracking
+
+Track prompts, feedback, and evaluation metrics with MLflow.
+
+### Quick Start
+
+```powershell
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# Log feedback for a bot
+python mlflow_tracker.py --log-feedback "The Innovator" "Should sound bolder about early adoption"
+
+# Log an evaluation score
+python mlflow_tracker.py --log-eval "The Innovator" 7.5
+
+# View history
+python mlflow_tracker.py --list
+
+# Launch MLflow UI
+python mlflow_tracker.py --ui
+```
+
+---
+
+## Prompt Engineering
+
+Manage and version prompts for each bot using **MLflow Prompt Registry**.
+
+### Prompt Files
+
+Prompts are stored as separate `.md` files in the `prompts/` folder:
+
+```
+prompts/
+├── config.json                 # Bot metadata & evaluation criteria
+├── the_traditionalist.md       # ~7,200 words
+├── the_innovator.md            # ~7,500 words
+├── the_evidence_purist.md      # ~5,900 words
+├── the_patient_centered.md     # ~6,500 words
+├── the_cost_conscious.md       # ~6,300 words
+└── the_financially_driven.md   # ~6,400 words
+```
+
+### Quick Commands
+
+```powershell
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# List all bot prompts with word counts
+python prompts.py --list
+
+# Show full prompt for a bot
+python prompts.py --show "The Innovator"
+
+# Register prompt to MLflow Prompt Registry
+python prompts.py --register "The Innovator"
+
+# Register all prompts to MLflow
+python prompts.py --register-all
+
+# Evaluate prompt with GenAI (requires OPENAI_API_KEY)
+python prompts.py --evaluate "The Innovator"
+
+# Compare all prompts
+python prompts.py --compare
+
+# Start MLflow UI
+python prompts.py --ui
+```
+
+### Editing Prompts
+
+1. **Edit the `.md` file** directly in `prompts/` folder
+2. **Register the new version** to MLflow:
+   ```powershell
+   python prompts.py --register "The Innovator"
+   ```
+3. **View version history** in MLflow UI: http://localhost:5000/#/prompts
+
+### Bot Metadata
+
+Edit `prompts/config.json` to update metadata:
+
+```json
+{
+  "The Innovator": {
+    "version": "1.0",
+    "prompt_file": "the_innovator.md",
+    "persona_notes": "Early adopter, conference-oriented, excited about novel MOA",
+    "target_audience": "Pharma reps with new/innovative treatments",
+    "evaluation_criteria": {
+      "persona_alignment": "Shows genuine interest in innovation",
+      "boldness": "Sounds confident about early adoption",
+      "kol_references": "References conferences, KOLs, emerging research"
+    }
+  }
+}
+```
+
+### Available Bots (Customer Segments)
+
+| Bot | Persona | Key Traits |
+|-----|---------|------------|
+| **The Traditionalist** | Conservative | Prefers proven, time-tested treatments |
+| **The Innovator** | Early Adopter | Excited about novel MOA, follows KOLs |
+| **The Evidence Purist** | Data-Driven | Demands RCT data, questions methodology |
+| **The Patient-Centered Physician** | QoL-Focused | Prioritizes patient preferences |
+| **The Cost-Conscious Prescriber** | Value-Aware | Balances efficacy with cost |
+| **The Financially Driven** | Revenue-Focused | Practice profitability, reimbursement |
+
+### MLflow Prompt Registry
+
+Access the Prompts dashboard at **http://localhost:5000/#/prompts**
+
+**Features:**
+- 📝 **Version Control**: Track every prompt change with commit messages
+- 🔀 **Compare Versions**: Side-by-side diff between versions
+- 🏷️ **Aliases**: Set "production", "staging" aliases for A/B testing
+- 📊 **Metadata**: Track word count, persona, target audience
+- 🚀 **Use in Code**: Copy prompt URI for use in applications
+
+### Start MLflow UI
+
+```powershell
+# Using prompts.py
+python prompts.py --ui
+
+# Or directly
+python -m mlflow ui --port 5000
+```
+
+### What Gets Tracked
+
+| Type | Data Logged |
+|------|-------------|
+| **Prompts** | Full prompt text, version, word count, metadata tags |
+| **Feedback** | Bot name, feedback text, category, suggestions |
+| **Evaluations** | Bot name, score (0-10), LLM evaluation results |
+
+### Environment Variables (Optional)
+
+```env
+MLFLOW_TRACKING_URI=mlruns              # Local folder (default)
+OPENAI_API_KEY=sk-...                   # For GenAI evaluation
+```
 
 ---
 
@@ -220,6 +402,9 @@ streamlit>=1.28.0
 requests>=2.31.0
 python-dotenv>=1.0.0
 supabase>=2.0.0
+openpyxl>=3.1.0
+mlflow>=2.9.0
+openai>=1.0.0
 ```
 
 ---

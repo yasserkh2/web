@@ -30,3 +30,12 @@ Thumbs.db
 
 # Local development
 *.log
+
+# MLflow (local tracking data - can be regenerated)
+mlruns/
+
+# Temporary/generated files
+*_results.json
+
+# Excel files (binary/large - keep locally)
+*.xlsx
