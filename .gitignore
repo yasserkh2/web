@@ -18,16 +18,20 @@ dist/
 build/
 .eggs/
 
-# MLflow runs (large data files)
+# MLflow (large data files - track prompts separately)
 mlruns/
 mlartifacts/
 
-# Evaluation results (generated files)
+# Pipeline output (generated files)
+output/
 eval_results/
+
+# Prompt versions (tracked in MLflow)
+prompts/
 
 # Test files
 test_*.py
-!test_new_evaluator.py
+check_data.py
 
 # Streamlit
 .streamlit/secrets.toml
@@ -59,3 +63,7 @@ desktop.ini
 # Excel temp files
 ~$*.xlsx
 ~$*.xls
+
+# Generated Excel files (keep input only)
+evaluation_results.xlsx
+questions.xlsx

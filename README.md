@@ -91,11 +91,25 @@ All bots support VAPI voice calls when their respective assistant ID is configur
 ```
 Evaluation_Cycle/
 ├── app.py                          # Main Streamlit application
-├── eval_agent.py                   # LLM evaluation CLI tool
 ├── requirements.txt                # Python dependencies
 ├── .env                            # Environment variables (create this)
 │
 ├── bot_evaluation_with_comments.xlsx  # Evaluation Excel file
+│
+├── src/                            # Source package (OOP/SOLID)
+│   ├── __init__.py
+│   ├── config.py                   # Configuration (paths, API keys, columns)
+│   ├── models.py                   # Data classes (Segment, Response, Evaluation)
+│   └── services/                   # Business logic services
+│       ├── __init__.py
+│       ├── segment_service.py      # Load segment personas from MD files
+│       ├── excel_service.py        # Excel read/write operations
+│       ├── evaluation_service.py   # LLM evaluation logic
+│       └── vapi_service.py         # VAPI API integration
+│
+├── scripts/                        # CLI scripts
+│   ├── get_responses.py            # 1. Get/manage VAPI responses
+│   └── evaluate_responses.py       # 2. Evaluate responses with LLM
 │
 ├── segments/                       # Segment persona descriptions
 │   ├── the_traditionalist.md
@@ -104,25 +118,6 @@ Evaluation_Cycle/
 │   ├── the_cost_conscious.md
 │   ├── the_financially_driven.md
 │   └── the_patient_centered.md
-│
-├── datasets/                       # Evaluation test datasets
-│   ├── the_innovator.json
-│   ├── the_traditionalist.json
-│   └── the_evidence_purist.json
-│
-├── eval_results/                   # Evaluation output (JSON)
-│
-├── evaluation/                     # Evaluation package
-│   ├── __init__.py
-│   ├── config.py                   # Configuration classes
-│   ├── models.py                   # Data models
-│   ├── evaluators/
-│   │   ├── base.py                 # Base evaluator class
-│   │   ├── llm_evaluator.py        # LLM-based evaluator
-│   │   └── manual_evaluator.py     # Manual evaluation
-│   └── services/
-│       ├── bot_service.py          # Bot interaction service
-│       └── excel_service.py        # Excel file service
 │
 ├── vapi_call_widget.html           # Voice call interface
 ├── vapi_transcript.html            # Live transcript display
@@ -145,23 +140,83 @@ Evaluation_Cycle/
 
 ---
 
+## Architecture (SOLID Principles)
+
+### Single Responsibility
+- `SegmentService` - Only loads segment data from MD files
+- `ExcelService` - Only handles Excel read/write
+- `EvaluationService` - Only handles LLM evaluation
+- `VAPIService` - Only handles VAPI API calls
+
+### Open/Closed
+- Add new segments by creating new MD files (no code changes)
+- Add new evaluators by extending `EvaluationService`
+
+### Dependency Inversion
+- Services depend on config abstractions, not hardcoded values
+- `EvaluationService` depends on `SegmentService` interface
+
+### Workflow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      PIPELINE                               │
+├─────────────────────────────────────────────────────────────┤
+│  Step 1: VALIDATE      Step 2: EVALUATE     Step 3: SAVE   │
+│  ┌──────────────┐      ┌──────────────┐     ┌───────────┐  │
+│  │ Check Excel  │  ──► │  LLM Score   │ ──► │   Excel   │  │
+│  │ for responses│      │  + Comment   │     │   Update  │  │
+│  └──────────────┘      └──────────────┘     └───────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Running the Pipeline
+
+```powershell
+# Full pipeline
+python scripts/pipeline.py --model gpt-4o-mini --delay 30
+
+# Dry run (preview)
+python scripts/pipeline.py --dry-run
+
+# Force re-evaluate
+python scripts/pipeline.py --force
+
+# Single segment
+python scripts/pipeline.py --segment "The Innovator"
+```
+
+---
+
 ## LLM Evaluation System
 
 ### Overview
 
 The platform includes an automated evaluation system that uses GPT-4o-mini to assess how well bot responses match their target physician segment.
 
-### Running Evaluations
+### Running Scripts
 
 ```powershell
 # Activate virtual environment
 .\venv\Scripts\Activate.ps1
 
-# Run evaluation on Excel file
-python -u eval_agent.py --model gpt-4o-mini --delay 30
+# 1. Check response status
+python scripts/get_responses.py --status
 
-# Force re-evaluate already scored rows
-python -u eval_agent.py --model gpt-4o-mini --delay 30 --force
+# 2. Export missing responses
+python scripts/get_responses.py --export missing.txt
+
+# 3. Run LLM evaluation
+python scripts/evaluate_responses.py --model gpt-4o-mini --delay 30
+
+# 4. Force re-evaluate already scored rows
+python scripts/evaluate_responses.py --force
+
+# 5. Evaluate only one segment
+python scripts/evaluate_responses.py --segment "The Innovator"
+
+# 6. Dry run (see what would happen)
+python scripts/evaluate_responses.py --dry-run
 ```
 
 ### Excel Structure
@@ -341,6 +396,58 @@ python-dotenv>=1.0.0
 supabase>=2.0.0
 openai>=1.0.0
 openpyxl>=3.1.0
+mlflow>=2.0.0
+```
+
+---
+
+## MLflow - Prompt Tracking
+
+### Overview
+
+We use MLflow to track evaluation prompts before making changes. This allows us to:
+- Version control prompts
+- Compare prompt performance
+- Roll back to previous versions
+
+### Start MLflow UI
+
+```powershell
+cd F:\CTC_HEALTH\Projects\Evaluation_Cycle
+.\venv\Scripts\Activate.ps1
+mlflow ui --port 5000
+```
+
+Open **http://localhost:5000** to view experiments.
+
+### Track Current Prompt
+
+Before changing the evaluation prompt, save it to MLflow:
+
+```powershell
+python scripts/track_prompt.py --name "prompt_v1" --description "Initial evaluation prompt"
+```
+
+### List Tracked Prompts
+
+```powershell
+python scripts/track_prompt.py --list
+```
+
+### Experiments
+
+| Experiment | Description |
+|------------|-------------|
+| `customer_segments` | Segment persona models |
+| `evaluation_prompts` | Evaluation prompt versions |
+
+### Workflow
+
+```
+1. Track current prompt    →  python scripts/track_prompt.py
+2. Make changes to prompt  →  Edit evaluation_service.py
+3. Run pipeline            →  python scripts/pipeline.py
+4. Compare results         →  MLflow UI (http://localhost:5000)
 ```
 
 ---
