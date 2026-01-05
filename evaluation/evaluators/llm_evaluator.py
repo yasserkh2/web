@@ -6,12 +6,18 @@ Follows Single Responsibility: Only handles LLM-based evaluation.
 """
 
 import os
+import json
+import re
+from pathlib import Path
 from typing import Optional, Dict, Any
 from datetime import datetime
 
 from .base import BaseEvaluator
 from ..models import BotResponse, EvaluationResult, Question
 from ..config import BotConfig, LLMConfig
+
+# Path to segments folder
+SEGMENTS_DIR = Path(__file__).parent.parent.parent / "segments"
 
 
 class LLMEvaluator(BaseEvaluator):
@@ -39,6 +45,57 @@ class LLMEvaluator(BaseEvaluator):
     def is_available(self) -> bool:
         """Check if the LLM API is configured."""
         return bool(self.config.api_key and self.config.api_key.strip())
+    
+    def _load_segment_description(self, bot_name: str) -> dict:
+        """
+        Load segment description from the segments folder.
+        
+        Args:
+            bot_name: Name of the bot/segment (e.g., "The Innovator")
+            
+        Returns:
+            Dictionary with segment information
+        """
+        # Convert bot name to filename format (e.g., "The Innovator" -> "the_innovator.md")
+        filename = bot_name.lower().replace(" ", "_").replace("-", "_") + ".md"
+        segment_path = SEGMENTS_DIR / filename
+        
+        segment_data = {
+            "name": bot_name,
+            "description": "",
+            "traits": [],
+            "behavioral_patterns": [],
+            "speech_markers": []
+        }
+        
+        if segment_path.exists():
+            try:
+                content = segment_path.read_text(encoding="utf-8")
+                
+                # Truncate description to reduce token usage (max ~1500 chars for low rate limits)
+                max_desc_length = 1500
+                if len(content) > max_desc_length:
+                    segment_data["description"] = content[:max_desc_length] + "\n...[truncated]"
+                else:
+                    segment_data["description"] = content
+                
+                # Extract key traits from the markdown content
+                lines = content.split("\n")
+                for line in lines:
+                    # Look for bullet points with key traits
+                    if line.strip().startswith("•") or line.strip().startswith("-"):
+                        trait = line.strip().lstrip("•-").strip()
+                        if trait and len(trait) < 200:
+                            segment_data["traits"].append(trait)
+                            if len(segment_data["traits"]) >= 10:  # Limit traits
+                                break
+                            
+            except Exception as e:
+                segment_data["description"] = f"Error loading segment: {str(e)}"
+        else:
+            segment_data["description"] = f"Segment file not found: {filename}"
+            
+        return segment_data
     
     def evaluate(
         self,
@@ -118,34 +175,36 @@ class LLMEvaluator(BaseEvaluator):
         criteria: Optional[Dict[str, Any]] = None
     ) -> str:
         """Build the evaluation prompt for the LLM."""
-        criteria = criteria or self.get_default_criteria()
-        criteria_list = "\n".join([f"- {k}: {v*100:.0f}%" for k, v in criteria.items()])
+        # Load full segment description from segments folder
+        segment_data = self._load_segment_description(bot_config.name)
+        segment_json = json.dumps(segment_data, indent=2, ensure_ascii=False)
         
-        return f"""You are an expert evaluator assessing AI healthcare bot responses.
+        return f"""You are a strict evaluator. Judge whether the assistant's response matches the target doctor segment.
 
-## Bot Being Evaluated
-- Name: {bot_config.name}
-- Persona: {bot_config.description}
+SEGMENT:
+{segment_json}
 
-## Evaluation Question
+USER MESSAGE:
 {question.text}
 
-## Bot's Response
+ASSISTANT RESPONSE TO EVALUATE:
 {response.response_text}
 
-## Evaluation Criteria (with weights)
-{criteria_list}
+SCORING (0-5):
+- 0 = not the segment at all
+- 1 = mostly wrong, few weak hints
+- 2 = mixed, clear drift into other segments
+- 3 = acceptable but inconsistent / noticeable leaks
+- 4 = strong match with minor issues
+- 5 = perfect, no leaks
 
-## Instructions
-1. Evaluate the response against each criterion
-2. Consider how well the response aligns with the bot's persona
-3. Assess medical accuracy and appropriateness
-4. Provide an overall score from 0-10
+RULES:
+- If score <= 3, comment MUST include: what's wrong and how to fix it
+- If score >= 4, comment should briefly explain why it matches well
+- Keep comment concise (max 100 words)
 
-## Required Output Format
-Score: [0-10]
-Criteria Scores: accuracy=[0-10], persona_alignment=[0-10], tone=[0-10], clarity=[0-10], completeness=[0-10]
-Evaluation: [2-3 sentence evaluation explaining the score]
+OUTPUT FORMAT (JSON only):
+{{"score": <0-5>, "comment": "<explanation>"}}
 """
     
     def _call_llm(self, prompt: str) -> str:
@@ -156,11 +215,12 @@ Evaluation: [2-3 sentence evaluation explaining the score]
             response = client.chat.completions.create(
                 model=self.config.model,
                 messages=[
-                    {"role": "system", "content": "You are an expert medical AI evaluator."},
+                    {"role": "system", "content": "You are a strict segment evaluator. Always respond with valid JSON only."},
                     {"role": "user", "content": prompt}
                 ],
                 temperature=self.config.temperature,
-                max_tokens=500
+                max_tokens=2000,
+                response_format={"type": "json_object"}
             )
             return response.choices[0].message.content
         
@@ -168,46 +228,44 @@ Evaluation: [2-3 sentence evaluation explaining the score]
     
     def _parse_llm_response(self, llm_response: str) -> tuple:
         """
-        Parse the LLM response to extract score, evaluation, and criteria scores.
+        Parse the LLM response JSON: {"score": <0-5>, "comment": "<text>"}
         
         Returns:
-            Tuple of (score, evaluation_text, criteria_scores)
+            Tuple of (score, comment, criteria_scores)
         """
         score = None
-        evaluation_text = llm_response
+        comment = ""
         criteria_scores = {}
         
-        lines = llm_response.strip().split("\n")
+        try:
+            # Extract JSON from response
+            json_match = re.search(r'\{[\s\S]*\}', llm_response)
+            if json_match:
+                json_str = json_match.group()
+                data = json.loads(json_str)
+            else:
+                data = json.loads(llm_response)
+            
+            # Extract score (0-5 scale)
+            score = data.get("score", 0)
+            comment = data.get("comment", "")
+            
+            # Store raw data
+            criteria_scores = {
+                "score": score,
+                "comment": comment,
+                "_raw_evaluation": data
+            }
+            
+        except json.JSONDecodeError:
+            # Fallback: try to extract score from text
+            comment = llm_response
+            score_match = re.search(r'"?score"?\s*:\s*(\d+)', llm_response)
+            if score_match:
+                score = int(score_match.group(1))
         
-        for line in lines:
-            line_lower = line.lower().strip()
-            
-            # Extract main score
-            if line_lower.startswith("score:"):
-                try:
-                    score_str = line.split(":")[1].strip()
-                    # Handle formats like "8/10" or "8"
-                    if "/" in score_str:
-                        score_str = score_str.split("/")[0]
-                    score = float(score_str)
-                except (ValueError, IndexError):
-                    pass
-            
-            # Extract criteria scores
-            elif line_lower.startswith("criteria scores:"):
-                try:
-                    scores_part = line.split(":", 1)[1].strip()
-                    # Parse format: accuracy=8, persona_alignment=7, ...
-                    for item in scores_part.split(","):
-                        if "=" in item:
-                            key, value = item.split("=")
-                            criteria_scores[key.strip()] = float(value.strip())
-                except (ValueError, IndexError):
-                    pass
-            
-            # Extract evaluation text
-            elif line_lower.startswith("evaluation:"):
-                evaluation_text = line.split(":", 1)[1].strip()
-        
-        return score, evaluation_text, criteria_scores
+        return score, comment, criteria_scores
+
+
+
 

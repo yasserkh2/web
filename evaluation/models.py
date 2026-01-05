@@ -95,3 +95,6 @@ class EvaluationSession:
         completed = len([e for e in self.evaluations if e.is_evaluated()])
         return (completed / total_expected * 100) if total_expected > 0 else 0
 
+
+
+

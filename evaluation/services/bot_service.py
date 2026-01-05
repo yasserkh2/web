@@ -302,3 +302,6 @@ Keep responses concise (2-4 sentences), natural, and in character."""
             "message": f"Bot {bot_config.name} is configured (ID: {bot_config.assistant_id[:20]}...)"
         }
 
+
+
+

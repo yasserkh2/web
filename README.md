@@ -6,15 +6,15 @@ A Streamlit-based platform for evaluating AI voice agents with integrated VAPI v
 
 ## Features
 
-- 🤖 **6 Bot Profiles**: Evaluate different AI personas (customer segments)
+- 🤖 **Multiple Bot Profiles**: Evaluate different AI personas (The Traditionalist, The Innovator, The Evidence Purist)
 - 📞 **Voice Call Mode**: Real-time voice calls with VAPI integration
 - 📝 **Live Transcript**: See real-time transcription during voice calls
 - 💬 **Feedback System**: Rate calls and provide written feedback
 - 💾 **Database Storage**: All feedback saved to Supabase (PostgreSQL)
 - 👤 **Profile View**: View detailed bot personality profiles
 - 🎨 **Modern Dark UI**: Clean and intuitive interface
-- 📊 **MLflow Prompt Registry**: Version control for prompts with compare & rollback
-- 🔄 **Prompt Versioning**: Track every prompt change with commit messages
+- 🤖 **LLM-Based Evaluation**: Automated segment-fit evaluation using GPT-4o-mini
+- 📊 **Excel Integration**: Direct read/write to Excel evaluation sheets
 
 ---
 
@@ -71,19 +71,18 @@ The app will:
 
 ---
 
-## Bots (Customer Segments)
+## Bots
 
-| Name | Env Variable | Persona | Description |
-|------|--------------|---------|-------------|
-| **The Traditionalist** | `VAPI_ASSISTANT_ID_1` | Conservative | Relies on established, time-tested treatments |
-| **The Innovator** | `VAPI_ASSISTANT_ID_2` | Early Adopter | Early adopter of new treatments, follows KOLs |
-| **The Patient-Centered Physician** | `VAPI_ASSISTANT_ID_3` | QoL-Focused | Focuses on patient preferences and outcomes |
-| **The Financially Driven** | `VAPI_ASSISTANT_ID_4` | Revenue-Focused | Practice profitability, reimbursement-aware |
-| **The Evidence Purist** | `VAPI_ASSISTANT_ID_5` | Data-Driven | Strictly follows clinical evidence and RCT data |
-| **The Cost-Conscious Prescriber** | `VAPI_ASSISTANT_ID_6` | Value-Aware | Balances efficacy with cost-effectiveness |
+| Name | Env Variable | Description |
+|------|--------------|-------------|
+| **The Traditionalist** | `VAPI_ASSISTANT_ID_1` | Relies on established, time-tested treatments |
+| **The Innovator** | `VAPI_ASSISTANT_ID_2` | Early adopter of new treatments and technologies |
+| **The Patient-Centered Physician** | `VAPI_ASSISTANT_ID_3` | Focuses on patient preferences and outcomes |
+| **The Financially Driven Prescriber** | `VAPI_ASSISTANT_ID_4` | Institution-focused, considers financial factors |
+| **The Evidence Purist** | `VAPI_ASSISTANT_ID_5` | Strictly follows clinical evidence and data |
+| **The Cost-Conscious Prescriber** | `VAPI_ASSISTANT_ID_6` | Balances efficacy with cost-effectiveness |
 
 All bots support VAPI voice calls when their respective assistant ID is configured.
-Prompts are stored in `prompts/*.md` and tracked in MLflow Prompt Registry.
 
 ---
 
@@ -92,37 +91,38 @@ Prompts are stored in `prompts/*.md` and tracked in MLflow Prompt Registry.
 ```
 Evaluation_Cycle/
 ├── app.py                          # Main Streamlit application
-├── mlflow_tracker.py               # Simple MLflow prompt/feedback tracker
-├── prompts.py                      # Prompt engineering & MLflow integration
+├── eval_agent.py                   # LLM evaluation CLI tool
 ├── requirements.txt                # Python dependencies
 ├── .env                            # Environment variables (create this)
 │
-├── prompts/                        # Bot prompts (separate .md files)
-│   ├── config.json                 # Bot metadata & evaluation criteria
-│   ├── the_traditionalist.md       # Full prompt for The Traditionalist
-│   ├── the_innovator.md            # Full prompt for The Innovator
-│   ├── the_evidence_purist.md      # Full prompt for The Evidence Purist
-│   ├── the_patient_centered.md     # Full prompt for Patient-Centered
-│   ├── the_cost_conscious.md       # Full prompt for Cost-Conscious
-│   └── the_financially_driven.md   # Full prompt for Financially Driven
+├── bot_evaluation_with_comments.xlsx  # Evaluation Excel file
 │
-├── evaluation/                     # Evaluation module
+├── segments/                       # Segment persona descriptions
+│   ├── the_traditionalist.md
+│   ├── the_innovator.md
+│   ├── the_evidence_purist.md
+│   ├── the_cost_conscious.md
+│   ├── the_financially_driven.md
+│   └── the_patient_centered.md
+│
+├── datasets/                       # Evaluation test datasets
+│   ├── the_innovator.json
+│   ├── the_traditionalist.json
+│   └── the_evidence_purist.json
+│
+├── eval_results/                   # Evaluation output (JSON)
+│
+├── evaluation/                     # Evaluation package
 │   ├── __init__.py
-│   ├── __main__.py
-│   ├── main.py                     # CLI entry point
-│   ├── config.py                   # Bot & MLflow configuration
+│   ├── config.py                   # Configuration classes
 │   ├── models.py                   # Data models
-│   ├── evaluators/                 # Evaluation strategies
-│   │   ├── base.py
-│   │   ├── llm_evaluator.py        # GPT-based evaluator
-│   │   └── manual_evaluator.py
-│   └── services/                   # Business logic
-│       ├── bot_service.py
-│       ├── excel_service.py
-│       ├── evaluation_service.py
-│       └── mlflow_service.py       # MLflow tracking integration
-│
-├── mlruns/                         # MLflow tracking data (auto-created)
+│   ├── evaluators/
+│   │   ├── base.py                 # Base evaluator class
+│   │   ├── llm_evaluator.py        # LLM-based evaluator
+│   │   └── manual_evaluator.py     # Manual evaluation
+│   └── services/
+│       ├── bot_service.py          # Bot interaction service
+│       └── excel_service.py        # Excel file service
 │
 ├── vapi_call_widget.html           # Voice call interface
 ├── vapi_transcript.html            # Live transcript display
@@ -142,6 +142,87 @@ Evaluation_Cycle/
     ├── SUPABASE_SCHEMA_EXPLAINED.md # SQL schema breakdown
     └── VAPI_INTEGRATION_GUIDE.md   # VAPI setup & troubleshooting
 ```
+
+---
+
+## LLM Evaluation System
+
+### Overview
+
+The platform includes an automated evaluation system that uses GPT-4o-mini to assess how well bot responses match their target physician segment.
+
+### Running Evaluations
+
+```powershell
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# Run evaluation on Excel file
+python -u eval_agent.py --model gpt-4o-mini --delay 30
+
+# Force re-evaluate already scored rows
+python -u eval_agent.py --model gpt-4o-mini --delay 30 --force
+```
+
+### Excel Structure
+
+The evaluation uses `bot_evaluation_with_comments.xlsx` with the following structure:
+
+| Column | Header | Description |
+|--------|--------|-------------|
+| A | Question | The question asked to the bot |
+| **The Traditionalist** |||
+| B | The Traditionalist | Bot's response |
+| C | The Traditionalist Eval | LLM score (0-5) |
+| D | The Traditionalist Comment | LLM comment (if score ≤ 3) |
+| E | The Traditionalist Eval_Aboubakr | Human evaluator score |
+| F | The Traditionalist Comment_Aboubakr | Human evaluator comment |
+| G | The Traditionalist Eval_Thomas | Human evaluator score |
+| H | The Traditionalist Comment_Thomas | Human evaluator comment |
+| **The Innovator** |||
+| I | The Innovator | Bot's response |
+| J | The Innovator Eval | LLM score (0-5) |
+| K | The Innovator Comment | LLM comment (if score ≤ 3) |
+| L | The Innovator Eval_Aboubakr | Human evaluator score |
+| M | The Innovator Comment_Aboubakr | Human evaluator comment |
+| N | The Innovator Eval_Thomas | Human evaluator score |
+| O | The Innovator Comment_Thomas | Human evaluator comment |
+| **The Evidence Purist** |||
+| P | The Evidence Purist | Bot's response |
+| Q | The Evidence Purist Eval | LLM score (0-5) |
+| R | The Evidence Purist Comment | LLM comment (if score ≤ 3) |
+| S | The Evidence Purist Eval_Aboubakr | Human evaluator score |
+| T | The Evidence Purist Comment_Aboubakr | Human evaluator comment |
+| U | The Evidence Purist Eval_Thomas | Human evaluator score |
+| V | The Evidence Purist Comment_Thomas | Human evaluator comment |
+
+### Scoring Scale (0-5)
+
+| Score | Meaning |
+|-------|---------|
+| 0 | Not the segment at all |
+| 1 | Mostly wrong, few weak hints |
+| 2 | Mixed, clear drift into other segments |
+| 3 | Acceptable but inconsistent / noticeable leaks |
+| 4 | Strong match with minor issues |
+| 5 | Perfect, no leaks |
+
+### Segment Descriptions
+
+Segment profiles are stored in the `segments/` folder:
+- `segments/the_traditionalist.md`
+- `segments/the_innovator.md`
+- `segments/the_evidence_purist.md`
+
+These files contain detailed persona descriptions used by the LLM evaluator.
+
+### Evaluation Prompt
+
+The evaluator uses a strict segment-fit prompt that:
+1. Loads the segment description from `segments/` folder
+2. Compares the bot response against segment traits
+3. Returns a score (0-5) and comment
+4. Only adds comments when score ≤ 3 (needs improvement)
 
 ---
 
@@ -165,156 +246,6 @@ Evaluation_Cycle/
 - HTTP server on port 8080 serves voice pages
 - localStorage enables cross-iframe communication
 - Supabase stores all feedback and transcripts
-
----
-
-## MLflow Experiment Tracking
-
-Track prompts, feedback, and evaluation metrics with MLflow.
-
-### Quick Start
-
-```powershell
-# Activate virtual environment
-.\venv\Scripts\Activate.ps1
-
-# Log feedback for a bot
-python mlflow_tracker.py --log-feedback "The Innovator" "Should sound bolder about early adoption"
-
-# Log an evaluation score
-python mlflow_tracker.py --log-eval "The Innovator" 7.5
-
-# View history
-python mlflow_tracker.py --list
-
-# Launch MLflow UI
-python mlflow_tracker.py --ui
-```
-
----
-
-## Prompt Engineering
-
-Manage and version prompts for each bot using **MLflow Prompt Registry**.
-
-### Prompt Files
-
-Prompts are stored as separate `.md` files in the `prompts/` folder:
-
-```
-prompts/
-├── config.json                 # Bot metadata & evaluation criteria
-├── the_traditionalist.md       # ~7,200 words
-├── the_innovator.md            # ~7,500 words
-├── the_evidence_purist.md      # ~5,900 words
-├── the_patient_centered.md     # ~6,500 words
-├── the_cost_conscious.md       # ~6,300 words
-└── the_financially_driven.md   # ~6,400 words
-```
-
-### Quick Commands
-
-```powershell
-# Activate virtual environment
-.\venv\Scripts\Activate.ps1
-
-# List all bot prompts with word counts
-python prompts.py --list
-
-# Show full prompt for a bot
-python prompts.py --show "The Innovator"
-
-# Register prompt to MLflow Prompt Registry
-python prompts.py --register "The Innovator"
-
-# Register all prompts to MLflow
-python prompts.py --register-all
-
-# Evaluate prompt with GenAI (requires OPENAI_API_KEY)
-python prompts.py --evaluate "The Innovator"
-
-# Compare all prompts
-python prompts.py --compare
-
-# Start MLflow UI
-python prompts.py --ui
-```
-
-### Editing Prompts
-
-1. **Edit the `.md` file** directly in `prompts/` folder
-2. **Register the new version** to MLflow:
-   ```powershell
-   python prompts.py --register "The Innovator"
-   ```
-3. **View version history** in MLflow UI: http://localhost:5000/#/prompts
-
-### Bot Metadata
-
-Edit `prompts/config.json` to update metadata:
-
-```json
-{
-  "The Innovator": {
-    "version": "1.0",
-    "prompt_file": "the_innovator.md",
-    "persona_notes": "Early adopter, conference-oriented, excited about novel MOA",
-    "target_audience": "Pharma reps with new/innovative treatments",
-    "evaluation_criteria": {
-      "persona_alignment": "Shows genuine interest in innovation",
-      "boldness": "Sounds confident about early adoption",
-      "kol_references": "References conferences, KOLs, emerging research"
-    }
-  }
-}
-```
-
-### Available Bots (Customer Segments)
-
-| Bot | Persona | Key Traits |
-|-----|---------|------------|
-| **The Traditionalist** | Conservative | Prefers proven, time-tested treatments |
-| **The Innovator** | Early Adopter | Excited about novel MOA, follows KOLs |
-| **The Evidence Purist** | Data-Driven | Demands RCT data, questions methodology |
-| **The Patient-Centered Physician** | QoL-Focused | Prioritizes patient preferences |
-| **The Cost-Conscious Prescriber** | Value-Aware | Balances efficacy with cost |
-| **The Financially Driven** | Revenue-Focused | Practice profitability, reimbursement |
-
-### MLflow Prompt Registry
-
-Access the Prompts dashboard at **http://localhost:5000/#/prompts**
-
-**Features:**
-- 📝 **Version Control**: Track every prompt change with commit messages
-- 🔀 **Compare Versions**: Side-by-side diff between versions
-- 🏷️ **Aliases**: Set "production", "staging" aliases for A/B testing
-- 📊 **Metadata**: Track word count, persona, target audience
-- 🚀 **Use in Code**: Copy prompt URI for use in applications
-
-### Start MLflow UI
-
-```powershell
-# Using prompts.py
-python prompts.py --ui
-
-# Or directly
-python -m mlflow ui --port 5000
-```
-
-### What Gets Tracked
-
-| Type | Data Logged |
-|------|-------------|
-| **Prompts** | Full prompt text, version, word count, metadata tags |
-| **Feedback** | Bot name, feedback text, category, suggestions |
-| **Evaluations** | Bot name, score (0-10), LLM evaluation results |
-
-### Environment Variables (Optional)
-
-```env
-MLFLOW_TRACKING_URI=mlruns              # Local folder (default)
-OPENAI_API_KEY=sk-...                   # For GenAI evaluation
-```
 
 ---
 
@@ -366,6 +297,10 @@ See `DEPLOYMENT_PLAN.md` for detailed steps.
 ### Local Development (`.env`)
 
 ```env
+# OpenAI API Key (for LLM evaluation)
+OPENAI_API_KEY=sk-...
+
+# VAPI Configuration
 VAPI_PUBLIC_KEY=your_public_key
 VAPI_ASSISTANT_ID_1=assistant_id_for_bot_1
 VAPI_ASSISTANT_ID_2=assistant_id_for_bot_2
@@ -373,6 +308,8 @@ VAPI_ASSISTANT_ID_3=assistant_id_for_bot_3
 VAPI_ASSISTANT_ID_4=assistant_id_for_bot_4
 VAPI_ASSISTANT_ID_5=assistant_id_for_bot_5
 VAPI_ASSISTANT_ID_6=assistant_id_for_bot_6
+
+# Supabase Configuration
 SUPABASE_URL=https://xxx.supabase.co
 SUPABASE_KEY=eyJ...
 ```
@@ -402,9 +339,8 @@ streamlit>=1.28.0
 requests>=2.31.0
 python-dotenv>=1.0.0
 supabase>=2.0.0
-openpyxl>=3.1.0
-mlflow>=2.9.0
 openai>=1.0.0
+openpyxl>=3.1.0
 ```
 
 ---
@@ -432,6 +368,13 @@ openai>=1.0.0
 1. Check system microphone settings
 2. Verify VAPI Assistant has voice provider
 3. Check VAPI dashboard for call logs
+
+### LLM Evaluation Errors
+
+1. **Rate limit errors**: Add payment method at https://platform.openai.com/account/billing
+2. **Permission denied on Excel**: Close the Excel file before running
+3. **API key not found**: Set `OPENAI_API_KEY` in `.env` or environment
+4. **All scores 0**: Check for rate limit in the comment column
 
 ---
 
