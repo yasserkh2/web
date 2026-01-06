@@ -1,0 +1,14 @@
+artifact_uri: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/191380576883462085/d579a34bfbdc4649b5981358d6274c55/artifacts
+end_time: 1767117082595
+entry_point_name: ''
+experiment_id: '191380576883462085'
+lifecycle_stage: active
+run_id: d579a34bfbdc4649b5981358d6274c55
+run_name: prompt_The_Patient-Centered_Physician_v1.0_20251230_195122
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767117082352
+status: 3
+tags: []
+user_id: yasser

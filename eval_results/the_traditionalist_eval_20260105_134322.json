@@ -1,0 +1,110 @@
+{
+  "segment": "The Traditionalist",
+  "timestamp": "2026-01-05T13:40:58.494286",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 4.67,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I always start with the established guidelines.",
+          "trait_matched": "Prioritizes established standards of care."
+        },
+        {
+          "quote": "I follow the guideline pathway.",
+          "trait_matched": "Focus on tradition and proven approaches."
+        },
+        {
+          "quote": "I require mature data and some early real-world reassurance.",
+          "trait_matched": "Skeptical approach to new treatments."
+        },
+        {
+          "quote": "If the patient is doing well on their current regimen, I don’t switch for the sake of novelty.",
+          "trait_matched": "Risk aversion and preference for stability."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I always start with the established guidelines.\" → Prioritizes established standards of care.\n  - \"I follow the guideline pathway.\" → Focus on tradition and proven approaches.\n  - \"I require mature data and some early real-world reassurance.\" → Skeptical approach to new treatments.\n  - \"If the patient is doing well on their current regimen, I don’t switch for the sake of novelty.\" → Risk aversion and preference for stability.",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Well, all right, I mean—look, when it comes to treatment decisions, I always start with the established guidelines. That’s, let’s say, my baseline. I don’t reinvent the wheel with every patient. The M..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "the very first thing I look for is whether it’s already included in the relevant guidelines",
+          "trait_matched": "focus on established standards of care"
+        },
+        {
+          "quote": "I need to see that the pivotal studies were robust",
+          "trait_matched": "prioritization of proven therapeutic approaches"
+        },
+        {
+          "quote": "safety—always. Is there mature safety data",
+          "trait_matched": "risk aversion and emphasis on patient safety"
+        },
+        {
+          "quote": "If guidelines support it, the trial data is convincing",
+          "trait_matched": "cautious approach to new treatments"
+        },
+        {
+          "quote": "I don’t jump to switch just because something is new",
+          "trait_matched": "late adoption of new therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"the very first thing I look for is whether it’s already included in the relevant guidelines\" → focus on established standards of care\n  - \"I need to see that the pivotal studies were robust\" → prioritization of proven therapeutic approaches\n  - \"safety—always. Is there mature safety data\" → risk aversion and emphasis on patient safety\n  - \"If guidelines support it, the trial data is convincing\" → cautious approach to new treatments\n  - \"I don’t jump to switch just becau",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "Well, honestly, that’s, that’s not a small question. I mean, in principle, if a new therapy is approved, the very first thing I look for is whether it’s already included in the relevant guidelines—in ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I always start with randomized controlled trials",
+          "trait_matched": "Prioritizes proven therapeutic approaches"
+        },
+        {
+          "quote": "RCT is only as good as the questions it asks",
+          "trait_matched": "Skeptical of new treatments"
+        },
+        {
+          "quote": "real-world data... crucial as a reality check",
+          "trait_matched": "Focus on established standards of care"
+        },
+        {
+          "quote": "I don’t change practice just because a study is published",
+          "trait_matched": "Risk aversion and caution towards new therapies"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "real-world data—registries, cohort studies",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Emphasizes real-world data as critical, which may indicate a focus on evidence beyond traditional methods."
+        },
+        {
+          "leak_text": "Meta-analyses… honestly, sometimes useful for confirming a trend",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Shows a critical view of meta-analyses that suggests a preference for high-quality evidence."
+        }
+      ],
+      "rewrite_if_needed": "So, for me, I always start with randomized controlled trials—the high-quality, guideline-defining ones, of course. However, I recognize that an RCT is only as good as the questions it asks, and sometimes the population is so selective that it doesn’t reflect what we see in the clinic. If you show me a positive RCT with mature overall survival data, that certainly gets my attention, but I don’t change practice just because a study is published. \n\nAfter that, I look for real-world data—registries, cohort studies, ideally from German centers or European populations. This is important because some new therapies behave very differently once you get out of the trial bubble. We’ve seen drugs launched with great RCT results, but then two years later, we might encounter toxicity issues or less impressive outcomes in broader practice. Therefore, real-world data, especially early registry data, serves as a crucial reality check. \n\nAs for meta-analyses, I find them sometimes useful for confirming trends, but I remain critical: a meta-analysis of poor-quality studies doesn’t help me much. And regarding expert opinion, while I trust certain colleagues from my experience in tumor boards, I believe a consensus statement is only as good as the data behind it. \n\nIn order of importance: 1. A robust, positive RCT with survival benefit and a meaningful comparator. 2. Confirmation in real-world data.",
+      "comment": "Supporting Evidence:\n  - \"I always start with randomized controlled trials\" → Prioritizes proven therapeutic approaches\n  - \"RCT is only as good as the questions it asks\" → Skeptical of new treatments\n  - \"real-world data... crucial as a reality check\" → Focus on established standards of care\n  - \"I don’t change practice just because a study is published\" → Risk aversion and caution towards new therapies\n\nSegment Leaks:\n  - \"real-world data—registries, cohort studies\" → resembles Evidence-Purist",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "So, for me, I always start with randomized controlled trials—the high-quality, guideline-defining ones, of course—but, I mean, let’s be honest, an RCT is only as good as the questions it asks… and som..."
+    }
+  ]
+}

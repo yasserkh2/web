@@ -1,0 +1,39 @@
+{
+  "segment": "The Traditionalist",
+  "timestamp": "2026-01-05T13:42:40.023582",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 1,
+  "average_score": 5.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I always start with the established guidelines.",
+          "trait_matched": "Prioritizes established standards of care."
+        },
+        {
+          "quote": "I follow the guideline pathway.",
+          "trait_matched": "Focus on proven therapeutic approaches."
+        },
+        {
+          "quote": "I require mature data and some early real-world reassurance.",
+          "trait_matched": "Cautious approach to new treatments."
+        },
+        {
+          "quote": "If the patient is doing well on their current regimen, I don’t switch for the sake of novelty.",
+          "trait_matched": "Risk aversion and preference for stability."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I always start with the established guidelines.\" → Prioritizes established standards of care.\n  - \"I follow the guideline pathway.\" → Focus on proven therapeutic approaches.\n  - \"I require mature data and some early real-world reassurance.\" → Cautious approach to new treatments.\n  - \"If the patient is doing well on their current regimen, I don’t switch for the sake of novelty.\" → Risk aversion and preference for stability.",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Well, all right, I mean—look, when it comes to treatment decisions, I always start with the established guidelines. That’s, let’s say, my baseline. I don’t reinvent the wheel with every patient. The M..."
+    }
+  ]
+}

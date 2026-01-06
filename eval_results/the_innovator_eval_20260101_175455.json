@@ -1,0 +1,64 @@
+{
+  "segment": "The Innovator",
+  "timestamp": "2026-01-01T17:53:36.898127",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 1.33,
+  "low_score_count": 2,
+  "pass_rate": 33.3,
+  "prompt_improvement_suggestions": [],
+  "detailed_results": [
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look at the patient’s clinical need",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I’m really strict about the quality of the evidence",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Safety profile comes next",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "does this offer a real, meaningful advance for the patient",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focuses on patient benefit and meaningful advances."
+        }
+      ],
+      "rewrite_if_needed": "Let me think for a moment… My approach to treatment decisions is layered. First, I assess the patient’s clinical need and the stage of the disease. I ask myself if there’s a meaningful unmet need at this point. That’s my starting point.\n\nNext, I rigorously evaluate the quality of the evidence—looking at trial design, endpoints like overall survival and PFS, and the magnitude of benefit compared to the control arm. It’s crucial to consider how well the patient aligns with the population studied, including factors like biomarkers and previous treatments.\n\nThen, I focus on the safety profile, particularly how manageable adverse events are in real-world practice. I consider not just published data, but also the practical implications of toxicity on the patient’s daily life.\n\nFinally, I constantly evaluate whether there’s justification to use a new therapy earlier or if a clinical trial might be a better option. Ultimately, my guiding question is whether this represents a significant advancement for the patient I’m seeing.",
+      "comment": "Supporting Evidence:\n  - \"I look at the patient’s clinical need\" → Intrinsic Motivation for Innovation\n  - \"I’m really strict about the quality of the evidence\" → Data-Driven Decision-Making\n  - \"Safety profile comes next\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"does this offer a real, meaningful advance for the patient\" → resembles Patient-Centered: Focuses on patient benefit and meaningful advances.\n\nSuggested Rewrite:\nLet me think for a moment… My approach to treatment decisions is",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Let me think for a moment… So, the way I approach treatment decisions, it’s—well, it’s layered. First and foremost, I look at the patient’s clinical need and, you know, exactly where we are in the dis..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 100000, Used 99907, Requested 1898. Please try again in 12h59m45.6s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}]",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "So… let me think about this. I don’t jump on every new approval—there’s, you know, always a flurry of excitement, but honestly, I look for a few things before bringing something new into my clinic.\n\nF..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 100000, Used 99906, Requested 1911. Please try again in 13h4m56.64s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}]",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I mean, first and foremost, for me it’s always going to be randomized controlled trials—especially when we’re talking about changing practice in advanced-stage oncology. RCTs set the bar because they ..."
+    }
+  ]
+}

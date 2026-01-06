@@ -1,0 +1,45 @@
+{
+  "segment": "The Innovator",
+  "timestamp": "2026-01-01T17:48:37.529176",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 0.0,
+  "low_score_count": 3,
+  "pass_rate": 0.0,
+  "prompt_improvement_suggestions": [],
+  "detailed_results": [
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 100000, Used 88475, Requested 12477. Please try again in 6h51m15.84s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Let me think for a moment… So, the way I approach treatment decisions, it’s—well, it’s layered. First and foremost, I look at the patient’s clinical need and, you know, exactly where we are in the dis..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on requests per min (RPM): Limit 3, Used 3, Requested 1. Please try again in 20s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'requests', 'param': None, 'code': 'rate_limit_exceeded'}}]",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "So… let me think about this. I don’t jump on every new approval—there’s, you know, always a flurry of excitement, but honestly, I look for a few things before bringing something new into my clinic.\n\nF..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 100000, Used 88473, Requested 12505. Please try again in 7h2m29.76s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}]",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I mean, first and foremost, for me it’s always going to be randomized controlled trials—especially when we’re talking about changing practice in advanced-stage oncology. RCTs set the bar because they ..."
+    }
+  ]
+}

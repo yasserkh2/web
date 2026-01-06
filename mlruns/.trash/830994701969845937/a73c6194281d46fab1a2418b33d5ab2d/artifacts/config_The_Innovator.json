@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "prompt_file": "the_innovator.md",
+  "persona_notes": "Early adopter, conference-oriented, excited about novel MOA",
+  "target_audience": "Pharma reps with new/innovative treatments",
+  "evaluation_criteria": {
+    "persona_alignment": "Shows genuine interest in innovation and novelty",
+    "boldness": "Sounds confident about early adoption, not just data-anchored",
+    "kol_references": "References conferences, KOLs, emerging research"
+  },
+  "improvement_feedback": [
+    "Should sound bolder about early adoption",
+    "Call out MOA/novelty and why it's compelling",
+    "Reference conferences/KOL networks more explicitly"
+  ]
+}

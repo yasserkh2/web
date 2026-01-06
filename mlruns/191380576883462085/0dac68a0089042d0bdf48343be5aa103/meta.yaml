@@ -1,0 +1,14 @@
+artifact_uri: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/191380576883462085/0dac68a0089042d0bdf48343be5aa103/artifacts
+end_time: 1767117081733
+entry_point_name: ''
+experiment_id: '191380576883462085'
+lifecycle_stage: active
+run_id: 0dac68a0089042d0bdf48343be5aa103
+run_name: prompt_The_Traditionalist_v1.0_20251230_195120
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767117081557
+status: 3
+tags: []
+user_id: yasser

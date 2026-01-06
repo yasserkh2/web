@@ -1,0 +1,15 @@
+artifact_uri: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/830994701969845937/a73c6194281d46fab1a2418b33d5ab2d/artifacts
+deleted_time: 1767116969538
+end_time: 1767116799719
+entry_point_name: ''
+experiment_id: '830994701969845937'
+lifecycle_stage: deleted
+run_id: a73c6194281d46fab1a2418b33d5ab2d
+run_name: prompt_The_Innovator_v1.0_20251230_194639
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767116799570
+status: 3
+tags: []
+user_id: yasser

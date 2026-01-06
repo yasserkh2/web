@@ -1,0 +1,15 @@
+creation_timestamp: 1767628668602
+current_stage: None
+deployment_job_state: null
+description: before changes based on abubaker comments
+last_updated_timestamp: 1767628668602
+model_id: ''
+name: the_traditionalist
+run_id: ''
+run_link: ''
+source: dummy-source
+status: READY
+status_message: null
+storage_location: dummy-source
+user_id: null
+version: 2

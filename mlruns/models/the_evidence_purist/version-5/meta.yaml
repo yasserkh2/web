@@ -1,0 +1,17 @@
+creation_timestamp: 1767145502362
+current_stage: None
+deployment_job_state: null
+description: 'v1.1: Fixed sequential language and absolutes: replaced numbered hierarchy
+  with internal checklist, added forbidden sequencing words, added pre-send checkpoint
+  for absolute/sequencing scan'
+last_updated_timestamp: 1767145502362
+model_id: null
+name: the_evidence_purist
+run_id: null
+run_link: null
+source: dummy-source
+status: READY
+status_message: null
+storage_location: dummy-source
+user_id: null
+version: 5

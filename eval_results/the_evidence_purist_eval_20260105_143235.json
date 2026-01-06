@@ -1,0 +1,423 @@
+{
+  "segment": "The Evidence Purist",
+  "timestamp": "2026-01-05T14:16:25.934848",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 16,
+  "average_score": 4.94,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize statistical robustness and evidence hierarchy",
+          "trait_matched": "Focus on evidence-based decision making"
+        },
+        {
+          "quote": "large, well-designed randomized trials, high-quality meta-analyses",
+          "trait_matched": "Emphasis on rigorous data"
+        },
+        {
+          "quote": "balancing efficacy with safety",
+          "trait_matched": "Consideration of patient-specific factors"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize statistical robustness and evidence hierarchy\" → Focus on evidence-based decision making\n  - \"large, well-designed randomized trials, high-quality meta-analyses\" → Emphasis on rigorous data\n  - \"balancing efficacy with safety\" → Consideration of patient-specific factors",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "One second… … … let me take this call… … … Yes, this is Dr. Lindner… … … … … alright… … … … … yeah, okay… … … … … No, transfuse only if hemoglobin drops below seven… … … … check levels again in six ho..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize large, well-conducted randomized controlled trials",
+          "trait_matched": "Evidence-based decision making"
+        },
+        {
+          "quote": "The therapy must demonstrate statistically robust improvements",
+          "trait_matched": "Focus on strong evidence"
+        },
+        {
+          "quote": "I remain cautious if the data are immature, biased, or inconsistent",
+          "trait_matched": "Skepticism towards unproven therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize large, well-conducted randomized controlled trials\" → Evidence-based decision making\n  - \"The therapy must demonstrate statistically robust improvements\" → Focus on strong evidence\n  - \"I remain cautious if the data are immature, biased, or inconsistent\" → Skepticism towards unproven therapies",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "I would, I would again, as I said, I would definitely look for a treatment that would, if, if the data had been sufficiently rigorous... So, for me, it starts with the evidence hierarchy. I prioritize..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize evidence from large, well-designed randomized controlled trials",
+          "trait_matched": "Methodical and guideline-oriented prescribing"
+        },
+        {
+          "quote": "high-quality meta-analyses",
+          "trait_matched": "Focus on robust clinical evidence"
+        },
+        {
+          "quote": "provide the most statistically robust data",
+          "trait_matched": "Emphasis on solid evidence"
+        },
+        {
+          "quote": "my focus is primarily on RCTs and meta-analyses",
+          "trait_matched": "Cautious curiosity toward new therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize evidence from large, well-designed randomized controlled trials\" → Methodical and guideline-oriented prescribing\n  - \"high-quality meta-analyses\" → Focus on robust clinical evidence\n  - \"provide the most statistically robust data\" → Emphasis on solid evidence\n  - \"my focus is primarily on RCTs and meta-analyses\" → Cautious curiosity toward new therapies",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I prioritize evidence from large, well-designed randomized controlled trials and high-quality meta-analyses. These provide the most statistically robust data and are less prone to biases compared to o..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "guidelines typically lag behind the latest evidence",
+          "trait_matched": "Evidence-based decision making"
+        },
+        {
+          "quote": "compelling data from well-conducted randomized controlled trials",
+          "trait_matched": "Emphasis on rigorous data"
+        },
+        {
+          "quote": "has to be solid evidence, not just preliminary results",
+          "trait_matched": "Skepticism towards unproven therapies"
+        },
+        {
+          "quote": "any deviation from established guidelines is backed by robust data",
+          "trait_matched": "Methodical and guideline-oriented attitude"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"guidelines typically lag behind the latest evidence\" → Evidence-based decision making\n  - \"compelling data from well-conducted randomized controlled trials\" → Emphasis on rigorous data\n  - \"has to be solid evidence, not just preliminary results\" → Skepticism towards unproven therapies\n  - \"any deviation from established guidelines is backed by robust data\" → Methodical and guideline-oriented attitude",
+      "question_id": 4,
+      "question": "If guidelines don’t mention a new option yet, how do you act?",
+      "response_preview": "I would, I would again, as I said, I would definitely look for a treatment that would if, if the data had been sufficiently rigorous, I mean, you know, guidelines typically lag behind the latest evide..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize hard clinical outcomes because they reflect tangible benefits for patients.",
+          "trait_matched": "Prioritizes evidence-based outcomes."
+        },
+        {
+          "quote": "Surrogate endpoints are useful for hypothesis generation or early-phase trials.",
+          "trait_matched": "Cautious curiosity towards new therapies."
+        },
+        {
+          "quote": "I need robust evidence showing improvements in OS or PFS.",
+          "trait_matched": "Methodical and guideline-oriented prescribing."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize hard clinical outcomes because they reflect tangible benefits for patients.\" → Prioritizes evidence-based outcomes.\n  - \"Surrogate endpoints are useful for hypothesis generation or early-phase trials.\" → Cautious curiosity towards new therapies.\n  - \"I need robust evidence showing improvements in OS or PFS.\" → Methodical and guideline-oriented prescribing.",
+      "question_id": 5,
+      "question": "How do you interpret surrogate endpoints vs ‘hard’ clinical outcomes?",
+      "response_preview": "Surrogate endpoints, such as tumor response rates or biomarker changes, can provide early indications of a treatment's potential efficacy, but they don't always translate into 'hard' clinical outcomes..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I tend to prioritize treatments that have demonstrated robust survival benefits",
+          "trait_matched": "Methodical and guideline-oriented approach"
+        },
+        {
+          "quote": "when long-term safety data is lacking, I proceed with caution",
+          "trait_matched": "Cautious attitude toward new therapies"
+        },
+        {
+          "quote": "weighing the potential benefits against the risks",
+          "trait_matched": "Optimizing patient outcomes using proven therapies"
+        },
+        {
+          "quote": "consider the individual patient's situation, their comorbidities, and their preferences",
+          "trait_matched": "Combining clinical experience with patient preferences"
+        },
+        {
+          "quote": "I would definitely want to see ongoing data collection and follow-up studies",
+          "trait_matched": "Skeptical of medical innovations until backed by strong clinical proof"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I tend to prioritize treatments that have demonstrated robust survival benefits\" → Methodical and guideline-oriented approach\n  - \"when long-term safety data is lacking, I proceed with caution\" → Cautious attitude toward new therapies\n  - \"weighing the potential benefits against the risks\" → Optimizing patient outcomes using proven therapies\n  - \"consider the individual patient's situation, their comorbidities, and their preferences\" → Combining clinical experience with",
+      "question_id": 6,
+      "question": "What’s your approach when evidence is promising but long-term safety is unknown?",
+      "response_preview": "I would, I would again, as I said, I would definitely look for a treatment that would if, if the data had been sufficiently rigorous... I mean, promising evidence is one thing, but the question is, ho..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I examine the study design, ensuring it's a well-conducted randomized controlled trial.",
+          "trait_matched": "Methodical and guideline-oriented."
+        },
+        {
+          "quote": "I assess the endpoints, prioritizing hard clinical outcomes like overall survival.",
+          "trait_matched": "Optimizing patient outcomes using proven therapies."
+        },
+        {
+          "quote": "I scrutinize the robustness of the data, including effect sizes and confidence intervals.",
+          "trait_matched": "Greatest weight to solid evidence."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I examine the study design, ensuring it's a well-conducted randomized controlled trial.\" → Methodical and guideline-oriented.\n  - \"I assess the endpoints, prioritizing hard clinical outcomes like overall survival.\" → Optimizing patient outcomes using proven therapies.\n  - \"I scrutinize the robustness of the data, including effect sizes and confidence intervals.\" → Greatest weight to solid evidence.",
+      "question_id": 7,
+      "question": "Describe how you evaluate a pivotal study in 60 seconds.",
+      "response_preview": "When evaluating a pivotal study, I focus on several key aspects. First, I examine the study design, ensuring it's a well-conducted randomized controlled trial. I look at the patient population to see ..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize a systematic approach to resolve discrepancies.",
+          "trait_matched": "methodical and guideline-oriented"
+        },
+        {
+          "quote": "I examine the methodology of each trial, focusing on design, sample size, and statistical rigor.",
+          "trait_matched": "grounded in the best available scientific evidence"
+        },
+        {
+          "quote": "my goal is to base clinical decisions on the most robust, applicable data available",
+          "trait_matched": "optimizing patient outcomes using proven therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize a systematic approach to resolve discrepancies.\" → methodical and guideline-oriented\n  - \"I examine the methodology of each trial, focusing on design, sample size, and statistical rigor.\" → grounded in the best available scientific evidence\n  - \"my goal is to base clinical decisions on the most robust, applicable data available\" → optimizing patient outcomes using proven therapies",
+      "question_id": 8,
+      "question": "If two trials conflict, what do you do?",
+      "response_preview": "When faced with conflicting trial data, I prioritize a systematic approach to resolve discrepancies. First, I examine the methodology of each trial, focusing on design, sample size, and statistical ri..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I trust real-world evidence when it complements robust clinical trial data",
+          "trait_matched": "Methodical and guideline-oriented"
+        },
+        {
+          "quote": "real-world evidence becomes particularly valuable when it confirms or refines efficacy",
+          "trait_matched": "Optimizing patient outcomes using proven therapies"
+        },
+        {
+          "quote": "must be derived from well-conducted observational studies or registries",
+          "trait_matched": "Cautious curiosity toward new data"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I trust real-world evidence when it complements robust clinical trial data\" → Methodical and guideline-oriented\n  - \"real-world evidence becomes particularly valuable when it confirms or refines efficacy\" → Optimizing patient outcomes using proven therapies\n  - \"must be derived from well-conducted observational studies or registries\" → Cautious curiosity toward new data",
+      "question_id": 9,
+      "question": "When do you trust real-world evidence?",
+      "response_preview": "I trust real-world evidence when it complements robust clinical trial data, offering insights into how treatments perform outside controlled environments. For me, real-world evidence becomes particula..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I follow a structured approach grounded in evidence-based medicine.",
+          "trait_matched": "Evidence-based decision-making."
+        },
+        {
+          "quote": "I evaluate the statistical robustness of the new option's data.",
+          "trait_matched": "Focus on rigorous data."
+        },
+        {
+          "quote": "If the new option shows a significant improvement in survival or quality of life.",
+          "trait_matched": "Prioritizing patient outcomes."
+        },
+        {
+          "quote": "I remain cautious and prefer the tried-and-tested standard.",
+          "trait_matched": "Cautious attitude toward new therapies."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I follow a structured approach grounded in evidence-based medicine.\" → Evidence-based decision-making.\n  - \"I evaluate the statistical robustness of the new option's data.\" → Focus on rigorous data.\n  - \"If the new option shows a significant improvement in survival or quality of life.\" → Prioritizing patient outcomes.\n  - \"I remain cautious and prefer the tried-and-tested standard.\" → Cautious attitude toward new therapies.",
+      "question_id": 10,
+      "question": "How do you decide between a familiar standard vs a new option with modest benefit?",
+      "response_preview": "When considering whether to adopt a new treatment option with modest benefits over a familiar standard, I follow a structured approach grounded in evidence-based medicine. First, I evaluate the statis..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "my decisions are fundamentally rooted in the evidence itself",
+          "trait_matched": "Evidence-based decision making"
+        },
+        {
+          "quote": "high-quality randomized controlled trials, meta-analyses, and guideline recommendations",
+          "trait_matched": "Preference for strong evidence"
+        },
+        {
+          "quote": "I always go back to the published data, the methodology, and the statistical robustness",
+          "trait_matched": "Methodical and guideline-oriented attitude"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"my decisions are fundamentally rooted in the evidence itself\" → Evidence-based decision making\n  - \"high-quality randomized controlled trials, meta-analyses, and guideline recommendations\" → Preference for strong evidence\n  - \"I always go back to the published data, the methodology, and the statistical robustness\" → Methodical and guideline-oriented attitude",
+      "question_id": 11,
+      "question": "What role do KOLs and conferences play in your decisions?",
+      "response_preview": "Well, you know, KOLs and conferences do play a role, but it's not the primary driver for me. I mean, I value the insights and the discussions that happen at these conferences, especially when they bri..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I was skeptical, as I always am with new therapies.",
+          "trait_matched": "Cautious curiosity towards new treatments."
+        },
+        {
+          "quote": "the trial demonstrated a significant improvement in overall survival.",
+          "trait_matched": "Focus on evidence-based outcomes."
+        },
+        {
+          "quote": "the trial design was robust, with a large sample size.",
+          "trait_matched": "Emphasis on high-quality research."
+        },
+        {
+          "quote": "I decided to adopt this combination therapy into my practice.",
+          "trait_matched": "Integration of evidence into clinical practice."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I was skeptical, as I always am with new therapies.\" → Cautious curiosity towards new treatments.\n  - \"the trial demonstrated a significant improvement in overall survival.\" → Focus on evidence-based outcomes.\n  - \"the trial design was robust, with a large sample size.\" → Emphasis on high-quality research.\n  - \"I decided to adopt this combination therapy into my practice.\" → Integration of evidence into clinical practice.",
+      "question_id": 12,
+      "question": "Tell me about a time you changed your practice—what triggered it?",
+      "response_preview": "One instance that comes to mind is when I integrated a new treatment protocol for acute myeloid leukemia (AML) based on compelling evidence from a large, well-conducted randomized controlled trial. Th..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I approach off-label suggestions with a high degree of caution",
+          "trait_matched": "methodical and guideline-oriented"
+        },
+        {
+          "quote": "my primary responsibility is to ensure that any treatment decision is grounded in robust, peer-reviewed data",
+          "trait_matched": "motivated by optimizing patient outcomes using proven therapies"
+        },
+        {
+          "quote": "I look for high-quality evidence, ideally from randomized controlled trials",
+          "trait_matched": "views medicine through the lens of evidence-based medicine"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I approach off-label suggestions with a high degree of caution\" → methodical and guideline-oriented\n  - \"my primary responsibility is to ensure that any treatment decision is grounded in robust, peer-reviewed data\" → motivated by optimizing patient outcomes using proven therapies\n  - \"I look for high-quality evidence, ideally from randomized controlled trials\" → views medicine through the lens of evidence-based medicine",
+      "question_id": 13,
+      "question": "How do you handle off-label ideas suggested by colleagues?",
+      "response_preview": "I approach off-label suggestions with a high degree of caution and critical analysis. While I understand that off-label use can sometimes be supported by emerging evidence or clinical necessity, my pr..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "popularity in medicine... doesn’t equate to efficacy or safety.",
+          "trait_matched": "Skeptical of therapies lacking evidence."
+        },
+        {
+          "quote": "it’s always about the data—rigorous, reproducible, and clinically meaningful data.",
+          "trait_matched": "Emphasis on evidence-based decision making."
+        },
+        {
+          "quote": "If the evidence doesn’t show a meaningful impact on overall survival or quality of life...",
+          "trait_matched": "Focus on patient outcomes and proven therapies."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"popularity in medicine... doesn’t equate to efficacy or safety.\" → Skeptical of therapies lacking evidence.\n  - \"it’s always about the data—rigorous, reproducible, and clinically meaningful data.\" → Emphasis on evidence-based decision making.\n  - \"If the evidence doesn’t show a meaningful impact on overall survival or quality of life...\" → Focus on patient outcomes and proven therapies.",
+      "question_id": 14,
+      "question": "What makes you reject a therapy even if it’s popular?",
+      "response_preview": "Well, I mean, popularity in medicine, you know, it doesn’t equate to efficacy or safety. I’ve seen therapies gain traction because of marketing hype or anecdotal enthusiasm, but when you dig into the ..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "What is the statistical robustness of this new data?",
+          "trait_matched": "methodical and guideline-oriented"
+        },
+        {
+          "quote": "how does it compare to existing evidence",
+          "trait_matched": "focus on evidence-based medicine"
+        },
+        {
+          "quote": "understanding the quality and reliability of the data",
+          "trait_matched": "emphasis on solid evidence"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"What is the statistical robustness of this new data?\" → methodical and guideline-oriented\n  - \"how does it compare to existing evidence\" → focus on evidence-based medicine\n  - \"understanding the quality and reliability of the data\" → emphasis on solid evidence",
+      "question_id": 15,
+      "question": "If a rep/MSL has new data, what do you ask first?",
+      "response_preview": "First, I would ask, \"What is the statistical robustness of this new data? Specifically, how does it compare to existing evidence in terms of trial design, sample size, and confidence intervals?\" My fo..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I tend to lean towards ‘wait until standard of care’",
+          "trait_matched": "Cautious approach to new therapies"
+        },
+        {
+          "quote": "heavily grounded in evidence-based medicine",
+          "trait_matched": "Commitment to evidence-based practice"
+        },
+        {
+          "quote": "must demonstrate significant survival benefits",
+          "trait_matched": "Focus on proven therapies"
+        },
+        {
+          "quote": "adhere to established treatment protocols",
+          "trait_matched": "Preference for treatments with proven track record"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I tend to lean towards ‘wait until standard of care’\" → Cautious approach to new therapies\n  - \"heavily grounded in evidence-based medicine\" → Commitment to evidence-based practice\n  - \"must demonstrate significant survival benefits\" → Focus on proven therapies\n  - \"adhere to established treatment protocols\" → Preference for treatments with proven track record",
+      "question_id": 16,
+      "question": "What is your default: ‘try early in a few patients’ vs ‘wait until standard of care’—and why?",
+      "response_preview": "I tend to lean towards ‘wait until standard of care’ unless the evidence supporting early use is exceptionally strong and robust. My decision-making framework is heavily grounded in evidence-based med..."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+artifact_location: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/797722475274816498
+creation_time: 1767132570983
+experiment_id: '797722475274816498'
+last_update_time: 1767628396393
+lifecycle_stage: deleted
+name: bot_evaluation
+tags:
+  domain: healthcare
+  project: bot_evaluation

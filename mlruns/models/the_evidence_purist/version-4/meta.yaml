@@ -1,0 +1,16 @@
+creation_timestamp: 1767131430192
+current_stage: None
+deployment_job_state: null
+description: 'v1.0: Added Evidence-Bound Language Requirement (lines 73-85) and Hard
+  Guardrail for interruption triggers (lines 201-211)'
+last_updated_timestamp: 1767131430192
+model_id: null
+name: the_evidence_purist
+run_id: null
+run_link: null
+source: dummy-source
+status: READY
+status_message: null
+storage_location: dummy-source
+user_id: null
+version: 4

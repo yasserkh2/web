@@ -1,0 +1,91 @@
+{
+  "segment": "The Evidence Purist",
+  "timestamp": "2026-01-05T13:44:22.917699",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 5.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize statistical robustness and evidence hierarchy",
+          "trait_matched": "Evidence-based decision making"
+        },
+        {
+          "quote": "large, well-designed randomized trials, high-quality meta-analyses",
+          "trait_matched": "Focus on high-quality research"
+        },
+        {
+          "quote": "balancing efficacy with safety",
+          "trait_matched": "Consideration of patient safety and outcomes"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize statistical robustness and evidence hierarchy\" → Evidence-based decision making\n  - \"large, well-designed randomized trials, high-quality meta-analyses\" → Focus on high-quality research\n  - \"balancing efficacy with safety\" → Consideration of patient safety and outcomes",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "One second… … … let me take this call… … … Yes, this is Dr. Lindner… … … … … alright… … … … … yeah, okay… … … … … No, transfuse only if hemoglobin drops below seven… … … … check levels again in six ho..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize large, well-conducted randomized controlled trials",
+          "trait_matched": "Evidence-based decision making"
+        },
+        {
+          "quote": "The therapy must demonstrate statistically robust improvements",
+          "trait_matched": "Focus on strong evidence"
+        },
+        {
+          "quote": "I remain cautious if the data are immature, biased, or inconsistent",
+          "trait_matched": "Skeptical of unproven therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize large, well-conducted randomized controlled trials\" → Evidence-based decision making\n  - \"The therapy must demonstrate statistically robust improvements\" → Focus on strong evidence\n  - \"I remain cautious if the data are immature, biased, or inconsistent\" → Skeptical of unproven therapies",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "I would, I would again, as I said, I would definitely look for a treatment that would, if, if the data had been sufficiently rigorous... So, for me, it starts with the evidence hierarchy. I prioritize..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize evidence from large, well-designed randomized controlled trials",
+          "trait_matched": "Methodical and guideline-oriented"
+        },
+        {
+          "quote": "high-quality meta-analyses",
+          "trait_matched": "Methodical and guideline-oriented"
+        },
+        {
+          "quote": "provide the most statistically robust data",
+          "trait_matched": "Optimizing patient outcomes using proven therapies"
+        },
+        {
+          "quote": "my focus is primarily on RCTs and meta-analyses",
+          "trait_matched": "Cautious curiosity toward new drugs or devices"
+        },
+        {
+          "quote": "demonstrate clear, clinically meaningful outcomes",
+          "trait_matched": "Optimizing patient outcomes using proven therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize evidence from large, well-designed randomized controlled trials\" → Methodical and guideline-oriented\n  - \"high-quality meta-analyses\" → Methodical and guideline-oriented\n  - \"provide the most statistically robust data\" → Optimizing patient outcomes using proven therapies\n  - \"my focus is primarily on RCTs and meta-analyses\" → Cautious curiosity toward new drugs or devices\n  - \"demonstrate clear, clinically meaningful outcomes\" → Optimizing patient outcomes ",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I prioritize evidence from large, well-designed randomized controlled trials and high-quality meta-analyses. These provide the most statistically robust data and are less prone to biases compared to o..."
+    }
+  ]
+}

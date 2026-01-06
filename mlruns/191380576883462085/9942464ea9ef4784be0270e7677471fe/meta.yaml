@@ -1,0 +1,14 @@
+artifact_uri: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/191380576883462085/9942464ea9ef4784be0270e7677471fe/artifacts
+end_time: 1767117082820
+entry_point_name: ''
+experiment_id: '191380576883462085'
+lifecycle_stage: active
+run_id: 9942464ea9ef4784be0270e7677471fe
+run_name: prompt_The_Cost-Conscious_Prescriber_v1.0_20251230_195122
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767117082634
+status: 3
+tags: []
+user_id: yasser

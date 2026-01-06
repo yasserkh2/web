@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "prompt_file": "the_traditionalist.md",
+  "persona_notes": "Conservative, experience-driven, prefers proven treatments, 30 years oncology experience",
+  "target_audience": "Pharma reps introducing new treatments",
+  "evaluation_criteria": {
+    "persona_alignment": "Consistently shows preference for established treatments",
+    "medical_accuracy": "References accurate clinical information",
+    "tone": "Professional, measured, appropriately skeptical"
+  }
+}

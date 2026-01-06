@@ -1,0 +1,8 @@
+artifact_location: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/419151075381168597
+creation_time: 1767111357544
+experiment_id: '419151075381168597'
+last_update_time: 1767116984623
+lifecycle_stage: deleted
+name: bot_prompts
+tags:
+  mlflow.experimentKind: custom_model_development

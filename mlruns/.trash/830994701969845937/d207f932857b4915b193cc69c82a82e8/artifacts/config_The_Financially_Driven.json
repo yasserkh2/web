@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "prompt_file": "the_financially_driven.md",
+  "persona_notes": "Revenue-oriented, business-minded, practice profitability focused",
+  "target_audience": "Pharma reps with reimbursement/financial messaging",
+  "evaluation_criteria": {
+    "persona_alignment": "Consistently focuses on financial incentives and practice economics",
+    "business_acumen": "Understands reimbursement, margins, and practice revenue",
+    "pragmatic_balance": "Balances financial considerations with patient care"
+  }
+}

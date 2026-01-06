@@ -1,0 +1,154 @@
+{
+  "segment": "The Evidence Purist",
+  "timestamp": "2026-01-01T03:06:15.725904",
+  "model": "o1",
+  "total_evaluated": 16,
+  "average_score": 5.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "prompt_improvement_suggestions": [],
+  "detailed_results": [
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Look… so, um, the way I think about treatment decisions is probably less tidy than people expect. I would, I would generally say it’s a constant weighing exercise rather than a rulebook.\n\nWhat I tend ..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 29561, Requested 4549. Please try again in 8.22s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "I would, I would say it’s rarely the label date itself that changes anything for me. I mean, approval tells me the regulator found the data acceptable, but that’s sort of the entry ticket, not the con..."
+    },
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I would, I would say it’s not about one category replacing another, you know. I tend to anchor myself in the classic hierarchy first. Large, well‑conducted randomized trials sit at the center of how I..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 28982, Requested 4475. Please try again in 6.914s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 4,
+      "question": "If guidelines don’t mention a new option yet, how do you act?",
+      "response_preview": "I mean that happens quite a bit, honestly. Guidelines, by nature, lag the data, so I wouldn’t, I wouldn’t use their absence as proof that something isn’t relevant.\n\nThe way I look at it, I go back to ..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 29316, Requested 4638. Please try again in 7.908s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 5,
+      "question": "How do you interpret surrogate endpoints vs ‘hard’ clinical outcomes?",
+      "response_preview": "So… I mean, that’s a fundamental question in oncology, and I tend to come back to it quite a lot.\n\nIn general, I’m cautious with surrogate endpoints. I don’t dismiss them per se, but I try to keep the..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 30000, Requested 4598. Please try again in 9.196s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 6,
+      "question": "What’s your approach when evidence is promising but long-term safety is unknown?",
+      "response_preview": "I mean… that’s actually a fairly common situation in oncology now. So I would, I would generally take a step back and look at how *promising* is being defined in that context.\n\nAs far as the data show..."
+    },
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 7,
+      "question": "Describe how you evaluate a pivotal study in 60 seconds.",
+      "response_preview": "I would, I would start by saying I don’t think of it as a checklist, you know, it’s more a set of things I keep toggling between.\n\nI’m looking at how the trial was actually built — population, compara..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 25643, Requested 4517. Please try again in 320ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 8,
+      "question": "If two trials conflict, what do you do?",
+      "response_preview": "If two trials point in different directions, I mean, my reaction is to slow down rather than to pick the one I like better.  \n\nI tend to go back and ask myself what these trials were actually designed..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 30000, Requested 4566. Please try again in 9.132s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 9,
+      "question": "When do you trust real-world evidence?",
+      "response_preview": "I would, I would say I don’t *start* by trusting real‑world evidence, you know. I tend to see it as complementary rather than decisive.\n\nSo again, the way I think about it is… what question is the rea..."
+    },
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 10,
+      "question": "How do you decide between a familiar standard vs a new option with modest benefit?",
+      "response_preview": "I tend to, you know, slow down in exactly that situation. I mean, when the benefit looks modest on paper, my default is to interrogate what “modest” actually means in the trials we have.\n\nI’m usually ..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 29108, Requested 4531. Please try again in 7.278s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 11,
+      "question": "What role do KOLs and conferences play in your decisions?",
+      "response_preview": "So, look… I would, I would say they have a role, but it’s a fairly contained one. I mean, KOL opinions and conference presentations, you know, they’re signals. They tell me where the field is moving a..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 30000, Requested 4623. Please try again in 9.246s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 12,
+      "question": "Tell me about a time you changed your practice—what triggered it?",
+      "response_preview": "I mean… there are actually quite a few moments like that, but one comes to mind quite clearly.\n\nThere was a period, this was maybe twelve or thirteen years ago, where we were fairly comfortable using ..."
+    },
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 13,
+      "question": "How do you handle off-label ideas suggested by colleagues?",
+      "response_preview": "I would, I would say it depends quite a bit on **how** those ideas are framed and who brings them up. I mean, colleagues are different from industry, obviously, but the same evidentiary discipline app..."
+    },
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 14,
+      "question": "What makes you reject a therapy even if it’s popular?",
+      "response_preview": "Look… I mean, popularity in oncology doesn’t really help me very much. I would, I would tend to slow down precisely when something becomes popular faster than the data seem to mature.\n\nWhat usually ma..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 29418, Requested 4469. Please try again in 7.774s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 15,
+      "question": "If a rep/MSL has new data, what do you ask first?",
+      "response_preview": "I usually start by anchoring the discussion very narrowly. I’ll say something like… *“Alright—what exactly is new here?”* And by that I mean, you know, **new compared with what we already have**, not ..."
+    },
+    {
+      "score": 0,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for o1 in organization org-ZqGgsNxe8aiAI0fqET1SuxXh on tokens per min (TPM): Limit 30000, Used 29308, Requested 4503. Please try again in 7.622s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 16,
+      "question": "What is your default: ‘try early in a few patients’ vs ‘wait until standard of care’—and why?",
+      "response_preview": "Look, that’s, I mean, that’s a question I get quite often, and my answer is usually a bit unsatisfying because it’s conditional.\n\nIn general, I would, I would tend to be fairly conservative. I’m not s..."
+    }
+  ]
+}

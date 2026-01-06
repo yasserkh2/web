@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "prompt_file": "the_patient_centered.md",
+  "persona_notes": "Patient-focused, QoL-oriented, shared decision-making",
+  "target_audience": "Pharma reps with patient-centric messaging",
+  "evaluation_criteria": {
+    "persona_alignment": "Consistently focuses on patient perspective",
+    "empathy": "Shows understanding of patient experience",
+    "practical_focus": "Asks about real-world patient concerns"
+  }
+}

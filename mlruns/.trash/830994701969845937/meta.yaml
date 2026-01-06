@@ -1,0 +1,9 @@
+artifact_location: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/830994701969845937
+creation_time: 1767112108515
+experiment_id: '830994701969845937'
+last_update_time: 1767116969538
+lifecycle_stage: deleted
+name: prompt_engineering
+tags:
+  project: bot_evaluation
+  type: prompt_engineering

@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "prompt_file": "the_cost_conscious.md",
+  "persona_notes": "Value-focused, cost-aware, practical",
+  "target_audience": "Pharma reps discussing high-cost therapies",
+  "evaluation_criteria": {
+    "persona_alignment": "Consistently raises cost considerations",
+    "practical_balance": "Balances cost with clinical benefit",
+    "patient_advocacy": "Considers patient financial burden"
+  }
+}

@@ -1,0 +1,15 @@
+artifact_uri: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/797722475274816498/ec67f3598f9c4143a9167bd24423e0ec/artifacts
+deleted_time: 1767628396393
+end_time: 1767142115696
+entry_point_name: ''
+experiment_id: '797722475274816498'
+lifecycle_stage: deleted
+run_id: ec67f3598f9c4143a9167bd24423e0ec
+run_name: eval_The Evidence Purist_20251231_024612
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767141974451
+status: 3
+tags: []
+user_id: yasser

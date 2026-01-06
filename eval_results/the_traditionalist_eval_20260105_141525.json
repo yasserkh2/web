@@ -1,0 +1,526 @@
+{
+  "segment": "The Traditionalist",
+  "timestamp": "2026-01-05T13:58:29.604522",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 16,
+  "average_score": 4.19,
+  "low_score_count": 2,
+  "pass_rate": 87.5,
+  "detailed_results": [
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I always start with the established guidelines.",
+          "trait_matched": "Prioritizes established standards of care."
+        },
+        {
+          "quote": "I follow the guideline pathway.",
+          "trait_matched": "Focus on proven therapeutic approaches."
+        },
+        {
+          "quote": "I require mature data and some early real-world reassurance.",
+          "trait_matched": "Cautious approach to new treatments."
+        },
+        {
+          "quote": "If the patient is doing well on their current regimen, I don’t switch for the sake of novelty.",
+          "trait_matched": "Risk aversion and preference for stability."
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "Experience plays a lot into this as well—after thirty years, you do get a sense for what works long-term.",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasizes personal experience and individual patient outcomes."
+        },
+        {
+          "leak_text": "when, say, the patient has unusual comorbidities or there’s a significant change in the evidence, do I consider deviating.",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on evidence changes suggests a more flexible approach than typical for Traditionalists."
+        }
+      ],
+      "rewrite_if_needed": "Well, all right, I mean—look, when it comes to treatment decisions, I always start with the established guidelines. That’s, let’s say, my baseline. I don’t reinvent the wheel with every patient. The MDT board—that’s where we discuss complex cases, and if a case fits the textbook, I follow the guideline pathway. I prioritize treatments with robust survival data and a predictable safety profile. For new drugs, I require mature data and some early real-world reassurance before even thinking about integrating it. If the patient is doing well on their current regimen, I don’t switch for the sake of novelty. In the end, it’s about stability and continuity, doing what’s best for that individual patient without cutting corners or chasing trends.",
+      "comment": "Supporting Evidence:\n  - \"I always start with the established guidelines.\" → Prioritizes established standards of care.\n  - \"I follow the guideline pathway.\" → Focus on proven therapeutic approaches.\n  - \"I require mature data and some early real-world reassurance.\" → Cautious approach to new treatments.\n  - \"If the patient is doing well on their current regimen, I don’t switch for the sake of novelty.\" → Risk aversion and preference for stability.\n\nSegment Leaks:\n  - \"Experience plays a lot int",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Well, all right, I mean—look, when it comes to treatment decisions, I always start with the established guidelines. That’s, let’s say, my baseline. I don’t reinvent the wheel with every patient. The M..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look for is whether it’s already included in the relevant guidelines",
+          "trait_matched": "Focus on established guidelines and standards."
+        },
+        {
+          "quote": "I need to see that the pivotal studies were robust",
+          "trait_matched": "Emphasis on proven therapeutic approaches."
+        },
+        {
+          "quote": "safety—always. Is there mature safety data",
+          "trait_matched": "Prioritization of patient safety."
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "MDT consensus agrees",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on multidisciplinary team consensus suggests a collaborative approach more typical of patient-centered physicians."
+        },
+        {
+          "leak_text": "if the regimen is working, I don’t jump to switch",
+          "resembles_segment": "Cost-Conscious",
+          "reason": "Indicates a consideration for costs associated with switching treatments, which aligns with cost-conscious behavior."
+        }
+      ],
+      "rewrite_if_needed": "To start using a new therapy after approval, I first check if it's included in established guidelines, such as the AWMF or S3 guidelines in Germany. If it’s not yet included, I want to know if a recommendation is forthcoming or if the data is strong enough for my multidisciplinary team to consider an exception.\n\nApproval alone isn’t sufficient. I need to evaluate the robustness of the pivotal studies. Was the comparator arm meaningful? Did the trial include patients similar to those I see in my practice? Importantly, I look for real-world results that align with trial outcomes.\n\nSafety is paramount. I require mature safety data, particularly regarding late toxicities, as we all remember instances where so-called breakthroughs had to be retracted due to unexpected side effects.\n\nIn summary, if the guidelines support it, the trial data is convincing, and the safety profile is acceptable compared to existing treatments, I might consider integrating it. However, for stable patients on effective regimens, I am cautious about switching treatments solely based on new approvals.",
+      "comment": "Supporting Evidence:\n  - \"I look for is whether it’s already included in the relevant guidelines\" → Focus on established guidelines and standards.\n  - \"I need to see that the pivotal studies were robust\" → Emphasis on proven therapeutic approaches.\n  - \"safety—always. Is there mature safety data\" → Prioritization of patient safety.\n\nSegment Leaks:\n  - \"MDT consensus agrees\" → resembles Patient-Centered: Focus on multidisciplinary team consensus suggests a collaborative approach more typical of p",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "Well, honestly, that’s, that’s not a small question. I mean, in principle, if a new therapy is approved, the very first thing I look for is whether it’s already included in the relevant guidelines—in ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I always start with randomized controlled trials",
+          "trait_matched": "Prioritizes proven therapeutic approaches"
+        },
+        {
+          "quote": "I don’t change practice just because a study is published",
+          "trait_matched": "Cautious approach to new treatments"
+        },
+        {
+          "quote": "real-world data... crucial as a reality check",
+          "trait_matched": "Skeptical of new therapies without extensive evidence"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "Meta-analyses… honestly, sometimes useful for confirming a trend",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on meta-analyses suggests a reliance on broader evidence rather than individual studies."
+        },
+        {
+          "leak_text": "I’ve been in tumor boards long enough to trust certain colleagues",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Trust in expert opinion indicates a more collaborative approach than typical of Traditionalists."
+        }
+      ],
+      "rewrite_if_needed": "I prioritize high-quality randomized controlled trials, particularly those that define guidelines. However, I remain cautious, as the applicability of an RCT can be limited by its selective population. A robust RCT demonstrating overall survival benefit captures my attention, but I won't change my practice based solely on a new publication.\n\nNext, I look for real-world data, such as registries and cohort studies, especially from German centers or European populations, to assess how new therapies perform outside of controlled trials. We've seen promising RCT results followed by toxicity issues or disappointing outcomes in broader practice, making real-world data essential for validation.\n\nWhile meta-analyses can confirm trends, I am critical of their quality; a meta-analysis based on poor studies does not provide useful insights. As for expert opinion, I value consensus statements but only when they are supported by solid data.",
+      "comment": "Supporting Evidence:\n  - \"I always start with randomized controlled trials\" → Prioritizes proven therapeutic approaches\n  - \"I don’t change practice just because a study is published\" → Cautious approach to new treatments\n  - \"real-world data... crucial as a reality check\" → Skeptical of new therapies without extensive evidence\n\nSegment Leaks:\n  - \"Meta-analyses… honestly, sometimes useful for confirming a trend\" → resembles Evidence-Purist: Focus on meta-analyses suggests a reliance on broader ",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "So, for me, I always start with randomized controlled trials—the high-quality, guideline-defining ones, of course—but, I mean, let’s be honest, an RCT is only as good as the questions it asks… and som..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I stay with the established pathway.",
+          "trait_matched": "Risk aversion and adherence to tradition."
+        },
+        {
+          "quote": "I need to see how my peers are interpreting the data.",
+          "trait_matched": "Reliance on peer consensus and established practices."
+        },
+        {
+          "quote": "I don’t jump on new options just because they’re available.",
+          "trait_matched": "Cautious approach to new treatments."
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I stay with the established pathway.\" → Risk aversion and adherence to tradition.\n  - \"I need to see how my peers are interpreting the data.\" → Reliance on peer consensus and established practices.\n  - \"I don’t jump on new options just because they’re available.\" → Cautious approach to new treatments.",
+      "question_id": 4,
+      "question": "If guidelines don’t mention a new option yet, how do you act?",
+      "response_preview": "So, look, if the guidelines don’t mention a new treatment option yet—let’s say Trovelta just received approval, but the major societies haven’t incorporated it into their recommendations—I stay with t..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "surrogate endpoints always make me… cautious",
+          "trait_matched": "Risk aversion"
+        },
+        {
+          "quote": "I need to see those hard outcomes mature",
+          "trait_matched": "Preference for proven outcomes"
+        },
+        {
+          "quote": "not enough for me to change established practice",
+          "trait_matched": "Focus on tradition and established standards"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "give you a quicker sense of activity",
+          "resembles_segment": "Innovator",
+          "reason": "Suggests an openness to new markers, which contrasts with Traditionalist caution."
+        },
+        {
+          "leak_text": "discuss at MDTs",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Indicates a collaborative approach that may not align with the Traditionalist's individualistic focus."
+        }
+      ],
+      "rewrite_if_needed": "In principle, I remain cautious about surrogate endpoints. While I recognize their utility in drug development—such as PFS and ORR—they often do not translate into longer survival or meaningful patient improvement. For me, a 'hard' clinical outcome, primarily overall survival, is what truly influences clinical practice and gives me the confidence to adjust care pathways. If faced with a new treatment like Trovelta, and only PFS data is available, I would prefer to wait for hard outcomes before making broad recommendations. Surrogates can signal a need for further discussion, but they are insufficient to change established practices, especially if side effects are significant or long-term toxicity is uncertain. I require robust evidence of overall survival and real patient benefit before considering any shift in standard care.",
+      "comment": "Supporting Evidence:\n  - \"surrogate endpoints always make me… cautious\" → Risk aversion\n  - \"I need to see those hard outcomes mature\" → Preference for proven outcomes\n  - \"not enough for me to change established practice\" → Focus on tradition and established standards\n\nSegment Leaks:\n  - \"give you a quicker sense of activity\" → resembles Innovator: Suggests an openness to new markers, which contrasts with Traditionalist caution.\n  - \"discuss at MDTs\" → resembles Patient-Centered: Indicates a co",
+      "question_id": 5,
+      "question": "How do you interpret surrogate endpoints vs ‘hard’ clinical outcomes?",
+      "response_preview": "So, I mean, in principle, surrogate endpoints always make me… cautious, let’s say. I understand why they’re useful in drug development—PFS, ORR, those markers—they give you a quicker sense of activity..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I tend to be, how should I put it, quite cautious.",
+          "trait_matched": "Risk aversion"
+        },
+        {
+          "quote": "I’ve seen too many so-called breakthroughs later reveal significant late toxicities.",
+          "trait_matched": "Skepticism towards new treatments"
+        },
+        {
+          "quote": "My practice is to stay within the guidelines and favor established treatments.",
+          "trait_matched": "Focus on tradition and established standards"
+        },
+        {
+          "quote": "For me, it’s about patient protection; I don’t want to expose someone to late effects.",
+          "trait_matched": "Prioritization of patient safety"
+        },
+        {
+          "quote": "I need more than hope. Durable efficacy without unexpected toxicity—that’s the standard here.",
+          "trait_matched": "Cautious approach to new therapies"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I tend to be, how should I put it, quite cautious.\" → Risk aversion\n  - \"I’ve seen too many so-called breakthroughs later reveal significant late toxicities.\" → Skepticism towards new treatments\n  - \"My practice is to stay within the guidelines and favor established treatments.\" → Focus on tradition and established standards\n  - \"For me, it’s about patient protection; I don’t want to expose someone to late effects.\" → Prioritization of patient safety\n  - \"I need more th",
+      "question_id": 6,
+      "question": "What’s your approach when evidence is promising but long-term safety is unknown?",
+      "response_preview": "So, the way I look at it—when we have, let's say, encouraging early efficacy data but don’t yet know about long-term safety—well, I tend to be, how should I put it, quite cautious. I mean, promising s..."
+    },
+    {
+      "score": 3,
+      "segment_fit_score": 3,
+      "supporting_quotes": [
+        {
+          "quote": "I look at who the patient population actually was; does it match our clinical reality?",
+          "trait_matched": "Focus on established standards of care."
+        },
+        {
+          "quote": "was it truly standard of care, or something outdated?",
+          "trait_matched": "Skepticism towards new treatments."
+        },
+        {
+          "quote": "I want robust, reproducible results that fit into our guideline pathways",
+          "trait_matched": "Preference for proven therapeutic approaches."
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "I focus more on absolute numbers—what’s the real benefit in months?",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Emphasis on statistical significance and absolute numbers suggests a focus on data over tradition."
+        },
+        {
+          "leak_text": "if it’s not practice-changing, then, frankly, it's just more noise.",
+          "resembles_segment": "Innovator",
+          "reason": "This implies a desire for innovation rather than adherence to traditional practices."
+        }
+      ],
+      "rewrite_if_needed": "When evaluating a pivotal study, I first assess the patient population to ensure it reflects our clinical reality. Next, I examine the comparator to determine if it represents true standard of care or something outdated. I prioritize overall survival as my anchor endpoint, while also considering progression-free survival or response rates, ensuring they translate into long-term benefits. I focus on the absolute benefit in months rather than just statistical significance. Adverse events are crucial; I evaluate whether toxicities are manageable and if any late or rare events were overlooked. Finally, I check the maturity of the data for adequate follow-up, ideally beyond twelve months. I seek robust, reproducible results that align with our guideline pathways, as I believe that if it’s not practice-changing, it may not warrant consideration.",
+      "comment": "Supporting Evidence:\n  - \"I look at who the patient population actually was; does it match our clinical reality?\" → Focus on established standards of care.\n  - \"was it truly standard of care, or something outdated?\" → Skepticism towards new treatments.\n  - \"I want robust, reproducible results that fit into our guideline pathways\" → Preference for proven therapeutic approaches.\n\nSegment Leaks:\n  - \"I focus more on absolute numbers—what’s the real benefit in months?\" → resembles Evidence-Purist: E",
+      "question_id": 7,
+      "question": "Describe how you evaluate a pivotal study in 60 seconds.",
+      "response_preview": "Alright—let me think… If we’re talking about evaluating a pivotal study, I mean, first, I look at who the patient population actually was; does it match our clinical reality? Second, the comparator—wa..."
+    },
+    {
+      "score": 3,
+      "segment_fit_score": 3,
+      "supporting_quotes": [
+        {
+          "quote": "I always ask—did one use the current standard as a comparator?",
+          "trait_matched": "Focus on established standards of care"
+        },
+        {
+          "quote": "I'm not going to change practice based on a single result",
+          "trait_matched": "Cautious approach to new treatments"
+        },
+        {
+          "quote": "I stay with what has worked for my patients so far",
+          "trait_matched": "Preference for time-tested practices"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "external validation—has this trend shown up again in real-world registries",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on external validation and real-world data suggests a preference for evidence-based approaches."
+        },
+        {
+          "leak_text": "trial with better methodology, more relevant patient population",
+          "resembles_segment": "Innovator",
+          "reason": "Emphasis on methodology and population relevance indicates a forward-thinking mindset."
+        }
+      ],
+      "rewrite_if_needed": "If two trials conflict, I carefully evaluate the trial designs side by side. I consider factors like inclusion criteria and endpoints to determine if the trials are truly comparable. Even with robust trials, I assess whether one used the current standard as a comparator and the maturity of the data available. I prioritize guidelines with strong backing, focusing on methodology and patient relevance. If evidence remains inconclusive, I adhere to established practices that have proven effective for my patients.",
+      "comment": "Supporting Evidence:\n  - \"I always ask—did one use the current standard as a comparator?\" → Focus on established standards of care\n  - \"I'm not going to change practice based on a single result\" → Cautious approach to new treatments\n  - \"I stay with what has worked for my patients so far\" → Preference for time-tested practices\n\nSegment Leaks:\n  - \"external validation—has this trend shown up again in real-world registries\" → resembles Evidence-Purist: Focus on external validation and real-world d",
+      "question_id": 8,
+      "question": "If two trials conflict, what do you do?",
+      "response_preview": "So, yeah, that's a fair question—what do I do if there are conflicting results from two trials? I mean, this happens more often than we'd like, especially as the field gets more crowded. Basically, my..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I need to see consistency—not just one promising report",
+          "trait_matched": "Risk aversion and demand for proven evidence"
+        },
+        {
+          "quote": "real-world safety matters as much as efficacy",
+          "trait_matched": "Focus on patient safety and established standards"
+        },
+        {
+          "quote": "I’ll start to trust the real-world experience",
+          "trait_matched": "Cautious approach to new treatments"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "broad data, honest reporting, and confirmation in routine patients",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Emphasis on data integrity and validation aligns with Evidence-Purist traits."
+        }
+      ],
+      "rewrite_if_needed": "That’s a question I get quite often. In my practice, I find real-world evidence carries weight only when certain criteria are met. First, the data must be reflective of the patient population I see—no cherry-picking, and certainly not just a conference poster with a handful of optimistic cases. I look for multi-center data with proper follow-up, ideally from trusted colleagues or registries.\n\nSecond, I need to see consistent results—not just one promising report, but evidence that shows sustained effects across different centers and patient groups, especially those with high comorbidity burdens or those who wouldn’t qualify for clinical trials. It’s one thing to see a therapy work in a controlled trial; it’s another for it to deliver robust outcomes in routine practice.\n\nFinally, real-world safety is as crucial as efficacy. Sometimes, signals emerge in registries that wouldn’t appear in a phase III study. If the rate and management of adverse events differ when the drug is used outside academic hospitals, that raises concerns. In summary: I require broad data, honest reporting, and confirmation in routine patients. If a treatment continues to show robust results over time, then I may begin to trust the real-world experience. Until then, I prefer to remain cautious and adhere to established pathways.",
+      "comment": "Supporting Evidence:\n  - \"I need to see consistency—not just one promising report\" → Risk aversion and demand for proven evidence\n  - \"real-world safety matters as much as efficacy\" → Focus on patient safety and established standards\n  - \"I’ll start to trust the real-world experience\" → Cautious approach to new treatments\n\nSegment Leaks:\n  - \"broad data, honest reporting, and confirmation in routine patients\" → resembles Evidence-Purist: Emphasis on data integrity and validation aligns with Evid",
+      "question_id": 9,
+      "question": "When do you trust real-world evidence?",
+      "response_preview": "That’s a question I get quite often. I would say, in my practice, real-world evidence only really carries weight once several things are true. First, the data need to be collected in a way that, you k..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "the established standard exists for a reason",
+          "trait_matched": "Prioritizes proven therapeutic approaches"
+        },
+        {
+          "quote": "the current regimen has years of real-world safety and efficacy",
+          "trait_matched": "Focus on tradition and established standards"
+        },
+        {
+          "quote": "the bar to move away from the familiar is quite high",
+          "trait_matched": "Risk aversion and cautious approach"
+        },
+        {
+          "quote": "I’m reluctant to make that trade",
+          "trait_matched": "Skepticism towards new treatments"
+        },
+        {
+          "quote": "if the group as a whole isn’t shifting its practice",
+          "trait_matched": "Conservative and risk-averse mindset"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"the established standard exists for a reason\" → Prioritizes proven therapeutic approaches\n  - \"the current regimen has years of real-world safety and efficacy\" → Focus on tradition and established standards\n  - \"the bar to move away from the familiar is quite high\" → Risk aversion and cautious approach\n  - \"I’m reluctant to make that trade\" → Skepticism towards new treatments\n  - \"if the group as a whole isn’t shifting its practice\" → Conservative and risk-averse mindse",
+      "question_id": 10,
+      "question": "How do you decide between a familiar standard vs a new option with modest benefit?",
+      "response_preview": "Well, let’s be clear—I always start from the premise that the established standard exists for a reason. I mean, the current regimen has years of real-world safety and efficacy behind it; we know what ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I want to see consistent results in peer-reviewed publications",
+          "trait_matched": "Focus on established standards of care"
+        },
+        {
+          "quote": "my decisions remain rooted in the guidelines",
+          "trait_matched": "Prioritizes proven therapeutic approaches"
+        },
+        {
+          "quote": "the durability of evidence and real-world results",
+          "trait_matched": "Cautious approach towards new treatments"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "conferences can put something on my radar; they’re useful for updates",
+          "resembles_segment": "Innovator",
+          "reason": "Suggests openness to new ideas and updates from conferences."
+        },
+        {
+          "leak_text": "external input is valuable",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Implies consideration of external opinions, which may suggest a more flexible approach."
+        }
+      ],
+      "rewrite_if_needed": "Well, I would say… KOLs and conferences certainly have their place. We all pay attention to what gets presented at ESMO, ASCO, and St. Gallen—these meetings set the tone for acceptable discussions in oncology. However, let me be clear: just because a KOL highlights a treatment doesn’t mean I change my practice overnight. For me, it’s about whether the data holds up under scrutiny over time. I listen and am interested, but my decisions remain rooted in established guidelines and discussions within our tumor board. External input is valuable, but ultimately, it’s the durability of evidence and real-world results that determine what we adopt. Conferences may put something on my radar; they are useful for updates. But to revise practice? That requires more than a compelling presentation or a KOL's opinion. I need to see consistent results in peer-reviewed publications and reassuring real-world safety before considering any changes to established protocols.",
+      "comment": "Supporting Evidence:\n  - \"I want to see consistent results in peer-reviewed publications\" → Focus on established standards of care\n  - \"my decisions remain rooted in the guidelines\" → Prioritizes proven therapeutic approaches\n  - \"the durability of evidence and real-world results\" → Cautious approach towards new treatments\n\nSegment Leaks:\n  - \"conferences can put something on my radar; they’re useful for updates\" → resembles Innovator: Suggests openness to new ideas and updates from conferences.",
+      "question_id": 11,
+      "question": "What role do KOLs and conferences play in your decisions?",
+      "response_preview": "Well, I, I would say… Look, KOLs and conferences—so, they, they certainly have their place. We all pay attention to what gets presented at ESMO, ASCO, you know, St. Gallen—these kinds of meetings set ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I tend to stay with established treatments unless there’s compelling evidence",
+          "trait_matched": "Risk aversion and preference for established practices"
+        },
+        {
+          "quote": "I was—how should I say—quite skeptical",
+          "trait_matched": "Skepticism towards new treatments"
+        },
+        {
+          "quote": "the default for me is to protect patients from unnecessary risk",
+          "trait_matched": "Focus on patient safety and risk aversion"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "discussions in our tumor board where several colleagues began to share consistent, positive real-world experiences",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasis on collaborative decision-making and real-world experiences may suggest a focus on patient-centered care."
+        }
+      ],
+      "rewrite_if_needed": "Let me think… well, I mean, cases where I’ve actually changed my practice are, you know, fairly rare. I tend to stay with established treatments unless there’s compelling evidence. If I reflect on an instance, the adoption of checkpoint inhibitors for metastatic urothelial carcinoma comes to mind. Initially, I was quite skeptical. The early data looked promising, but single-arm studies often don’t reflect what we see outside controlled trials. What made the difference was robust randomized data showing actual survival benefit. I started applying it only to highly selected, fit patients, closely monitoring them for safety signals we might not have seen in trials. It’s always a process—the default for me is to protect patients from unnecessary risk. If the data are strong and the guidelines adapt, then I’ll modify my approach. It’s never about novelty for novelty’s sake—it’s about what genuinely benefits the patient.",
+      "comment": "Supporting Evidence:\n  - \"I tend to stay with established treatments unless there’s compelling evidence\" → Risk aversion and preference for established practices\n  - \"I was—how should I say—quite skeptical\" → Skepticism towards new treatments\n  - \"the default for me is to protect patients from unnecessary risk\" → Focus on patient safety and risk aversion\n\nSegment Leaks:\n  - \"discussions in our tumor board where several colleagues began to share consistent, positive real-world experiences\" → rese",
+      "question_id": 12,
+      "question": "Tell me about a time you changed your practice—what triggered it?",
+      "response_preview": "Let me think… well, I mean, cases where I’ve actually changed my practice are, you know, fairly rare. I tend to, as I said, I tend to stay with established treatments unless there’s compelling evidenc..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "my default position is: we don’t go off-label lightly.",
+          "trait_matched": "Risk aversion"
+        },
+        {
+          "quote": "I’m, you know, immediately skeptical.",
+          "trait_matched": "Skepticism towards new treatments"
+        },
+        {
+          "quote": "we follow guidelines for a reason.",
+          "trait_matched": "Focus on established standards of care"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "we need consensus from the tumor board",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasizes collaboration and consensus, which may suggest a focus on patient-centered care."
+        },
+        {
+          "leak_text": "discuss creative ideas—but only within the system",
+          "resembles_segment": "Innovator",
+          "reason": "Implies openness to innovation but within strict boundaries, which can hint at an innovator mindset."
+        }
+      ],
+      "rewrite_if_needed": "In our university hospital in Munich, we have clear protocols regarding off-label ideas. When a colleague suggests an off-label approach, my first step is to evaluate if there’s a compelling rationale supported by strong data, ideally discussed at the multidisciplinary team (MDT) meetings. My default position is that we do not pursue off-label use lightly.\n\nI remain open to listening, especially in unusual cases where all options must be considered. However, if the suggestion is purely theoretical or based on anecdotal evidence, I approach it with skepticism. For any off-label use, we require consensus from the tumor board and solid evidence, not just anecdote or wishful thinking.\n\nI remind colleagues and company representatives alike that we adhere to guidelines for a reason. If a patient is running out of options, we can discuss creative ideas, but only within our established system, ensuring documentation and full transparency. We are not lone wolves in this practice.\n\nThus, while I do not dismiss suggestions outright, I cannot support off-label use based on hunches or individual enthusiasm. The evidence and MDT consensus set the boundaries, and without them, we will not proceed.",
+      "comment": "Supporting Evidence:\n  - \"my default position is: we don’t go off-label lightly.\" → Risk aversion\n  - \"I’m, you know, immediately skeptical.\" → Skepticism towards new treatments\n  - \"we follow guidelines for a reason.\" → Focus on established standards of care\n\nSegment Leaks:\n  - \"we need consensus from the tumor board\" → resembles Patient-Centered: Emphasizes collaboration and consensus, which may suggest a focus on patient-centered care.\n  - \"discuss creative ideas—but only within the system\" →",
+      "question_id": 13,
+      "question": "How do you handle off-label ideas suggested by colleagues?",
+      "response_preview": "Well, I mean, in our setting here—the university hospital in Munich—we, you know, have quite clear protocols on that. If a colleague brings up an off-label idea, the first step is always, basically, t..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I rely primarily on guideline alignment and long-term outcome data",
+          "trait_matched": "Prioritizes established standards of care"
+        },
+        {
+          "quote": "if a therapy is widely used but the benefit isn’t robust",
+          "trait_matched": "Skeptical of new treatments without solid evidence"
+        },
+        {
+          "quote": "it’s about evidence, patient safety, and integration into practice",
+          "trait_matched": "Focus on patient safety and proven therapeutic approaches"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I rely primarily on guideline alignment and long-term outcome data\" → Prioritizes established standards of care\n  - \"if a therapy is widely used but the benefit isn’t robust\" → Skeptical of new treatments without solid evidence\n  - \"it’s about evidence, patient safety, and integration into practice\" → Focus on patient safety and proven therapeutic approaches",
+      "question_id": 14,
+      "question": "What makes you reject a therapy even if it’s popular?",
+      "response_preview": "Well, popularity alone means very little in oncology, you know. We’ve seen enough so-called \"breakthroughs\" rise and fall over the years—the excitement in early conferences, then quietly disappearing ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I’d want to know—what’s the patient population, exactly?",
+          "trait_matched": "Focus on established standards and patient safety."
+        },
+        {
+          "quote": "is this randomized, what’s the comparator, do we have OS data",
+          "trait_matched": "Skepticism towards new treatments and emphasis on proven data."
+        },
+        {
+          "quote": "how this data actually fits with established standards",
+          "trait_matched": "Prioritization of proven therapeutic approaches."
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "if it’s single-arm, or the comparator is something outdated",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on study design and data validity suggests a strong emphasis on evidence."
+        },
+        {
+          "leak_text": "durability of response and toxicity profile stack up against what we’re already doing",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Concern for treatment outcomes and patient impact indicates a patient-centered approach."
+        }
+      ],
+      "rewrite_if_needed": "Before we discuss new data, I would first want to understand the patient population involved. Are we looking at a pre-treated, tough-to-treat group, or a lower-risk cohort that may not reflect our daily practice? It's crucial to know if the study is randomized and what the comparator is, as well as whether we have overall survival data or just response rates. If the study design is single-arm or the comparator is outdated, that may limit its applicability. Therefore, I would first assess the design, inclusion criteria, and how this data aligns with established standards of care.",
+      "comment": "Supporting Evidence:\n  - \"I’d want to know—what’s the patient population, exactly?\" → Focus on established standards and patient safety.\n  - \"is this randomized, what’s the comparator, do we have OS data\" → Skepticism towards new treatments and emphasis on proven data.\n  - \"how this data actually fits with established standards\" → Prioritization of proven therapeutic approaches.\n\nSegment Leaks:\n  - \"if it’s single-arm, or the comparator is something outdated\" → resembles Evidence-Purist: Focus o",
+      "question_id": 15,
+      "question": "If a rep/MSL has new data, what do you ask first?",
+      "response_preview": "I mean, before we get into anything else, I’d want to know—what’s the patient population, exactly? Are we talking about the same pre-treated, tough-to-treat group, or is this a lower-risk cohort that’..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "my default, quite honestly, is always to wait until something becomes standard of care",
+          "trait_matched": "Risk aversion and preference for established practices"
+        },
+        {
+          "quote": "I’ve seen too many so-called breakthroughs",
+          "trait_matched": "Skepticism towards new treatments"
+        },
+        {
+          "quote": "my instinct is to protect patients from unnecessary risks",
+          "trait_matched": "Focus on patient safety"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"my default, quite honestly, is always to wait until something becomes standard of care\" → Risk aversion and preference for established practices\n  - \"I’ve seen too many so-called breakthroughs\" → Skepticism towards new treatments\n  - \"my instinct is to protect patients from unnecessary risks\" → Focus on patient safety",
+      "question_id": 16,
+      "question": "What is your default: ‘try early in a few patients’ vs ‘wait until standard of care’—and why?",
+      "response_preview": "So, let me, let me lay it out the way I see it. My default, quite honestly, is always to wait until something becomes standard of care—that’s just how our system is built, and frankly, there’s a reaso..."
+    }
+  ]
+}

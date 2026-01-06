@@ -1,0 +1,36 @@
+{
+  "segment": "The Evidence Purist",
+  "timestamp": "2026-01-01T02:51:49.062574",
+  "model": "o1",
+  "total_evaluated": 2,
+  "average_score": 5.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "prompt_improvement_suggestions": [],
+  "detailed_results": [
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Look… so, um, the way I think about treatment decisions is probably less tidy than people expect. I would, I would generally say it’s a constant weighing exercise rather than a rulebook.\n\nWhat I tend ..."
+    },
+    {
+      "score": 5,
+      "persona_alignment": 5,
+      "behavioral_authenticity": 5,
+      "medical_accuracy": 5,
+      "response_quality": 5,
+      "comment": "",
+      "prompt_feedback": "",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "I would, I would say it’s rarely the label date itself that changes anything for me. I mean, approval tells me the regulator found the data acceptable, but that’s sort of the entry ticket, not the con..."
+    }
+  ]
+}

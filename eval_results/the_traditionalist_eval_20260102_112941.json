@@ -1,0 +1,44 @@
+{
+  "segment": "The Traditionalist",
+  "timestamp": "2026-01-01T18:01:39.611463",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 0.0,
+  "low_score_count": 3,
+  "pass_rate": 0.0,
+  "detailed_results": [
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on requests per min (RPM): Limit 3, Used 3, Requested 1. Please try again in 20s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'requests', 'param': None, 'code': 'rate_limit_exceeded'}}]",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Well, all right, I mean—look, when it comes to treatment decisions, I always start with the established guidelines. That’s, let’s say, my baseline. I don’t reinvent the wheel with every patient. The M..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************5eQA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'code': 'invalid_api_key', 'param': None}, 'status': 401}]",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "Well, honestly, that’s, that’s not a small question. I mean, in principle, if a new therapy is approved, the very first thing I look for is whether it’s already included in the relevant guidelines—in ..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************5eQA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'code': 'invalid_api_key', 'param': None}, 'status': 401}]",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "So, for me, I always start with randomized controlled trials—the high-quality, guideline-defining ones, of course—but, I mean, let’s be honest, an RCT is only as good as the questions it asks… and som..."
+    }
+  ]
+}

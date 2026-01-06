@@ -1,0 +1,41 @@
+{
+  "segment": "The Innovator",
+  "timestamp": "2026-01-05T13:41:58.897024",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 1,
+  "average_score": 4.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look at the patient’s clinical need",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I’m really strict about the quality of the evidence",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Safety profile comes next, especially the real-world manageability",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "does this offer a real, meaningful advance for the patient",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on meaningful advances for patients suggests a patient-centered approach."
+        }
+      ],
+      "rewrite_if_needed": "Let me think for a moment… The way I approach treatment decisions is layered. First, I assess the patient’s clinical need and the stage of the disease. Is there a significant unmet need at this point? That’s my starting point every time.\n\nNext, I rigorously evaluate the quality of evidence—trial design, endpoints like overall survival and PFS, and the magnitude of benefit compared to the control arm. The alignment between the patient and the population studied in the data is crucial—considering biomarkers and previous treatments.\n\nThen, I focus on the safety profile, particularly the real-world manageability of adverse events. I don’t just rely on published data; I consider whether toxicity is manageable in practice and how it affects the patient’s daily life.\n\nFinally, I continuously evaluate whether there’s justification to move a new therapy earlier or if a clinical trial is a better option. Ultimately, my decisions are driven by whether the therapy represents a significant advance based on solid clinical evidence.",
+      "comment": "Supporting Evidence:\n  - \"I look at the patient’s clinical need\" → Intrinsic Motivation for Innovation\n  - \"I’m really strict about the quality of the evidence\" → Data-Driven Decision-Making\n  - \"Safety profile comes next, especially the real-world manageability\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"does this offer a real, meaningful advance for the patient\" → resembles Patient-Centered: Focus on meaningful advances for patients suggests a patient-centered approach.\n\nSuggested Rewr",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Let me think for a moment… So, the way I approach treatment decisions, it’s—well, it’s layered. First and foremost, I look at the patient’s clinical need and, you know, exactly where we are in the dis..."
+    }
+  ]
+}

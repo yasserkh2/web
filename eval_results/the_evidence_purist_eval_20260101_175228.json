@@ -1,0 +1,45 @@
+{
+  "segment": "The Evidence Purist",
+  "timestamp": "2026-01-01T17:51:02.972247",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 0.0,
+  "low_score_count": 3,
+  "pass_rate": 0.0,
+  "prompt_improvement_suggestions": [],
+  "detailed_results": [
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 60000, Used 55914, Requested 9546. Please try again in 5.46s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}]",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "One second… … … let me take this call… … … Yes, this is Dr. Lindner… … … … … alright… … … … … yeah, okay… … … … … No, transfuse only if hemoglobin drops below seven… … … … check levels again in six ho..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 100000, Used 98014, Requested 9520. Please try again in 54h14m41.28s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "I would, I would again, as I said, I would definitely look for a treatment that would, if, if the data had been sufficiently rigorous... So, for me, it starts with the evidence hierarchy. I prioritize..."
+    },
+    {
+      "score": 0,
+      "segment_fit_score": 0,
+      "supporting_quotes": [],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "[Evaluation error: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o-mini in organization org-B52DT9TVGVjlFCbWUDr8ZRCe on tokens per min (TPM): Limit 100000, Used 98013, Requested 9449. Please try again in 53h43m35.04s. Visit https://platform.openai.com/account/rate-limits to learn more. You can increase your rate limit by adding a payment method to your account at https://platform.openai.com/account/billing.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I prioritize evidence from large, well-designed randomized controlled trials and high-quality meta-analyses. These provide the most statistically robust data and are less prone to biases compared to o..."
+    }
+  ]
+}

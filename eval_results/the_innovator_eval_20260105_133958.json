@@ -1,0 +1,104 @@
+{
+  "segment": "The Innovator",
+  "timestamp": "2026-01-05T13:37:01.519544",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 3,
+  "average_score": 4.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look at the patient’s clinical need",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I’m really strict about the quality of the evidence",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Safety profile comes next",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "does this offer a real, meaningful advance for the patient",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on meaningful advances suggests a patient-centered approach."
+        }
+      ],
+      "rewrite_if_needed": "Let me think for a moment… So, the way I approach treatment decisions is layered. First and foremost, I assess the patient’s clinical need and where we are in the disease course. Is there a significant unmet need at this stage? That’s my starting point every time.\n\nNext, I prioritize the quality of the evidence—examining trial design, endpoints like overall survival and progression-free survival, and the magnitude of benefit compared to the control arm. The fit between the patient in front of me and the population studied in the data is crucial—considering biomarkers and previous treatments.\n\nThe safety profile is also critical, especially the real-world manageability of adverse events. I don’t just rely on published data; I consider whether toxicity is manageable in practice and how it will affect the patient’s daily life.\n\nFinally, I evaluate whether there’s justification to move a new therapy earlier or if a clinical trial is a better option. Ultimately, my decisions are guided by the evidence and the potential for meaningful clinical advancement.",
+      "comment": "Supporting Evidence:\n  - \"I look at the patient’s clinical need\" → Intrinsic Motivation for Innovation\n  - \"I’m really strict about the quality of the evidence\" → Data-Driven Decision-Making\n  - \"Safety profile comes next\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"does this offer a real, meaningful advance for the patient\" → resembles Patient-Centered: Focus on meaningful advances suggests a patient-centered approach.\n\nSuggested Rewrite:\nLet me think for a moment… So, the way I approach",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Let me think for a moment… So, the way I approach treatment decisions, it’s—well, it’s layered. First and foremost, I look at the patient’s clinical need and, you know, exactly where we are in the dis..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look for a few things before bringing something new into my clinic.",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I dive into the data. I want to see robust evidence.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Are adverse events manageable in the real world?",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I look for a few things before bringing something new into my clinic.\" → Intrinsic Motivation for Innovation\n  - \"I dive into the data. I want to see robust evidence.\" → Data-Driven Decision-Making\n  - \"Are adverse events manageable in the real world?\" → Data-Driven Decision-Making",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "So… let me think about this. I don’t jump on every new approval—there’s, you know, always a flurry of excitement, but honestly, I look for a few things before bringing something new into my clinic.\n\nF..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "first and foremost, for me it’s always going to be randomized controlled trials",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "RCTs set the bar because they give us controlled comparisons",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Meta-analyses can be useful—they help synthesize across multiple studies",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I use it to sanity check trial findings, not as primary proof of efficacy",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "I actually get more skeptical",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "The skepticism towards meta-analyses suggests a focus on strict evidence standards."
+        },
+        {
+          "leak_text": "But uncontrolled data is just that: uncontrolled",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "This statement emphasizes a strict adherence to controlled evidence."
+        }
+      ],
+      "rewrite_if_needed": "I prioritize randomized controlled trials, especially in advanced-stage oncology. RCTs provide controlled comparisons, clear primary endpoints, and ideally, clinically meaningful outcomes like overall survival and progression-free survival. If I'm considering a therapy for earlier use or for a subgroup outside the main label, I require robust evidence that demonstrates tangible benefits for patients with limited options. \n\nWhile meta-analyses can synthesize data from multiple studies, I remain cautious if they involve heterogeneous or small, negative studies. They only convince me when the source data is strong and methodologically sound. \n\nAs for real-world data, I use it to validate trial findings rather than as primary proof of efficacy. It can reveal tolerability and logistical issues, but I approach uncontrolled data with caution, looking for signals without fully adopting them.",
+      "comment": "Supporting Evidence:\n  - \"first and foremost, for me it’s always going to be randomized controlled trials\" → Data-Driven Decision-Making\n  - \"RCTs set the bar because they give us controlled comparisons\" → Data-Driven Decision-Making\n  - \"Meta-analyses can be useful—they help synthesize across multiple studies\" → Data-Driven Decision-Making\n  - \"I use it to sanity check trial findings, not as primary proof of efficacy\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"I actually get more skepti",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I mean, first and foremost, for me it’s always going to be randomized controlled trials—especially when we’re talking about changing practice in advanced-stage oncology. RCTs set the bar because they ..."
+    }
+  ]
+}

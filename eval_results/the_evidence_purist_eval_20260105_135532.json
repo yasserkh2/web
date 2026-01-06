@@ -1,0 +1,35 @@
+{
+  "segment": "The Evidence Purist",
+  "timestamp": "2026-01-05T13:55:30.520259",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 1,
+  "average_score": 5.0,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I prioritize statistical robustness and evidence hierarchy",
+          "trait_matched": "Evidence-based decision making"
+        },
+        {
+          "quote": "large, well-designed randomized trials, high-quality meta-analyses",
+          "trait_matched": "Focus on high-quality research"
+        },
+        {
+          "quote": "It's all about balancing efficacy with safety",
+          "trait_matched": "Optimizing patient outcomes"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I prioritize statistical robustness and evidence hierarchy\" → Evidence-based decision making\n  - \"large, well-designed randomized trials, high-quality meta-analyses\" → Focus on high-quality research\n  - \"It's all about balancing efficacy with safety\" → Optimizing patient outcomes",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "One second… … … let me take this call… … … Yes, this is Dr. Lindner… … … … … alright… … … … … yeah, okay… … … … … No, transfuse only if hemoglobin drops below seven… … … … check levels again in six ho..."
+    }
+  ]
+}

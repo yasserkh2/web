@@ -1,0 +1,14 @@
+artifact_uri: file:///F:/CTC_HEALTH/Projects/Evaluation_Cycle/mlruns/191380576883462085/cb590fc5a2414a72875e891b00d2f7be/artifacts
+end_time: 1767117082265
+entry_point_name: ''
+experiment_id: '191380576883462085'
+lifecycle_stage: active
+run_id: cb590fc5a2414a72875e891b00d2f7be
+run_name: prompt_The_Evidence_Purist_v1.0_20251230_195122
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767117082143
+status: 3
+tags: []
+user_id: yasser

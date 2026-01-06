@@ -1,0 +1,506 @@
+{
+  "segment": "The Innovator",
+  "timestamp": "2026-01-05T13:40:40.709309",
+  "model": "gpt-4o-mini",
+  "total_evaluated": 16,
+  "average_score": 4.31,
+  "low_score_count": 0,
+  "pass_rate": 100.0,
+  "detailed_results": [
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look at the patient’s clinical need",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I’m really strict about the quality of the evidence",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Safety profile comes next",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "does this offer a real, meaningful advance for the patient",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on meaningful advances suggests a patient-centered approach."
+        }
+      ],
+      "rewrite_if_needed": "Let me think for a moment… The way I approach treatment decisions is layered. First, I assess the patient’s clinical need and the current stage of the disease. Identifying any meaningful unmet needs is my starting point. \n\nNext, I rigorously evaluate the quality of evidence—considering trial design, endpoints like overall survival and progression-free survival, and the magnitude of benefit compared to control. It’s crucial to match the patient in front of me with the population studied in the data, including biomarkers and previous treatments. \n\nFollowing that, I examine the safety profile, particularly the real-world manageability of adverse events. I don’t just rely on published data; I consider whether the toxicity is manageable in practice and its impact on the patient’s daily life. \n\nFinally, I continuously question whether there’s justification to adopt a new therapy earlier or if a clinical trial is a better option. Ultimately, it all circles back to whether this represents a significant advance for the patient I’m treating.",
+      "comment": "Supporting Evidence:\n  - \"I look at the patient’s clinical need\" → Intrinsic Motivation for Innovation\n  - \"I’m really strict about the quality of the evidence\" → Data-Driven Decision-Making\n  - \"Safety profile comes next\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"does this offer a real, meaningful advance for the patient\" → resembles Patient-Centered: Focus on meaningful advances suggests a patient-centered approach.\n\nSuggested Rewrite:\nLet me think for a moment… The way I approach tre",
+      "question_id": 1,
+      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
+      "response_preview": "Let me think for a moment… So, the way I approach treatment decisions, it’s—well, it’s layered. First and foremost, I look at the patient’s clinical need and, you know, exactly where we are in the dis..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I look for a few things before bringing something new into my clinic.",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I dive into the data. I want to see robust evidence.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I look at the size of the benefit, not just whether it crosses a p-value.",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "Are adverse events manageable in the real world, or will this therapy increase unplanned admissions?",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on patient safety and quality of life suggests a patient-centered approach."
+        }
+      ],
+      "rewrite_if_needed": "So… let me think about this. I don’t jump on every new approval—there’s always excitement, but I look for specific criteria before integrating something new into my practice. First, I assess whether there’s a meaningful unmet need for my patients at that line of therapy. If standard options are exhausted or ineffective, I pay much closer attention. Next, I dive into the data. I want to see robust evidence from well-designed, ideally randomized trials with clinically significant endpoints: overall survival, progression-free survival, and duration of response. I focus on the size of the benefit, not just statistical significance. Then, I evaluate the mechanism: does the drug address a pathway or resistance mechanism that current tools cannot? Lastly, I consider safety. I want to ensure that adverse events are manageable in the real world and that the therapy won’t lead to unplanned admissions or compromise quality of life. I look for signals from the trials and, where possible, early real-world experiences.",
+      "comment": "Supporting Evidence:\n  - \"I look for a few things before bringing something new into my clinic.\" → Intrinsic Motivation for Innovation\n  - \"I dive into the data. I want to see robust evidence.\" → Data-Driven Decision-Making\n  - \"I look at the size of the benefit, not just whether it crosses a p-value.\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"Are adverse events manageable in the real world, or will this therapy increase unplanned admissions?\" → resembles Patient-Centered: Focus on pati",
+      "question_id": 2,
+      "question": "A new therapy is just approved. What makes you start using it in practice?",
+      "response_preview": "So… let me think about this. I don’t jump on every new approval—there’s, you know, always a flurry of excitement, but honestly, I look for a few things before bringing something new into my clinic.\n\nF..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "first and foremost, for me it’s always going to be randomized controlled trials",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "RCTs set the bar because they give us controlled comparisons",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I’ll look for signals, but I won’t adopt a",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "Meta-analyses can be useful",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on meta-analyses suggests a preference for evidence types beyond innovation."
+        },
+        {
+          "leak_text": "Real-world data—look, I use it to sanity check trial findings",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasis on real-world data may indicate a patient-centered approach."
+        }
+      ],
+      "rewrite_if_needed": "I prioritize randomized controlled trials, especially in advanced-stage oncology, as they provide controlled comparisons and clear endpoints. RCTs are essential for demonstrating clinically meaningful outcomes like overall survival and progression-free survival. If I'm considering a therapy for earlier use or for a subgroup outside the main label, I need robust evidence that shows tangible patient benefits. \n\nWhile I find meta-analyses helpful for synthesizing data across studies, I remain cautious if they include heterogeneous or small, negative studies. They only convince me when the underlying data is strong and methodologically sound. \n\nAs for real-world data, I utilize it to validate trial findings rather than as primary evidence of efficacy. It can reveal tolerability issues and highlight underrepresented subgroups, but I remain skeptical of uncontrolled data and will only look for signals without adopting a therapy based solely on it.",
+      "comment": "Supporting Evidence:\n  - \"first and foremost, for me it’s always going to be randomized controlled trials\" → Data-Driven Decision-Making\n  - \"RCTs set the bar because they give us controlled comparisons\" → Data-Driven Decision-Making\n  - \"I’ll look for signals, but I won’t adopt a\" → Intrinsic Motivation for Innovation\n\nSegment Leaks:\n  - \"Meta-analyses can be useful\" → resembles Evidence-Purist: Focus on meta-analyses suggests a preference for evidence types beyond innovation.\n  - \"Real-world d",
+      "question_id": 3,
+      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
+      "response_preview": "I mean, first and foremost, for me it’s always going to be randomized controlled trials—especially when we’re talking about changing practice in advanced-stage oncology. RCTs set the bar because they ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "guidelines are always a reference point, but they’re often a bit behind",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "look at the strength and maturity of the evidence",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I absolutely discuss the option with the team",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "the evidence drives the timing, not the hype",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "I’m not chasing every new molecule; it has to fill a real gap",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on patient needs and gaps in treatment."
+        },
+        {
+          "leak_text": "clear about limitations with the patient",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasis on patient communication and understanding."
+        }
+      ],
+      "rewrite_if_needed": "In cases where guidelines don’t mention a new option, I consider them a reference point, but I recognize that they can lag behind the latest trial data. My approach is to evaluate the strength and maturity of the evidence: is there robust Phase III data, a convincing mechanism, and a clear signal in survival or duration of response? If the answer is yes, particularly for patients with high unmet needs, I will discuss the option with my team, often in tumor board settings, and consider its use even before guidelines are updated. However, I remain selective; I won't pursue every new molecule unless it addresses a significant gap and has data that withstands scrutiny. My decisions are always risk-balanced, ensuring I communicate limitations with the patient, and I only proceed if I’m confident that the benefits outweigh the risks. Ultimately, I prioritize strong evidence over trends.",
+      "comment": "Supporting Evidence:\n  - \"guidelines are always a reference point, but they’re often a bit behind\" → Intrinsic Motivation for Innovation\n  - \"look at the strength and maturity of the evidence\" → Data-Driven Decision-Making\n  - \"I absolutely discuss the option with the team\" → Data-Driven Decision-Making\n  - \"the evidence drives the timing, not the hype\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"I’m not chasing every new molecule; it has to fill a real gap\" → resembles Patient-Centered: ",
+      "question_id": 4,
+      "question": "If guidelines don’t mention a new option yet, how do you act?",
+      "response_preview": "So, in those cases—well, let's be clear, guidelines are always a reference point, but they’re often, you know, a bit behind the very latest trial data. For me, I’ll look at the strength and maturity o..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "surrogate endpoints, like PFS, ORR, even things like time to progression",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "improvements in PFS didn’t translate to true survival benefit",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I need to see a meaningful survival advantage",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "hypothesis-generating; they get my attention, but they don’t change my practice patterns",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on hypothesis generation suggests a reliance on evidence over innovation."
+        }
+      ],
+      "rewrite_if_needed": "The discussion on surrogate versus 'hard' endpoints is crucial in oncology. 'Hard' outcomes, such as overall survival and quality of life improvements, are what truly matter for patients. Surrogate endpoints like PFS and ORR can expedite drug development and signal detection, but they don't always correlate with meaningful patient outcomes. In my experience, there have been instances where improvements in PFS did not lead to a survival benefit, particularly with targeted therapies and immunotherapies. Therefore, while I find surrogate endpoints informative, they do not dictate my treatment decisions. A robust and validated surrogate endpoint, supported by strong biological rationale and consistency across trials, may influence my practice, but ultimately, I prioritize meaningful survival advantages and tangible quality-of-life gains for my patients.",
+      "comment": "Supporting Evidence:\n  - \"surrogate endpoints, like PFS, ORR, even things like time to progression\" → Data-Driven Decision-Making\n  - \"improvements in PFS didn’t translate to true survival benefit\" → Data-Driven Decision-Making\n  - \"I need to see a meaningful survival advantage\" → Intrinsic Motivation for Innovation\n\nSegment Leaks:\n  - \"hypothesis-generating; they get my attention, but they don’t change my practice patterns\" → resembles Evidence-Purist: Focus on hypothesis generation suggests a ",
+      "question_id": 5,
+      "question": "How do you interpret surrogate endpoints vs ‘hard’ clinical outcomes?",
+      "response_preview": "Right, so the surrogate versus “hard” endpoint discussion—let’s clarify that a bit. I mean, by “hard” outcomes, we’re talking about things that matter for patients—overall survival, definitely, and so..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I take a fairly disciplined, stepwise approach.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I look closely at the design: How robust is the control arm?",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I always bring cases to the tumor board.",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "I’m willing to consider a drug with less long-term safety data.",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on patient needs may suggest a prioritization of patient-centered care."
+        },
+        {
+          "leak_text": "set close monitoring protocols, inform the patient explicitly about the unknowns",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasis on patient communication and safety monitoring aligns with patient-centered approaches."
+        }
+      ],
+      "rewrite_if_needed": "If the evidence is promising but long-term safety remains uncertain, I adopt a disciplined, stepwise approach. First, I assess the clinical need based on the patient's disease stage. In cases of significant unmet need, such as late-line triple negative breast cancer or platinum-resistant ovarian cancer, I may consider therapies with limited long-term safety data, provided the short-term efficacy is evident and the mechanism is scientifically sound. However, my decision is not solely based on preliminary data; I rigorously evaluate the study design, including the robustness of the control arm and the nature of any emerging adverse events. I also consider whether any toxicity is predictable and manageable based on current knowledge. This decision is collaborative; I present cases at the tumor board to discuss the justification for exposing the patient to potential risks for possible benefits. Additionally, I implement close monitoring protocols, ensure the patient is fully informed about the uncertainties, and meticulously document all aspects of the decision-making process.",
+      "comment": "Supporting Evidence:\n  - \"I take a fairly disciplined, stepwise approach.\" → Data-Driven Decision-Making\n  - \"I look closely at the design: How robust is the control arm?\" → Data-Driven Decision-Making\n  - \"I always bring cases to the tumor board.\" → Intrinsic Motivation for Innovation\n\nSegment Leaks:\n  - \"I’m willing to consider a drug with less long-term safety data.\" → resembles Patient-Centered: Focus on patient needs may suggest a prioritization of patient-centered care.\n  - \"set close moni",
+      "question_id": 6,
+      "question": "What’s your approach when evidence is promising but long-term safety is unknown?",
+      "response_preview": "If the evidence is promising but long-term safety remains uncertain, I take a fairly disciplined, stepwise approach. I mean, first, the core question for me is always—what’s the clinical need at this ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I always check the trial design: randomized, controlled, multicenter",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I pay close attention to the magnitude of benefit",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I scrutinize safety: any new or unexpected toxicity signals",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I always check the trial design: randomized, controlled, multicenter\" → Data-Driven Decision-Making\n  - \"I pay close attention to the magnitude of benefit\" → Data-Driven Decision-Making\n  - \"I scrutinize safety: any new or unexpected toxicity signals\" → Data-Driven Decision-Making",
+      "question_id": 7,
+      "question": "Describe how you evaluate a pivotal study in 60 seconds.",
+      "response_preview": "Alright, so, when I look at a pivotal study, first, I immediately—well, I always check the trial design: randomized, controlled, multicenter—was the comparator arm actually appropriate for current pra..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I go straight to trial design—patient population, inclusion criteria, prior lines of treatment, endpoints.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I don’t take one trial at face value if another contradicts it.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Sometimes subgroup analyses tell a different story than the overall result.",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I go straight to trial design—patient population, inclusion criteria, prior lines of treatment, endpoints.\" → Data-Driven Decision-Making\n  - \"I don’t take one trial at face value if another contradicts it.\" → Data-Driven Decision-Making\n  - \"Sometimes subgroup analyses tell a different story than the overall result.\" → Data-Driven Decision-Making",
+      "question_id": 8,
+      "question": "If two trials conflict, what do you do?",
+      "response_preview": "Well, that’s… that’s quite common, actually—especially in oncology, where data sets rarely align perfectly. So, the first thing I do is, I don’t just look at the headline numbers. I… I go straight to ..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "real-world evidence—it’s becoming more relevant",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "real-world data has value when, first, it supports what we’ve already seen",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I trust real-world evidence when it fills gaps from the trials",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "I’m still—I’m cautious.",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Expresses caution and a need for robust evidence, typical of Evidence-Purists."
+        },
+        {
+          "leak_text": "if someone hands me a conference poster with a handful of retrospective cases",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Skepticism towards less rigorous evidence aligns with Evidence-Purist traits."
+        }
+      ],
+      "rewrite_if_needed": "That's a good question. Real-world evidence is becoming increasingly relevant, especially as patient populations grow more complex and often don't fit trial criteria. However, I remain cautious. I find real-world data valuable when it supports findings from robust, randomized trials. If it contradicts pivotal studies, I question the methodology—such as patient comparability and potential biases. \n\nI'm particularly interested when real-world cohorts reflect my patient population, including heavily pre-treated, comorbid, older patients rarely seen in registration studies. Consistent outcomes or safety signals that don't reveal new concerns give me confidence. However, I won't change my practice based on a few retrospective cases presented at a conference. \n\nIn summary, I trust real-world evidence when it fills gaps from trials, confirms durability or safety in hard-to-treat groups, and is transparent about limitations. It informs my practice but never replaces solid prospective data.",
+      "comment": "Supporting Evidence:\n  - \"real-world evidence—it’s becoming more relevant\" → Intrinsic Motivation for Innovation\n  - \"real-world data has value when, first, it supports what we’ve already seen\" → Data-Driven Decision-Making\n  - \"I trust real-world evidence when it fills gaps from the trials\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"I’m still—I’m cautious.\" → resembles Evidence-Purist: Expresses caution and a need for robust evidence, typical of Evidence-Purists.\n  - \"if someone hands m",
+      "question_id": 9,
+      "question": "When do you trust real-world evidence?",
+      "response_preview": "That’s a good question. I mean, real-world evidence—it’s, well, it’s becoming more relevant, especially as our patient populations grow more complex and don’t always fit the trial criteria. But, you k..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "what’s the actual unmet need in this patient’s current situation?",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "it has to really move the needle—not just statistically, but clinically.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I look quite critically at the endpoints.",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "If you’re trading a familiar AE profile for something less predictable.",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on patient experience and adverse effects."
+        },
+        {
+          "leak_text": "Is it the intent-to-treat population, or do we only see signal in high-burden, late-line patients?",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Emphasis on trial populations and data interpretation."
+        }
+      ],
+      "rewrite_if_needed": "When deciding between a familiar standard and a new option, I start by assessing the unmet need in the patient's situation. If the standard of care, such as platinum-based chemotherapy or a taxane, provides a reasonable outcome for a patient with good performance status, I am cautious about switching to a new drug solely for novelty. The new therapy must demonstrate significant clinical benefits, not just statistical improvements.\n\nWhen evaluating a new therapy like Xaltrava, I critically analyze the endpoints. I consider whether we are looking at overall survival or progression-free survival with only marginal differences. It's also important to identify which patient populations benefit most from the new treatment. Additionally, I assess toxicity; if a new drug presents a less predictable adverse effect profile, even with modest survival gains, I must weigh how this impacts patient quality of life.\n\nLastly, the mechanism of action is crucial; sometimes, a new agent offers an alternative pathway for treatment.",
+      "comment": "Supporting Evidence:\n  - \"what’s the actual unmet need in this patient’s current situation?\" → Intrinsic Motivation for Innovation\n  - \"it has to really move the needle—not just statistically, but clinically.\" → Data-Driven Decision-Making\n  - \"I look quite critically at the endpoints.\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"If you’re trading a familiar AE profile for something less predictable.\" → resembles Patient-Centered: Focus on patient experience and adverse effects.\n  - \"Is i",
+      "question_id": 10,
+      "question": "How do you decide between a familiar standard vs a new option with modest benefit?",
+      "response_preview": "So, the way I approach that decision is, I mean, I always start with, first, what’s the actual unmet need in this patient’s current situation? If the standard of care is, let’s say, platinum-based che..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "I pay attention to KOL discussions and conference updates",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I always go back to the actual data sets",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "conferences are useful for early signals and benchmarking",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "I want to see the details: endpoints, control arm choices",
+          "resembles_segment": "Evidence-Purist",
+          "reason": "Focus on detailed evidence and data analysis is characteristic of Evidence-Purists."
+        },
+        {
+          "leak_text": "I’ll bring any controversies or uncertainties to our tumor board",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasis on discussing uncertainties with a team suggests a focus on patient-centered care."
+        }
+      ],
+      "rewrite_if_needed": "I pay attention to KOL discussions and conference updates—especially when phase III data is presented. However, I don’t change my practice based solely on a conference presentation. I follow KOL debates but always return to the actual data sets for a thorough evaluation. If a new agent like Xaltrava is heavily discussed, it sharpens my focus, but I need to see the details: endpoints, control arm choices, and subgroup analyses. I cross-check KOL insights against published manuscripts and discuss any uncertainties at our tumor board before making protocol changes. Ultimately, while conferences provide early signals and help frame the broader community's direction, my decisions are rooted in a critical reading of the full evidence—peer-reviewed and comprehensive.",
+      "comment": "Supporting Evidence:\n  - \"I pay attention to KOL discussions and conference updates\" → Data-Driven Decision-Making\n  - \"I always go back to the actual data sets\" → Data-Driven Decision-Making\n  - \"conferences are useful for early signals and benchmarking\" → Intrinsic Motivation for Innovation\n\nSegment Leaks:\n  - \"I want to see the details: endpoints, control arm choices\" → resembles Evidence-Purist: Focus on detailed evidence and data analysis is characteristic of Evidence-Purists.\n  - \"I’ll bri",
+      "question_id": 11,
+      "question": "What role do KOLs and conferences play in your decisions?",
+      "response_preview": "I mean, so, look, I pay attention to KOL discussions and conference updates—no question. Especially when we see phase III data first presented, it's—well, it's an early signal. But to be clear, I don’..."
+    },
+    {
+      "score": 4,
+      "segment_fit_score": 4,
+      "supporting_quotes": [
+        {
+          "quote": "robust survival data emerge for ADCs",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I didn’t rush to use it for everyone right away",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "looked closely at the inclusion criteria",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [
+        {
+          "leak_text": "we’d recycle old chemo lines",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Focus on patient treatment history suggests a patient-centered approach."
+        },
+        {
+          "leak_text": "discussed how to manage the neutropenia",
+          "resembles_segment": "Patient-Centered",
+          "reason": "Emphasis on managing side effects indicates a patient-centered concern."
+        }
+      ],
+      "rewrite_if_needed": "Let me think about that... The last genuine shift in my clinical approach occurred when robust survival data for ADCs emerged, particularly for Xaltrava in metastatic triple-negative breast cancer. I am generally cautious with so-called “breakthroughs,” as that term is often overused. However, the data showed not just a progression-free survival improvement, but an actual overall survival benefit in a heavily pretreated, real-world-type patient population.\n\nBefore Xaltrava, for triple-negative patients failing taxanes and anthracyclines, we often recycled older chemotherapy lines, but durable responses were rare. When the data indicated a median overall survival increase from 6.7 to 12.1 months in a population where every incremental gain is crucial, it prompted significant discussion in our tumor board. I did not rush to adopt it universally; instead, we carefully reviewed the inclusion criteria, ensuring we matched the trial population, and discussed management strategies for potential neutropenia. After thoroughly reviewing the safety profile, we felt confident in our decision.",
+      "comment": "Supporting Evidence:\n  - \"robust survival data emerge for ADCs\" → Intrinsic Motivation for Innovation\n  - \"I didn’t rush to use it for everyone right away\" → Data-Driven Decision-Making\n  - \"looked closely at the inclusion criteria\" → Data-Driven Decision-Making\n\nSegment Leaks:\n  - \"we’d recycle old chemo lines\" → resembles Patient-Centered: Focus on patient treatment history suggests a patient-centered approach.\n  - \"discussed how to manage the neutropenia\" → resembles Patient-Centered: Emphasi",
+      "question_id": 12,
+      "question": "Tell me about a time you changed your practice—what triggered it?",
+      "response_preview": "Let me think about that... Well, I suppose the last genuine shift in my clinical approach happened when we saw robust survival data emerge for ADCs—Xaltrava, specifically, in metastatic triple-negativ..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I immediately ask, 'On what evidence?'",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "there’s a difference between a true scientific rationale",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I push the same standard for off-label as for anything else",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I’m disciplined. I don’t let optimism override caution",
+          "trait_matched": "Data-Driven Decision-Making"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I immediately ask, 'On what evidence?'\" → Data-Driven Decision-Making\n  - \"there’s a difference between a true scientific rationale\" → Data-Driven Decision-Making\n  - \"I push the same standard for off-label as for anything else\" → Intrinsic Motivation for Innovation\n  - \"I’m disciplined. I don’t let optimism override caution\" → Data-Driven Decision-Making",
+      "question_id": 13,
+      "question": "How do you handle off-label ideas suggested by colleagues?",
+      "response_preview": "I don’t entertain off-label ideas casually, if that’s what you mean. In our multidisciplinary boards, if someone brings up an off-label use, I immediately ask, \"On what evidence?\" For me, there’s a di..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "clinical value does",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "robust survival or quality-of-life data",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I need a clear mechanistic rationale",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"clinical value does\" → Data-Driven Decision-Making\n  - \"robust survival or quality-of-life data\" → Data-Driven Decision-Making\n  - \"I need a clear mechanistic rationale\" → Intrinsic Motivation for Innovation",
+      "question_id": 14,
+      "question": "What makes you reject a therapy even if it’s popular?",
+      "response_preview": "Popularity doesn’t impress me—clinical value does. I mean, I’ve seen enough “hot” therapies fade once real-world data expose their limitations. So, for me, if a therapy is widely used but lacks robust..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "What’s the primary endpoint, and does the data show a clinically meaningful benefit?",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I want to see the methodology—randomized, phase III, control arm selection.",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Is this data relevant to the patients I see—heavily pretreated, complex biology?",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"What’s the primary endpoint, and does the data show a clinically meaningful benefit?\" → Data-Driven Decision-Making\n  - \"I want to see the methodology—randomized, phase III, control arm selection.\" → Data-Driven Decision-Making\n  - \"Is this data relevant to the patients I see—heavily pretreated, complex biology?\" → Intrinsic Motivation for Innovation",
+      "question_id": 15,
+      "question": "If a rep/MSL has new data, what do you ask first?",
+      "response_preview": "Alright, so if you’re bringing me new data—first, I want a clear definition of what’s actually new. Is it a real update in overall survival, progression-free survival, or just a subgroup analysis tack..."
+    },
+    {
+      "score": 5,
+      "segment_fit_score": 5,
+      "supporting_quotes": [
+        {
+          "quote": "I tend to lean toward trying new therapies early in a very selected subset",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "if the data are compelling and the mechanistic rationale is clear",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "I want to see robust data—strong trial design, a reasonable control arm",
+          "trait_matched": "Data-Driven Decision-Making"
+        },
+        {
+          "quote": "Early adoption, for me, doesn’t mean being first for the sake of it",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        },
+        {
+          "quote": "I try early in carefully chosen patients, not as a sweeping change",
+          "trait_matched": "Intrinsic Motivation for Innovation"
+        }
+      ],
+      "segment_leaks": [],
+      "rewrite_if_needed": "",
+      "comment": "Supporting Evidence:\n  - \"I tend to lean toward trying new therapies early in a very selected subset\" → Intrinsic Motivation for Innovation\n  - \"if the data are compelling and the mechanistic rationale is clear\" → Data-Driven Decision-Making\n  - \"I want to see robust data—strong trial design, a reasonable control arm\" → Data-Driven Decision-Making\n  - \"Early adoption, for me, doesn’t mean being first for the sake of it\" → Intrinsic Motivation for Innovation\n  - \"I try early in carefully chosen p",
+      "question_id": 16,
+      "question": "What is your default: ‘try early in a few patients’ vs ‘wait until standard of care’—and why?",
+      "response_preview": "I tend to lean toward trying new therapies early in a very selected subset—if, and honestly only if, the data are compelling and the mechanistic rationale is clear for the patient in front of me. I me..."
+    }
+  ]
+}

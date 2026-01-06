@@ -1,0 +1,15 @@
+creation_timestamp: 1767130944363
+current_stage: Deleted_Internal
+deployment_job_state: null
+description: 'v1.1: Refined evidence hierarchy, added more methodological focus'
+last_updated_timestamp: 1767131145080
+model_id: null
+name: the_evidence_purist
+run_id: null
+run_link: null
+source: dummy-source
+status: READY
+status_message: null
+storage_location: dummy-source
+user_id: null
+version: 3

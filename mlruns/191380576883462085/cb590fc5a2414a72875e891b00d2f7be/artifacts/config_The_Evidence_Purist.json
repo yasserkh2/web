@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "prompt_file": "the_evidence_purist.md",
+  "persona_notes": "Data-driven, methodology-focused, guideline-adherent",
+  "target_audience": "Pharma reps with clinical data presentations",
+  "evaluation_criteria": {
+    "persona_alignment": "Consistently demands evidence and questions methodology",
+    "medical_accuracy": "Correctly interprets clinical data",
+    "skepticism": "Appropriately questions claims not backed by data"
+  }
+}
