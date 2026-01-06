@@ -333,9 +333,10 @@
             const Vapi = VapiModule.default.default;
             
             vapi = new Vapi(PUBLIC_KEY);
-            console.log('VAPI initialized');
+            console.log('✅ VAPI initialized with PUBLIC_KEY');
             
             vapi.on('call-start', () => {
+                console.log('📞 Call started');
                 callActive = true;
                 updateUI('active');
                 startTimer();
@@ -343,23 +344,28 @@
             });
             
             vapi.on('call-end', () => {
+                console.log('📴 Call ended');
                 callActive = false;
                 updateUI('ended');
                 stopTimer();
             });
             
             vapi.on('speech-start', () => {
+                console.log('🗣️ Speech started (assistant speaking)');
                 avatar.classList.add('speaking');
                 avatar.classList.remove('listening');
             });
             
             vapi.on('speech-end', () => {
+                console.log('🔇 Speech ended');
                 avatar.classList.remove('speaking');
             });
             
             // Capture transcript messages and display them directly
             vapi.on('message', (message) => {
+                console.log('💬 Message received:', message.type, message);
                 if (message.type === 'transcript' && message.transcriptType === 'final' && message.transcript) {
+                    console.log('📝 Final transcript:', message.role, message.transcript);
                     addMessage(message.role, message.transcript);
                 }
             });
@@ -372,18 +378,41 @@
             });
             
             vapi.on('error', (error) => {
-                showError(error.message || 'An error occurred');
+                console.error('VAPI Error:', error);
+                console.error('Error type:', error.type);
+                console.error('Error message:', error.message);
+                console.error('Full error object:', JSON.stringify(error, null, 2));
+                
+                // Provide more helpful error messages based on error type
+                let userMessage = 'An error occurred';
+                if (error.message) {
+                    if (error.message.includes('microphone') || error.message.includes('permission')) {
+                        userMessage = 'Microphone access denied. Please allow microphone.';
+                    } else if (error.message.includes('network') || error.message.includes('connection')) {
+                        userMessage = 'Network error. Check your connection.';
+                    } else if (error.message.includes('assistant') || error.message.includes('not found')) {
+                        userMessage = 'Assistant configuration error.';
+                    } else {
+                        userMessage = error.message.substring(0, 50);
+                    }
+                }
+                
+                showError(userMessage);
                 callActive = false;
                 updateUI('idle');
                 stopTimer();
             });
             
         } catch (err) {
-            showError('Failed to load VAPI SDK');
+            console.error('Failed to load VAPI SDK:', err);
+            showError('Failed to load VAPI SDK: ' + err.message);
         }
         
         window.startCall = async function() {
+            console.log('startCall() called');
+            
             if (!vapi) {
+                console.error('VAPI not initialized');
                 showError('VAPI not initialized');
                 return;
             }
@@ -393,11 +422,29 @@
                 hideError();
                 clearTranscript();
                 
+                console.log('Requesting microphone access...');
                 await navigator.mediaDevices.getUserMedia({ audio: true });
+                console.log('Microphone access granted');
+                
+                console.log('Starting VAPI call with assistant:', ASSISTANT_ID);
                 await vapi.start(ASSISTANT_ID);
+                console.log('VAPI call started successfully');
                 
             } catch (error) {
-                showError(error.message || 'Failed to start call');
+                console.error('Error starting call:', error);
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                
+                let userMessage = 'Failed to start call';
+                if (error.name === 'NotAllowedError') {
+                    userMessage = 'Microphone permission denied';
+                } else if (error.name === 'NotFoundError') {
+                    userMessage = 'No microphone found';
+                } else if (error.message) {
+                    userMessage = error.message.substring(0, 50);
+                }
+                
+                showError(userMessage);
                 updateUI('idle');
             }
         };
