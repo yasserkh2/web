@@ -30,3 +30,13 @@ Thumbs.db
 
 # Local development
 *.log
+
+# MLflow tracking
+mlruns/
+
+# Output and results
+output/
+eval_results/
+
+# Excel data files (optional - remove if you want to track them)
+*.xlsx
