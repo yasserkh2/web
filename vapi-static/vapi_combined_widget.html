@@ -427,8 +427,13 @@
                 console.log('Microphone access granted');
                 
                 console.log('Starting VAPI call with assistant:', ASSISTANT_ID);
-                await vapi.start(ASSISTANT_ID);
-                console.log('VAPI call started successfully');
+                await vapi.start(ASSISTANT_ID, {
+                    // Increase silence timeout to 60 seconds (default is usually 30)
+                    silenceTimeoutSeconds: 120,
+                    // Max call duration (5 minutes = 300 seconds)
+                    maxDurationSeconds: 600
+                });
+                console.log('VAPI call started successfully with extended timeouts');
                 
             } catch (error) {
                 console.error('Error starting call:', error);
