@@ -209,7 +209,7 @@ def is_db_connected() -> bool:
 
 # Page configuration
 st.set_page_config(
-    page_title="Chatbot Evaluation Platform",
+    page_title="ctcHealth Chatbot Evaluation Platform",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -1666,7 +1666,7 @@ def render_plato_home_page():
     # Welcome header
     st.markdown("""
     <div class="home-welcome">
-        <h1>🤖 Chatbot Evaluation Platform</h1>
+        <h1>🤖 ctcHealth Chatbot Evaluation Platform</h1>
         <p>Select a simulation below to start a call or view the profile</p>
     </div>
     """, unsafe_allow_html=True)
