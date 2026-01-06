@@ -6,9 +6,24 @@ import threading
 import http.server
 import socketserver
 import uuid
+import logging
+import traceback
+import sys
 from datetime import datetime
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
+
+# ========== LOGGING CONFIGURATION ==========
+# Configure logging to capture errors in Streamlit Cloud
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout)  # Logs to stdout (visible in Streamlit Cloud)
+    ]
+)
+logger = logging.getLogger(__name__)
+logger.info("🚀 App starting - Logging initialized")
 
 # Supabase import (optional - graceful fallback if not installed)
 try:
@@ -62,10 +77,16 @@ SUPABASE_KEY = os.getenv('SUPABASE_KEY', '')
 supabase: Optional[Client] = None
 if SUPABASE_AVAILABLE and SUPABASE_URL and SUPABASE_KEY and SUPABASE_URL != 'your_supabase_project_url':
     try:
+        logger.info(f"Attempting to connect to Supabase: {SUPABASE_URL[:30]}...")
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        logger.info("✅ Supabase client initialized successfully")
     except Exception as e:
+        logger.error(f"❌ Failed to connect to Supabase: {e}")
+        logger.error(traceback.format_exc())
         st.error(f"Failed to connect to Supabase: {e}")
         supabase = None
+else:
+    logger.warning(f"⚠️ Supabase not configured - AVAILABLE: {SUPABASE_AVAILABLE}, URL set: {bool(SUPABASE_URL)}, KEY set: {bool(SUPABASE_KEY)}")
 
 
 # ========== SUPABASE DATABASE FUNCTIONS ==========
@@ -82,6 +103,7 @@ def save_feedback_to_db(bot_name: str, comment: str, rating: int = None,
                         transcript: list = None) -> bool:
     """Save feedback to Supabase database"""
     if not supabase:
+        logger.warning("save_feedback_to_db called but Supabase not connected")
         return False
     
     try:
@@ -95,10 +117,14 @@ def save_feedback_to_db(bot_name: str, comment: str, rating: int = None,
             "transcript": json.dumps(transcript) if transcript else None,
             "created_at": datetime.now().isoformat()
         }
+        logger.info(f"Saving feedback for bot: {bot_name}")
         
         result = supabase.table("feedback").insert(data).execute()
+        logger.info(f"✅ Feedback saved successfully for {bot_name}")
         return len(result.data) > 0
     except Exception as e:
+        logger.error(f"❌ Failed to save feedback for {bot_name}: {e}")
+        logger.error(traceback.format_exc())
         st.error(f"Failed to save feedback: {e}")
         return False
 
@@ -107,6 +133,7 @@ def save_call_session_to_db(bot_name: str, transcript: list, duration: int = Non
                             like_dislike_data: dict = None) -> bool:
     """Save call session data to Supabase database"""
     if not supabase:
+        logger.warning("save_call_session_to_db called but Supabase not connected")
         return False
     
     try:
@@ -118,10 +145,14 @@ def save_call_session_to_db(bot_name: str, transcript: list, duration: int = Non
             "like_dislike_feedback": json.dumps(like_dislike_data) if like_dislike_data else None,
             "created_at": datetime.now().isoformat()
         }
+        logger.info(f"Saving call session for bot: {bot_name}")
         
         result = supabase.table("call_sessions").insert(data).execute()
+        logger.info(f"✅ Call session saved successfully for {bot_name}")
         return len(result.data) > 0
     except Exception as e:
+        logger.error(f"❌ Failed to save call session for {bot_name}: {e}")
+        logger.error(traceback.format_exc())
         st.error(f"Failed to save call session: {e}")
         return False
 
@@ -885,6 +916,7 @@ if 'live_transcript' not in st.session_state:
 
 def render_call_interface(bot_name: str):
     """Render call interface with sidebar nav and 3 columns: Feedback | Call | Transcript"""
+    logger.info(f"Rendering call interface for bot: {bot_name}")
     bot_data = st.session_state.bots.get(bot_name, {})
     display_name = bot_data.get('display_name', bot_name)
     avatar_emoji = bot_data.get('avatar_emoji', '🤖')
@@ -1678,6 +1710,9 @@ def render_plato_home_page():
                     st.rerun()
 
 def main():
+    """Main application entry point"""
+    logger.info(f"main() called - view_mode: {st.session_state.get('view_mode', 'unknown')}, selected_bot: {st.session_state.get('selected_bot', 'none')}")
+    
     # Check if we're in call mode to show sidebar
     is_call_mode = (
         st.session_state.view_mode == 'bot_detail' and 
@@ -1935,4 +1970,21 @@ def main():
         st.caption("💡 Use the Vapi widget above to interact with the bot")
 
 if __name__ == "__main__":
-    main()
+    try:
+        logger.info("Starting main application...")
+        main()
+    except Exception as e:
+        logger.critical(f"💥 CRITICAL ERROR in main(): {e}")
+        logger.critical(traceback.format_exc())
+        st.error(f"""
+        ## ❌ An unexpected error occurred
+        
+        **Error:** {str(e)}
+        
+        Please refresh the page or contact support if the issue persists.
+        
+        *Error details have been logged.*
+        """)
+        # Also show traceback in an expander for debugging
+        with st.expander("🔧 Technical Details (for developers)"):
+            st.code(traceback.format_exc())
