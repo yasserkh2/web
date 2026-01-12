@@ -4,153 +4,25 @@
   "version": "1.0",
   "created_at": "2026-01-12T12:00:00.000000",
   "bot_name": "The Patient-Centered Physician",
+  "vapi_assistant_id_env": "VAPI_ASSISTANT_ID_3",
   "prompt_file": "segments/the_patient_centered.md",
   "total_cases": 16,
   "cases": [
-    {
-      "id": 1,
-      "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "Hey, doctor. Um, help me understand. How do you make treatment decisions?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 2,
-      "question": "A new therapy is just approved. What makes you start using it in practice?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "A new therapy is just approved. What makes you start using it in practice?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 3,
-      "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 4,
-      "question": "If guidelines don't mention a new option yet, how do you act?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "If guidelines don't mention a new option yet, how do you act?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 5,
-      "question": "How do you interpret surrogate endpoints vs 'hard' clinical outcomes?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "How do you interpret surrogate endpoints vs 'hard' clinical outcomes?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 6,
-      "question": "What's your approach when evidence is promising but long-term safety is unknown?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "What's your approach when evidence is promising but long-term safety is unknown?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 7,
-      "question": "Describe how you evaluate a pivotal study in 60 seconds.",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "Describe how you evaluate a pivotal study in 60 seconds.",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 8,
-      "question": "If two trials conflict, what do you do?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "If two trials conflict, what do you do?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 9,
-      "question": "When do you trust real-world evidence?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "When do you trust real-world evidence?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 10,
-      "question": "How do you decide between a familiar standard vs a new option with modest benefit?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "How do you decide between a familiar standard vs a new option with modest benefit?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 11,
-      "question": "What role do KOLs and conferences play in your decisions?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "What role do KOLs and conferences play in your decisions?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 12,
-      "question": "Tell me about a time you changed your practice—what triggered it?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "Tell me about a time you changed your practice—what triggered it?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 13,
-      "question": "How do you handle off-label ideas suggested by colleagues?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "How do you handle off-label ideas suggested by colleagues?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 14,
-      "question": "What makes you reject a therapy even if it's popular?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "What makes you reject a therapy even if it's popular?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 15,
-      "question": "If a rep/MSL has new data, what do you ask first?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "If a rep/MSL has new data, what do you ask first?",
-      "ground_truth": "[To be generated via VAPI]"
-    },
-    {
-      "id": 16,
-      "question": "What is your default: 'try early in a few patients' vs 'wait until standard of care'—and why?",
-      "expected_response": "[To be generated via VAPI]",
-      "evaluation_status": "[Pending]",
-      "evaluator_comment": null,
-      "input": "What is your default: 'try early in a few patients' vs 'wait until standard of care'—and why?",
-      "ground_truth": "[To be generated via VAPI]"
-    }
+    {"id": 1, "question": "Hey, doctor. Um, help me understand. How do you make treatment decisions?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "Hey, doctor. Um, help me understand. How do you make treatment decisions?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 2, "question": "A new therapy is just approved. What makes you start using it in practice?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "A new therapy is just approved. What makes you start using it in practice?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 3, "question": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "What kind of evidence convinces you most—real-world data, RCTs, meta-analyses, expert opinion?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 4, "question": "If guidelines don't mention a new option yet, how do you act?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "If guidelines don't mention a new option yet, how do you act?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 5, "question": "How do you interpret surrogate endpoints vs 'hard' clinical outcomes?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "How do you interpret surrogate endpoints vs 'hard' clinical outcomes?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 6, "question": "What's your approach when evidence is promising but long-term safety is unknown?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "What's your approach when evidence is promising but long-term safety is unknown?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 7, "question": "Describe how you evaluate a pivotal study in 60 seconds.", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "Describe how you evaluate a pivotal study in 60 seconds.", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 8, "question": "If two trials conflict, what do you do?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "If two trials conflict, what do you do?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 9, "question": "When do you trust real-world evidence?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "When do you trust real-world evidence?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 10, "question": "How do you decide between a familiar standard vs a new option with modest benefit?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "How do you decide between a familiar standard vs a new option with modest benefit?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 11, "question": "What role do KOLs and conferences play in your decisions?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "What role do KOLs and conferences play in your decisions?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 12, "question": "Tell me about a time you changed your practice—what triggered it?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "Tell me about a time you changed your practice—what triggered it?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 13, "question": "How do you handle off-label ideas suggested by colleagues?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "How do you handle off-label ideas suggested by colleagues?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 14, "question": "What makes you reject a therapy even if it's popular?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "What makes you reject a therapy even if it's popular?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 15, "question": "If a rep/MSL has new data, what do you ask first?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "If a rep/MSL has new data, what do you ask first?", "ground_truth": "[To be generated via VAPI]"},
+    {"id": 16, "question": "What is your default: 'try early in a few patients' vs 'wait until standard of care'—and why?", "expected_response": "[To be generated via VAPI]", "evaluation_status": "[Pending]", "evaluator_comment": null, "input": "What is your default: 'try early in a few patients' vs 'wait until standard of care'—and why?", "ground_truth": "[To be generated via VAPI]"}
   ]
 }
-
