@@ -204,9 +204,16 @@
     </div>
 
     <script type="module">
-        // VAPI Configuration
-        const PUBLIC_KEY = '96e66c5a-94a1-4071-8b1e-a9b5e4592c25';
-        const ASSISTANT_ID = 'b0bf28dc-3eb4-43e3-94f8-58ff2d4cf470';
+        // VAPI Configuration - Read from URL parameters for dynamic bot selection
+        const urlParams = new URLSearchParams(window.location.search);
+        const PUBLIC_KEY = urlParams.get('publicKey') || '96e66c5a-94a1-4071-8b1e-a9b5e4592c25';
+        const ASSISTANT_ID = urlParams.get('assistantId') || 'b0bf28dc-3eb4-43e3-94f8-58ff2d4cf470';
+        const BOT_NAME = urlParams.get('botName') || 'Voice Assistant';
+        const BOT_EMOJI = urlParams.get('emoji') || '🤖';
+        
+        // Update UI with bot info
+        document.querySelector('.bot-name').textContent = BOT_NAME;
+        document.getElementById('avatar').textContent = BOT_EMOJI;
         
         let vapi = null;
         let callActive = false;

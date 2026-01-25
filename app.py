@@ -6,6 +6,7 @@ import threading
 import http.server
 import socketserver
 import uuid
+import urllib.parse
 import logging
 import traceback
 import sys
@@ -1000,9 +1001,15 @@ def render_call_interface(bot_name: str):
         with col_call:
             with st.container(border=True):
                 st.subheader("📞 Voice Call & Transcript", divider="green")
-                # Single combined widget - no cross-iframe communication needed
+                # Single combined widget - pass bot-specific assistant ID via URL params
+                widget_params = urllib.parse.urlencode({
+                    'publicKey': VAPI_PUBLIC_KEY,
+                    'assistantId': bot_assistant_id,
+                    'botName': display_name,
+                    'emoji': avatar_emoji
+                })
                 st.components.v1.iframe(
-                    src=f"{VAPI_STATIC_URL}/vapi_combined_widget.html",
+                    src=f"{VAPI_STATIC_URL}/vapi_combined_widget.html?{widget_params}",
                     height=420,
                     scrolling=False
                 )
